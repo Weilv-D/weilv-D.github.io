@@ -69,4 +69,7 @@ hide:
   $$\mathbf{a} \cdot \mathbf{b} = a_1 b_1 + a_2 b_2$$
 - **几何解释**：
   $$\mathbf{a} \cdot \mathbf{b} = |\mathbf{a}| |\mathbf{b}| \cos{\theta}$$
-  其中 $\theta$ 是两向量之间的夹角。
+  其中 $\theta$ 是两向量之间的夹角。  
+    
+    
+
