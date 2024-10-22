@@ -5,6 +5,11 @@ import MarkdownLayout from '~/layouts/MarkdownLayout.astro';
 ---
 
 <MarkdownLayout title="About" description="About this site." currentNav="About">
+    <style>
+        p {
+            text-indent: 2em; /* 设置首行缩进为2个字符 */
+        }
+    </style>    
     <Picture
         class="lg:float-right lg:ml-4 lg:w-2/5"
         src={img}
