@@ -21,7 +21,7 @@ hide:
 ---
 
 # 3Blue1brown学习笔记：Chapter 1 Vectors, what even are they?
->"The introduction of numbers as coordinates is an act of violence."
+>The introduction of numbers as coordinates is an act of violence.
 >-Hermann Weyl
 
 ## 三种不同的向量视角
