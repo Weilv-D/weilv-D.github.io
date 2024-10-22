@@ -168,6 +168,19 @@ hide:
      \lim_{s \to 0} sF(s) = \lim_{t \to \infty} f(t) 
      $$  
 ## 常见函数的拉普拉斯变换
+
+| 函数 $f(t)$ | 拉普拉斯变换 $\mathcal{L}\{f(t)\}$ |
+|-------------|------------------------------------|
+| 单位阶跃函数 $u(t)$ | $\frac{1}{s}$ |
+| 指数函数 $e^{-at}$ | $\frac{1}{s + a}$ |
+| 正弦函数 $\sin(bt)$ | $\frac{b}{s^2 + b^2}$ |
+| 余弦函数 $\cos(bt)$ | $\frac{s}{s^2 + b^2}$ |
+| 幂函数 $t^n$ | $\frac{n!}{s^{n+1}}$ |
+| $\delta$ 函数 | $1$ |
+| $n$ 阶导数 $f^{(n)}(t)$ | $s^n F(s) - s^{n-1}f(0) - s^{n-2}f'(0) - \cdots - sf^{(n-2)}(0) - f^{(n-1)}(0)$ |
+| 多次积分 $\int_0^t \int_0^{t_1} \cdots \int_0^{t_{n-1}} f(t_n) dt_n \cdots dt_1$ | $\frac{1}{s^n}F(s)$ |  
+
+
 #### 1. 单位阶跃函数 $u(t)$ 
 单位阶跃函数定义为： $u(t) = \begin{cases} 0 & t < 0 \\ 1 & t \geq 0 \end{cases}$ 其拉普拉斯变换为: $$\mathcal{L}\{u(t)\} = \int_0^\infty e^{-st} \cdot 1 \, dt = \left[ -\frac{1}{s} e^{-st} \right]_0^\infty = \frac{1}{s}$$
 #### 2. 指数函数 $e^{-at}$ 
