@@ -20,9 +20,9 @@ hide:
 
 # 3Blue1brown学习笔记：Chapter 1 Vectors, what even are they?  
 
->"Mathematics requires a small dose, not of genius, but of an imaginative freedom which, in a larger dose, would be insanity."
+>Mathematics requires a small dose, not of genius, but of an imaginative freedom which, in a larger dose, would be insanity.
 >
->- Angus K. Rodgers  
+>-Angus K. Rodgers  
 
 ## 线性组合
 线性组合是指通过缩放两个向量并将它们相加来生成新的向量。例如，标准基向量 $\( \hat{i} \) 和 \( \hat{j} \)$ 可以通过缩放和相加来描述任何二维向量。
