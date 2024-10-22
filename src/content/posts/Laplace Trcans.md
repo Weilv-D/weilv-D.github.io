@@ -10,8 +10,6 @@ tags:
   - 高等数学
   - 自动控制原理
 hide:
-  - title
-  - date
   - tags
   - readingTime
   - toc
