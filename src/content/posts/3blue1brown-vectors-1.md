@@ -60,7 +60,7 @@ hide:
 - **定义**：向量 $\mathbf{v} = \begin{bmatrix} x \\ y \end{bmatrix}$ 乘以标量 $c$：
   $$c \mathbf{v} = \begin{bmatrix} cx \\ cy \end{bmatrix}$$
 - **几何解释**：
-  - 正数 $c$ 拉伸或压缩向量。
+  - 正数可以看成拉伸或压缩向量。
   - 负数翻转向量方向并缩放。
   - $\frac{1}{c}$ 缩放到原来的 $\frac{1}{c}$ 倍。
 
