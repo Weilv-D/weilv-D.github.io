@@ -3,16 +3,14 @@ slug: 3blue1brown_Linear_Algebra-chapter-2
 title: 3Blue1brown学习笔记：Chapter 2 Linear combinations, span, and basis vectors
 description: Linear combinations, span, and basis vectors
 image: ../attachments/arrow.png
-date: 2024-10-21T21:55:00+08:00
-lastmod: 2024-10-21T21:55:00+08:00
+date: 2024-10-22T20:11:00+08:00
+lastmod: 2024-10-22T20:11:00+08:00
 hidden: false
 tags:
   - 3Blue1Brown
   - 数学
   - 线性代数
 hide:
-  - title
-  - date
   - lastmod
   - tags
   - readingTime

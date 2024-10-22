@@ -11,8 +11,6 @@ tags:
   - 数学
   - 线性代数
 hide:
-  - title
-  - date
   - lastmod
   - tags
   - readingTime
