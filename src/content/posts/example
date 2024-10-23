@@ -1,0 +1,20 @@
+---
+slug: my-custom-slug
+title: My awesome title
+description: some desc
+image: ../attachments/100.jpg # hero & social image
+date: 2024-02-26T23:30:47+08:00
+lastmod: 2024-02-26T23:30:47+08:00
+hidden: ture # set this to true to make this post hidden from posts list. But the uri is still accessable.
+tags:
+  - demo
+  - theme
+hide: # set a element list to hide in the post page
+  - title
+  - date
+  - lastmod
+  - tags
+  - readingTime
+  - toc
+  - comments
+---
