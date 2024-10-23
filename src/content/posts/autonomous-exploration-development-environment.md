@@ -3,7 +3,7 @@ slug: autonomous-exploration-development-environment_part_1
 title: 自主探索——Autonomous Exploration Development Environment笔记（一）
 description: 深入了解 CMU Autonomous Exploration Development Environment 的代码结构和实现细节
 image: ../attachments/method.png 
-date: 2023-10-23T21:30:47+08:00
+date: 2024-10-23T21:30:47+08:00
 lastmod: 2023-10-23T21:30:47+08:00
 hidden: false 
 tags:
