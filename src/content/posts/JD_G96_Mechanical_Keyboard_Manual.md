@@ -16,4 +16,4 @@ hide: # set a element list to hide in the post page
   - toc
   - comments
 ---
-<embed src="https://github.com/Weilv-D/weilv-D.github.io/blob/main/src/content/attachments/JD_G96_Mechanical_Keyboard_Manual.pdf" type="application/pdf" width="100%" height="600px" />
+<embed src="../attachments/JD_G96_Mechanical_Keyboard_Manual.pdf" type="application/pdf" width="100%" height="600px" />
