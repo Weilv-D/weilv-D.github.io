@@ -1,6 +1,7 @@
 ---
 slug: JD_G96_Mechanical_Keyboard_Manual
 title: 京东京造G96机械键盘说明书
+description: 键盘设置键位记不住，网上又没有，每次都得找说明书，干脆传上来
 image: ../attachments/G96.jpg 
 date: 2024-10-23T23:30:47+08:00
 lastmod: 2024-10-23T23:30:47+08:00
