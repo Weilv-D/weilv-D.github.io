@@ -16,4 +16,4 @@ hide: # set a element list to hide in the post page
   - toc
   - comments
 ---
-<embed src="../attachments/JD_G96_Mechanical_Keyboard_Manual.pdf" type="application/pdf" width="100%" height="600px" />
+<embed src="https://dd-static.jd.com/dd-file/9BA1477F-FE8F-4F7D-8796-49DEF34BB486.pdf?Expires=3847791460&AccessKey=rNTo3WeCgiX8gBnf&Signature=3CBnyn4TjA5PbHFboBJCC09oADE%3D" type="application/pdf" width="100%" height="600px" />
