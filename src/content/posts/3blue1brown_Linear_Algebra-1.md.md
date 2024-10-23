@@ -13,7 +13,6 @@ tags:
 hide:
   - lastmod
   - tags
-  - readingTime
   - toc
   - comments
 ---

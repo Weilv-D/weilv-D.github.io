@@ -12,6 +12,9 @@ tags:
   - 自主探索
   - ROS
 hide: 
+  - lastmod
+  - tags
+  - toc
   - comments
 ---
 [官方文档](https://www.cmu-exploration.com/)
