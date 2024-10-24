@@ -5,7 +5,7 @@ description: Linear combinations, span, and basis vectors
 image: ../attachments/arrow.png
 date: 2024-10-22T20:11:00+08:00
 lastmod: 2024-10-22T20:11:00+08:00
-hidden: false
+hidden: ture
 tags:
   - 3Blue1Brown
   - 数学
