@@ -5,7 +5,7 @@ description: Vectors, what even are they?
 image: ../attachments/2dAnd3DVectors.png
 date: 2024-10-21T21:55:00+08:00
 lastmod: 2024-10-21T21:55:00+08:00
-hidden: false
+hidden: ture
 tags:
   - 3Blue1Brown
   - 数学
