@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>未来回忆录</title><description>我的时空褶皱</description><link>https://weilv.space/</link><item><title>京东京造G96机械键盘说明书</title><link>https://weilv.space/posts/JD_G96_Mechanical_Keyboard_Manual/</link><guid isPermaLink="true">https://weilv.space/posts/JD_G96_Mechanical_Keyboard_Manual/</guid><description>键盘设置键位记不住，网上又没有，每次都得找说明书，干脆传上来</description><pubDate>Wed, 23 Oct 2024 15:30:47 GMT</pubDate><content:encoded>&lt;embed src=&quot;https://dd-static.jd.com/dd-file/9BA1477F-FE8F-4F7D-8796-49DEF34BB486.pdf?Expires=3847791460&amp;AccessKey=rNTo3WeCgiX8gBnf&amp;Signature=3CBnyn4TjA5PbHFboBJCC09oADE%3D&quot; type=&quot;application/pdf&quot; width=&quot;100%&quot; height=&quot;600px&quot; /&gt;</content:encoded></item><item><title>3Blue1brown学习笔记：Chapter 2 Linear combinations, span, and basis vectors</title><link>https://weilv.space/posts/3blue1brown_Linear_Algebra-chapter-2/</link><guid isPermaLink="true">https://weilv.space/posts/3blue1brown_Linear_Algebra-chapter-2/</guid><description>Linear combinations, span, and basis vectors</description><pubDate>Tue, 22 Oct 2024 12:11:00 GMT</pubDate><content:encoded>
+# 3Blue1brown学习笔记：Chapter 1 Vectors, what even are they?  
+
+&gt; Mathematics requires a small dose, not of genius, but of an imaginative freedom which, in a larger dose, would be insanity. 
+&gt; -Angus K. Rodgers  
+
+## 线性组合
+线性组合是指通过缩放两个向量并将它们相加来生成新的向量。例如，标准基向量 $\mathbf{i}$ 和 $\mathbf{j}$ 可以通过缩放和相加来描述任何二维向量。
+
+## 基向量
+基向量是坐标系统的基础。通过选择不同的基向量，可以得到不同的坐标系统。
+
+## 张成
+两个向量的张成是通过线性组合可以到达的所有向量的集合。大多数情况下，两个二维向量的张成是整个二维空间，但如果它们在同一条线上，则跨度仅限于该线。
+
+## 三维空间中的跨张成
+在三维空间中，两个不共线的向量的跨度是一个平面。添加第三个向量可以扩展到整个三维空间，除非第三个向量在前两个向量的跨度内。
+
+## 线性相关和线性无关
+如果一个向量可以表示为其他向量的线性组合，则这些向量是线性相关的。否则，它们是线性无关的。
+
+## 结论
+理解线性组合、跨度和基向量是掌握线性代数的关键。在下一章中，我们将探讨矩阵和空间变换。
+</content:encoded></item><item><title>拉普拉斯变换</title><link>https://weilv.space/posts/laplace-trans/</link><guid isPermaLink="true">https://weilv.space/posts/laplace-trans/</guid><description>拉普拉斯变换是一种强大的数学工具，用于将时间域信号转换为复频域信号，从而简化微分方程的求解过程。</description><pubDate>Mon, 21 Oct 2024 03:00:00 GMT</pubDate><content:encoded>## 拉普拉斯变换简介 
+拉普拉斯变换是一种积分变换，主要用于解决微分方程和差分方程。它将一个时间域中的函数$f(t)$转换为复频域中的函数$F(s)$。
+拉普拉斯变换在工程学、物理学和数学中有着广泛的应用，特别是在控制系统理论和信号处理领域。 
+## 定义 
+对于一个定义在$[0, +\infty)$上的函数$f(t)$，其拉普拉斯变换定义为： $F(s) = \mathcal{L}\{f(t)\} = \int_0^\infty e^{-st} f(t) \, dt$ 其中，$s$ 是复变量，通常表示为 $s = \sigma + j\omega$，其中 $\sigma$ 和 $\omega$ 分别是实部和虚部。 
+## 性质 
+1. **线性性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$ 和 $\mathcal{L}\{g(t)\} = G(s)$，则 $\mathcal{L}\{a f(t) + b g(t)\} = a F(s) + b G(s)$ 其中，$a$ 和 $b$ 是常数。
+   - **证明**：利用拉普拉斯变换的定义：
+     $$ 
+     \mathcal{L}\{a f(t) + b g(t)\} = \int_0^\infty (a f(t) + b g(t)) e^{-st} \, dt 
+     $$ 
+     $$ 
+     = a \int_0^\infty f(t) e^{-st} \, dt + b \int_0^\infty g(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = a F(s) + b G(s) 
+     $$  
+
+2. **时移性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$，则 $\mathcal{L}\{f(t - a) u(t - a)\} = e^{-as} F(s)$ 其中，$u(t)$ 是单位阶跃函数。
+   - **证明**：利用拉普拉斯变换的定义和变量替换：
+     $$ 
+     \mathcal{L}\{f(t - a) u(t - a)\} = \int_0^\infty f(t - a) u(t - a) e^{-st} \, dt 
+     $$  
+     令 $\tau = t - a$，则 $d\tau = dt$，当 $t = a$ 时，$\tau = 0$，当 $t \to \infty$ 时，$\tau \to \infty$：
+     $$ 
+     = \int_0^\infty f(\tau) e^{-s(\tau + a)} \, d\tau 
+     $$  
+     $$ 
+     = e^{-as} \int_0^\infty f(\tau) e^{-s\tau} \, d\tau 
+     $$  
+     $$ 
+     = e^{-as} F(s) 
+     $$  
+
+3. **频移性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$，则 $\mathcal{L}\{e^{at} f(t)\} = F(s - a)$ 
+   - **证明**：利用拉普拉斯变换的定义和变量替换：
+     $$ 
+     \mathcal{L}\{e^{at} f(t)\} = \int_0^\infty e^{at} f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = \int_0^\infty f(t) e^{-(s - a)t} \, dt 
+     $$  
+     $$ 
+     = F(s - a) 
+     $$  
+
+4. **微分性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$，则 $\mathcal{L}\{f&apos;(t)\} = sF(s) - f(0)$ $\mathcal{L}\{f&apos;&apos;(t)\} = s^2 F(s) - sf(0) - f&apos;(0)$ 
+   - **证明**：利用分部积分法：
+     $$ 
+     \mathcal{L}\{f&apos;(t)\} = \int_0^\infty f&apos;(t) e^{-st} \, dt 
+     $$  
+     令 $u = e^{-st}$，$dv = f&apos;(t) dt$，则 $du = -se^{-st} dt$，$v = f(t)$：
+     $$ 
+     = \left[ f(t) e^{-st} \right]_0^\infty + s \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = -f(0) + sF(s) 
+     $$  
+     对于 $\mathcal{L}\{f&apos;&apos;(t)\}$，同理可得：
+     $$ 
+     \mathcal{L}\{f&apos;&apos;(t)\} = s \mathcal{L}\{f&apos;(t)\} - f&apos;(0) 
+     $$  
+     $$ 
+     = s(sF(s) - f(0)) - f&apos;(0) 
+     $$  
+     $$ 
+     = s^2 F(s) - sf(0) - f&apos;(0) 
+     $$  
+
+5. **积分性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$，则 $\mathcal{L}\left\{\int_0^t f(\tau) \, d\tau\right\} = \frac{1}{s} F(s)$ 
+   - **证明**：利用拉普拉斯变换的定义和分部积分法：
+     $$ 
+     \mathcal{L}\left\{\int_0^t f(\tau) \, d\tau\right\} = \int_0^\infty \left( \int_0^t f(\tau) \, d\tau \right) e^{-st} \, dt 
+     $$  
+     令 $F(t) = \int_0^t f(\tau) \, d\tau$，则 $F&apos;(t) = f(t)$：
+     $$ 
+     = \int_0^\infty F(t) e^{-st} \, dt 
+     $$  
+     利用分部积分法，令 $u = F(t)$，$dv = e^{-st} dt$，则 $du = f(t) dt$，$v = -\frac{1}{s} e^{-st}$：
+     $$ 
+     = \left[ F(t) \left( -\frac{1}{s} e^{-st} \right) \right]_0^\infty + \frac{1}{s} \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = 0 + \frac{1}{s} F(s) 
+     $$  
+     $$ 
+     = \frac{1}{s} F(s) 
+     $$  
+
+6. **卷积定理**： 如果 $\mathcal{L}\{f(t)\} = F(s)$ 和 $\mathcal{L}\{g(t)\} = G(s)$，则 $\mathcal{L}\{(f * g)(t)\} = F(s) G(s)$ 其中，$(f * g)(t) = \int_0^t f(\tau) g(t - \tau) \, d\tau$ 是 $f(t)$ 和 $g(t)$ 的卷积。
+   - **证明**：利用拉普拉斯变换的定义和变量替换：
+     $$ 
+     \mathcal{L}\{(f * g)(t)\} = \int_0^\infty \left( \int_0^t f(\tau) g(t - \tau) \, d\tau \right) e^{-st} \, dt 
+     $$  
+     交换积分次序：
+     $$ 
+     = \int_0^\infty \int_0^t f(\tau) g(t - \tau) e^{-st} \, d\tau \, dt 
+     $$  
+     令 $u = t - \tau$，则 $du = dt$，当 $t = \tau$ 时，$u = 0$，当 $t \to \infty$ 时，$u \to \infty$：
+     $$ 
+     = \int_0^\infty f(\tau) \left( \int_0^\infty g(u) e^{-s(\tau + u)} \, du \right) \, d\tau 
+     $$  
+     $$ 
+     = \int_0^\infty f(\tau) e^{-s\tau} \left( \int_0^\infty g(u) e^{-su} \, du \right) \, d\tau 
+     $$  
+     $$ 
+     = F(s) G(s) 
+     $$  
+
+7. **初值定理**：如果 $f(t)$ 在 $t=0$ 处连续，则有： 
+     $$ 
+     \lim_{t \to 0^+} f(t) = \lim_{s \to \infty} sF(s) 
+     $$  
+   - **证明**：利用拉普拉斯变换的定义：
+     $$ 
+     \mathcal{L}\{f(t)\} = \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     当 $s \to \infty$ 时，$e^{-st} \to 0$，则：
+     $$ 
+     sF(s) = s \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = \int_0^\infty f(t) s e^{-st} \, dt 
+     $$  
+     当 $t \to 0^+$ 时，$s e^{-st} \to 1$，则：
+     $$ 
+     \lim_{s \to \infty} sF(s) = f(0) 
+     $$  
+
+8. **终值定理**：如果 $\lim_{t \to \infty} f(t)$ 存在且有限，则有： 
+     $$ 
+     \lim_{t \to \infty} f(t) = \lim_{s \to 0} sF(s) 
+     $$  
+   注：极限必须存在
+   - **证明**：利用拉普拉斯变换的定义：
+     $$ 
+     \mathcal{L}\{f(t)\} = \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     当 $s \to 0$ 时，$e^{-st} \to 1$，则：
+     $$ 
+     sF(s) = s \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = \int_0^\infty f(t) s e^{-st} \, dt 
+     $$  
+     当 $t \to \infty$ 时，$s e^{-st} \to 0$，则：
+     $$ 
+     \lim_{s \to 0} sF(s) = \lim_{t \to \infty} f(t) 
+     $$  
+## 常见函数的拉普拉斯变换
+
+| 函数 $f(t)$ | 拉普拉斯变换 $\mathcal{L}\{f(t)\}$ |
+|-------------|------------------------------------|
+| 单位阶跃函数 $u(t)$ | $\frac{1}{s}$ |
+| 指数函数 $e^{-at}$ | $\frac{1}{s + a}$ |
+| 正弦函数 $\sin(bt)$ | $\frac{b}{s^2 + b^2}$ |
+| 余弦函数 $\cos(bt)$ | $\frac{s}{s^2 + b^2}$ |
+| 幂函数 $t^n$ | $\frac{n!}{s^{n+1}}$ |
+| $\delta$ 函数 | $1$ |
+| $n$ 阶导数 $f^{(n)}(t)$ | $s^n F(s) - s^{n-1}f(0) - s^{n-2}f&apos;(0) - \cdots - sf^{(n-2)}(0) - f^{(n-1)}(0)$ |
+| 多次积分 $\int_0^t \int_0^{t_1} \cdots \int_0^{t_{n-1}} f(t_n) dt_n \cdots dt_1$ | $\frac{1}{s^n}F(s)$ |  
+
+
+#### 1. 单位阶跃函数 $u(t)$ 
+单位阶跃函数定义为： $u(t) = \begin{cases} 0 &amp; t &lt; 0 \\ 1 &amp; t \geq 0 \end{cases}$ 其拉普拉斯变换为: $$\mathcal{L}\{u(t)\} = \int_0^\infty e^{-st} \cdot 1 \, dt = \left[ -\frac{1}{s} e^{-st} \right]_0^\infty = \frac{1}{s}$$
+#### 2. 指数函数 $e^{-at}$ 
+对于指数衰减函数 $e^{-at}$，其拉普拉斯变换为： $$\mathcal{L}\{e^{-at}\} = \int_0^\infty e^{-st} e^{-at} \, dt = \int_0^\infty e^{-(s+a)t} \, dt = \left[ -\frac{1}{s+a} e^{-(s+a)t} \right]_0^\infty = \frac{1}{s + a}$$
+#### 3. 正弦函数 $\sin(bt)$ 
+正弦函数的拉普拉斯变换可以通过欧拉公式 $e^{ix} = \cos(x) + i\sin(x)$ 获得： $$\mathcal{L}\{\sin(bt)\} = \mathcal{L}\left\{\frac{e^{ibt} - e^{-ibt}}{2i}\right\} = \frac{1}{2i} \left( \frac{1}{s-ib} - \frac{1}{s+ib} \right) = \frac{b}{s^2 + b^2} $$ 
+#### 4. 余弦函数 $\cos(bt)$
+类似地，余弦函数的拉普拉斯变换为： $$\mathcal{L}\{\cos(bt)\} = \mathcal{L}\left\{\frac{e^{ibt} + e^{-ibt}}{2}\right\} = \frac{1}{2} \left( \frac{1}{s-ib} + \frac{1}{s+ib} \right) = \frac{s}{s^2 + b^2}$$ 
+#### 5. 幂函数 $t^n$
+幂函数的拉普拉斯变换可以使用分部积分法得到： $\mathcal{L}\{t^n\} = \int_0^\infty t^n e^{-st} \, dt$ 通过分部积分，我们有： $$\mathcal{L}\{t^n\} = \left[ -\frac{t^n}{s} e^{-st} \right]_0^\infty + \frac{n}{s} \int_0^\infty t^{n-1} e^{-st} \, dt = \frac{n}{s} \mathcal{L}\{t^{n-1}\}$$ 递归应用此结果直到 $n=0$，最终得到： $\mathcal{L}\{t^n\} = \frac{n!}{s^{n+1}}$ 
+#### 6. $\delta$ 函数 
+$\delta$ 函数（狄拉克δ函数）是一个广义函数，表示一个在所有点上都为零，但在原点处无限高的脉冲。它的拉普拉斯变换为： $$\mathcal{L}\{\delta(t)\} = \int_{-\infty}^{\infty} \delta(t) e^{-st} \, dt = 1$$ 这是因为 $\delta(t)$ 在 $t=0$ 时的积分等于$1$。 
+#### 7. $n$ 阶导数
+$n$ 阶导数的拉普拉斯变换考虑了初始条件，表达式如下： $$\mathcal{L}\{f^{(n)}(t)\} = s^n F(s) - s^{n-1}f(0) - s^{n-2}f&apos;(0) - \cdots - sf^{(n-2)}(0) - f^{(n-1)}(0)$$ 这里，$F(s)$ 是 $f(t)$ 的拉普拉斯变换，$f(0), f&apos;(0), \ldots, f^{(n-1)}(0)$ 是 $f(t)$ 及其各阶导数在 $t=0$ 时的值。 
+#### 8.多次积分
+对于多次积分，其拉普拉斯变换可以表示为： $$\mathcal{L}\left\{\int_0^t \int_0^{t_1} \cdots \int_0^{t_{n-1}} f(t_n) dt_n \cdots dt_1\right\} = \frac{1}{s^n}F(s)$$ 这里 $F(s)$ 是 $f(t)$ 的拉普拉斯变换。这个结果可以通过重复应用拉普拉斯变换的一阶积分性质来证明。一阶积分的拉普拉斯变换是 $\mathcal{L}\left\{\int_0^t f(\tau)d\tau\right\} = \frac{1}{s}F(s)$，因此对于 $n$ 次积分，就是将这个过程重复 $n$ 次，从而得到上述结果。  
+  
+  </content:encoded></item><item><title>自主探索——Autonomous Exploration Development Environment笔记（一）</title><link>https://weilv.space/posts/autonomous-exploration-development-environment_part_1/</link><guid isPermaLink="true">https://weilv.space/posts/autonomous-exploration-development-environment_part_1/</guid><description>深入了解 CMU Autonomous Exploration Development Environment 的代码结构和实现细节</description><pubDate>Mon, 23 Oct 2023 13:30:47 GMT</pubDate><content:encoded>[官方文档](https://www.cmu-exploration.com/)
+[官方github](https://github.com/HongbiaoZ/autonomous_exploration_development_environment)
+
+## 简介
+CMU机器人研究所于2021年7月开源了一套完整的移动机器人自主导航和探索框架,旨在为地面自主导航和探索提供系统开发和机器人部署支持。  
+包含各种仿真环境、自主导航模块（如避障、地形可通行性分析、路径跟随等）以及一套可视化工具，用户可以开发自主导航系统，并将这些系统移植到真实机器人上进行部署。
+
+## Qick Start
+###  1. 安装依赖
+该库已在 Ubuntu 18.04（ROS Melodic）和 Ubuntu 20.04（ROS Noetic）上测试。
+&gt; ```bash
+&gt; sudo apt update
+&gt; sudo apt install libusb-dev  
+&gt; ```  
+
+###  2. 克隆开源库
+&gt; ```bash
+&gt; git clone https://github.com/HongbiaoZ/autonomous_exploration_development_environment.git  
+&gt; ```  
+
+###  3. 切换到与计算机设置匹配的分支并编译
+&gt; ```bash
+&gt; cd autonomous_exploration_development_environment
+&gt; git checkout distribution  # 将 &apos;distribution&apos; 替换为 &apos;melodic&apos; 或 &apos;noetic&apos;
+&gt; catkin_make  
+&gt; ```  
+
+###  4. 下载仿真环境
+如果脚本未能启动下载，用户可以手动下载[仿真环境](https://drive.google.com/file/d/1GMT8tptb3nAb87F8eFfmIgjma6Bu0reV/view)并将文件解压到 src/vehicle_simulator/meshes 目录中。
+&gt; ```bash
+&gt; ./src/vehicle_simulator/mesh/download_environments.sh  
+&gt; ```  
+
+###  5. 运行仿真环境
+该库包含多种类型和规模的仿真环境。要启动特定环境，
+将 &apos;environment&apos; 替换为环境名称，如 &apos;campus&apos;、&apos;indoor&apos;、&apos;garage&apos;、&apos;tunnel&apos; 和 &apos;forest&apos;。  
+&gt; ```bash
+&gt; source devel/setup.sh
+&gt; roslaunch vehicle_simulator system_environment.launch  
+&gt; ```  
+
+现在可以通过点击 RVIZ 中的 &apos;Waypoint&apos; 按钮并选择一个点来发送航点。车辆将导航到该航点，避开沿途的障碍物。Waypoint应在车辆附近且可到达。  
+</content:encoded></item></channel></rss>
