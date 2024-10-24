@@ -1,11 +1,11 @@
 ---
-slug: 3blue1brown-chapter-1
-title: 3Blue1brown学习笔记：Chapter 1 Vectors, what even are they?
+slug: 3blue1brown_Linear_Algebra
+title: 3Blue1brown Linear Algebra 学习笔记
 description: Vectors, what even are they?
 image: ../attachments/2dAnd3DVectors.png
 date: 2024-10-21T21:55:00+08:00
 lastmod: 2024-10-21T21:55:00+08:00
-hidden: ture
+hidden: true
 tags:
   - 3Blue1Brown
   - 数学
