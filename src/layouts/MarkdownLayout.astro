@@ -32,7 +32,7 @@ const showTimes = showDate || showLastmod || showReadingTime;
 					{showDate && (
 						<time datetime={date.toISOString()}>
 							<Icon name="ri:time-line" class="fill-current" title="date" aria-label="date" />
-							{date.toLocaleString()}
+							{date.toLocaleString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' })}
 						</time>
 					)}
 					{showLastmod && (
@@ -43,7 +43,7 @@ const showTimes = showDate || showLastmod || showReadingTime;
 								title="last modified date"
 								aria-label="last modified date"
 							/>
-							{lastmod.toLocaleString()}
+							{lastmod.toLocaleString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' })}
 						</time>
 					)}
 					{showReadingTime && (
