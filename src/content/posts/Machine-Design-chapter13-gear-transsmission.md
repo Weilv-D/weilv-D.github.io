@@ -9,10 +9,8 @@ tags:
   - 机械设计
   - 齿轮传动
 hide: # set a element list to hide in the post page
-  - title
   - lastmod
   - tags
-  - readingTime
   - toc
   - comments
 ---
