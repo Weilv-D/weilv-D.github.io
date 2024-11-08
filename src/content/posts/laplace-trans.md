@@ -3,8 +3,8 @@ slug: laplace-trans
 title: 拉普拉斯变换
 description: 拉普拉斯变换是一种强大的数学工具，用于将时间域信号转换为复频域信号，从而简化微分方程的求解过程。
 image: ../attachments/laplas.jpg
-date: 2024-10-21T11:00:00+08:00
-lastmod: 2024-10-21T11:00:00+08:00
+date: 2024-10-21
+lastmod: 2024-10-21
 hidden: false
 tags:
   - 拉普拉斯变换
@@ -12,11 +12,9 @@ tags:
   - 自动控制原理
 hide:
   - tags
-  - readingTime
   - toc
   - comments
   - lastmod
-  - comments
 ---
 ## 拉普拉斯变换简介 
 拉普拉斯变换是一种积分变换，主要用于解决微分方程和差分方程。它将一个时间域中的函数$f(t)$转换为复频域中的函数$F(s)$。

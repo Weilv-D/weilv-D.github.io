@@ -3,8 +3,8 @@ slug: 3blue1brown_Linear_Algebra
 title: 3Blue1brown Linear Algebra 学习笔记
 description: Vectors, what even are they?
 image: ../attachments/2dAnd3DVectors.png
-date: 2024-10-21T21:55:00+08:00
-lastmod: 2024-10-21T21:55:00+08:00
+date: 2024-10-21
+lastmod: 2024-10-21
 hidden: true
 tags:
   - 3Blue1Brown
