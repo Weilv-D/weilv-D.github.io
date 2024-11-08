@@ -1,6 +1,6 @@
 ---
 slug: Machine-Design-chapter13-gear-transsmission
-title: 机械设计学习笔记————齿轮传动(一)
+title: 机械设计学习笔记——齿轮传动(一)
 description: 希望对你我的机械设计学习之旅有所帮助
 date: 2024-11-8T17:00:47+08:00
 lastmod: 2024-11-8T17:00:47+08:00
