@@ -2,6 +2,7 @@
 slug: Machine-Design-chapter13-gear-transsmission
 title: 机械设计学习笔记——齿轮传动(一)
 description: 希望对你我的机械设计学习之旅有所帮助
+image: ../attachments/skoda-auto-gearbox.jpg
 date: 2024-11-08
 lastmod: 2024-11-08
 hidden: false
