@@ -1,7 +1,3 @@
-
-
-
-
 ---
 slug: Machine-Design-gear-transsmission-p1
 title: 机械设计学习笔记——齿轮传动(一)
@@ -13,7 +9,7 @@ hidden: false
 tags:
   - 机械设计
   - 齿轮传动
-hide: # set a element list to hide in the post page
+hide: 
   - lastmod
   - tags
   - comments
@@ -138,7 +134,7 @@ hide: # set a element list to hide in the post page
 
 #### 齿面胶合
 
-由于齿面间未能有效地形成润滑油膜，导致齿面金属直接接触，并在随后的相对滑动中，相互粘连的金属沿着相对滑动方向相互撕扯而出现`<span style="color: red;">`一条条划痕。齿面胶合会引起振动和噪声，导致齿轮传动性能下降，甚至失效。
+由于齿面间未能有效地形成润滑油膜，导致齿面金属直接接触，并在随后的相对滑动中，相互粘连的金属沿着相对滑动方向相互撕扯而出现 `<span style="color: red;">`一条条划痕。齿面胶合会引起振动和噪声，导致齿轮传动性能下降，甚至失效。
 
 齿面热胶合：
 
@@ -190,7 +186,7 @@ hide: # set a element list to hide in the post page
 
 ### 齿轮材料
 
-齿轮的轮齿应有较高的抗折断能力，齿面应有较强的抗点蚀、抗磨损和较高的抗胶合能力，即`<span style="color: red;">`齿面要硬 齿芯要韧。
+齿轮的轮齿应有较高的抗折断能力，齿面应有较强的抗点蚀、抗磨损和较高的抗胶合能力，即 `<span style="color: red;">`齿面要硬 齿芯要韧。
 
 #### **钢**
 
