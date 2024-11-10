@@ -12,13 +12,8 @@ tags:
 hide:
   - lastmod
   - tags
-  - toc
   - comments
 ---
-# 罗德里格斯旋转公式的详细证明
-
-罗德里格斯旋转公式在计算机图形学、机器人学和航空航天等领域有着广泛的应用。它提供了一种在三维空间中绕任意轴进行旋转的方式。本文将详细推导罗德里格斯旋转公式，并提供几何上的直观解释。
-
 ## 1. 引言
 
 对于一个三维向量 $\mathbf{v}$，我们希望将其绕单位旋转轴 $\mathbf{k}$ 旋转角度 $\theta$，得到新的向量 $\mathbf{v'}$。罗德里格斯旋转公式给出了这个旋转的显式表达：
@@ -163,21 +158,16 @@ $$
 利用 $\mathbf{K}$ 的性质：
 
 - **反对称性**：$\mathbf{K}^\mathrm{T} = -\mathbf{K}$
-
 - **平方性质**：$\mathbf{K}^2 = -(\mathbf{k} \cdot\mathbf{k})\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}$，由于 $\mathbf{k}$ 是单位向量，因此 $\mathbf{k} \cdot\mathbf{k} = 1$，所以：
 
 $$
-
-  \mathbf{K}^2 = -\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}
-
+\mathbf{K}^2 = -\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}
 $$
 
 - **更高次幂**：
 
 $$
-
-  \mathbf{K}^3 = \mathbf{K} \cdot\mathbf{K}^2 = \mathbf{K}(-\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}) = -\mathbf{K} + \mathbf{K}\mathbf{k}\mathbf{k}^\mathrm{T}
-
+\mathbf{K}^3 = \mathbf{K} \cdot\mathbf{K}^2 = \mathbf{K}(-\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}) = -\mathbf{K} + \mathbf{K}\mathbf{k}\mathbf{k}^\mathrm{T}
 $$
 
   由于 $\mathbf{K}\mathbf{k} = \mathbf{0}$（因为 $\mathbf{K}$ 与 $\mathbf{k}$ 平行），所以 $\mathbf{K}^3 = -\mathbf{K}$。
