@@ -162,7 +162,25 @@ $$
 
 利用 $\mathbf{K}$ 的性质：
 
-- $\mathbf{K}^2 = -\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}$
+- **反对称性**：$\mathbf{K}^\mathrm{T} = -\mathbf{K}$
+
+- **平方性质**：$\mathbf{K}^2 = -(\mathbf{k} \cdot\mathbf{k})\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}$，由于 $\mathbf{k}$ 是单位向量，因此 $\mathbf{k} \cdot\mathbf{k} = 1$，所以：
+
+$$
+
+  \mathbf{K}^2 = -\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}
+
+$$
+
+- **更高次幂**：
+
+$$
+
+  \mathbf{K}^3 = \mathbf{K} \cdot\mathbf{K}^2 = \mathbf{K}(-\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}) = -\mathbf{K} + \mathbf{K}\mathbf{k}\mathbf{k}^\mathrm{T}
+
+$$
+
+  由于 $\mathbf{K}\mathbf{k} = \mathbf{0}$（因为 $\mathbf{K}$ 与 $\mathbf{k}$ 平行），所以 $\mathbf{K}^3 = -\mathbf{K}$。
 
 其中，$\mathbf{I}$ 是单位矩阵，$\mathbf{k}\mathbf{k}^\mathrm{T}$ 是 $\mathbf{k}$ 的外积矩阵。
 
