@@ -27,3 +27,5 @@ __coverage__/
 
 # Vercel output
 .vercel
+
+manim/
