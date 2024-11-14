@@ -237,5 +237,8 @@ $$
 - **平行分量保持不变**：$\mathbf{v}_{\parallel}$ 沿旋转轴方向，不受旋转影响。
 - **垂直分量旋转**：$\mathbf{v}_{\perp}$ 在垂直于 $\mathbf{k}$ 的平面内旋转角度 $\theta$。
 - **叉积的作用**：$\mathbf{k} \times \mathbf{v}$ 给出了 $\mathbf{v}$ 在平面内旋转的方向，结合 $\sin\theta$ 达到旋转 $\theta$ 的效果。
-![几何动画](../../assets/animation.gif)
+<video controls>
+  <source src="../../assets/RodriguesRotationProofScene.mp4" type="video/mp4">
+  您的浏览器不支持视频标签。
+</video>
 
