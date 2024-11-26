@@ -1,6 +1,6 @@
 ---
-slug: Machine-Design-gear-transsmission-p1
-title: 机械设计学习笔记——齿轮传动(一)
+slug: Machine-Design-gear-transsmission
+title: 机械设计学习笔记——齿轮传动
 description: 希望对你我的机械设计学习之旅有所帮助
 image: ../attachments/skoda-auto-gearbox.jpg
 date: 2024-11-08
