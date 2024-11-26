@@ -237,7 +237,5 @@ $$
 - **平行分量保持不变**：$\mathbf{v}_{\parallel}$ 沿旋转轴方向，不受旋转影响。
 - **垂直分量旋转**：$\mathbf{v}_{\perp}$ 在垂直于 $\mathbf{k}$ 的平面内旋转角度 $\theta$。
 - **叉积的作用**：$\mathbf{k} \times \mathbf{v}$ 给出了 $\mathbf{v}$ 在平面内旋转的方向，结合 $\sin\theta$ 达到旋转 $\theta$ 的效果。
-<div style="text-align: center;">
-  <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113481625898854&bvid=BV1KHmDYmE2J&cid=26759530908&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
-</div>
+
 
