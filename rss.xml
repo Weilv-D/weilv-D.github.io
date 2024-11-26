@@ -1,0 +1,1307 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>未来回忆录</title><description>我的时空褶皱</description><link>https://weilv.space/</link><item><title>机械设计学习笔记——概论</title><link>https://weilv.space/posts/mechanical-design-overview/</link><guid isPermaLink="true">https://weilv.space/posts/mechanical-design-overview/</guid><description>希望对你我的机械设计学习之旅有所帮助</description><pubDate>Tue, 26 Nov 2024 00:00:00 GMT</pubDate><content:encoded># 绪论
+
+## 机械与机械设计在社会发展中的作用
+机器是用来代替人们体力和部分脑力劳动的工具，机器通过将能量、物料和信息等进行传递或转换来为人类做各种有用功。
+
+现代的机器，正朝着自动化、智能化、性能更高以及与人类更加和谐的方向发展。
+
+## 机械设计课程的内容、性质与任务
+机器的基本组成要素是机械零件。
+
+研究对象：一般尺寸常用工作参数通用零件。
+
+研究内容：介绍整台机器机械部分设计的基本知识，重点讨论一般尺寸和常用工作参数下的通用零件的设计，包括基本设计理论和方法、相关标准和技术资料等。
+
+机械设计课程（包括它的相关教学环节）的主要任务是培养学生以下方面的能力：
+
+- 具有正确的设计思想并勇于创新探索。
+- 掌握通用零件的设计原理、方法和机械设计的一般规律，进而具有综合运用所学的知识，研究改进或开发新的零、部件及设计简单的机械装置的能力。
+- 具有运用标准、规范、手册、图册和查阅有关技术资料的能力。
+- 掌握典型机械零件的试验方法，获得试验技能的基本训练。
+- 了解国家当前的有关技术经济政策，并对机械设计的新发展有所了解。
+
+# 设计机器的基本原则和设计程序
+
+## 机器的组成
+
+- **原动机部分**
+  - 驱动整部机器完成预定功能的动力源。
+  - 将其他形式的能量转换为可以利用的机械能。
+- **传动部分**
+  - 完成运动形式、运动及动力参数转变。
+- **执行部分**
+  - 用来完成机器预定功能的组成部分。
+- **测控系统**
+- **辅助系统**
+  - 润滑、显示、照明等。
+
+## 设计方法
+
+- 内插式设计
+- 外推式设计
+- 开发式子设计
+
+## 设计机器的一般程序
+
+1. **计划阶段**
+   - 对所要设计的机器仅有一个模糊的概念。
+2. **方案设计阶段**
+3. **技术设计阶段**
+   - 机器的运动学设计。
+   - 机器的动力学计算。
+     - 载荷表现形式：功率 $ P $ ，力$  F $力矩$  T $。
+     - 名义载荷、计算载荷。
+   - 零件的工作能力设计。
+   - 部件装配草图及总装配草图的设计。
+   - 主要零件的校核。
+   - 纸上装配。
+4. **技术文件编制阶段**
+5. **计算机在机械设计中的应用**
+
+## 对机器的主要要求
+
+- **功能要求**
+- **经济性要求**
+- **外观造型要求**
+- **低噪声要求**
+- **劳动保护和环境保护要求**
+- **寿命与可靠性的要求**
+  - 可靠度 $ R $：在规定的使用时间（寿命）内和给定的环境条件下机器能够正常工作的概率。
+- **其他专用要求**
+
+# 机械零件设计概述
+
+## 机械零件的主要失效形式
+
+- **整体断裂**
+  - 强度极限。
+- **过大的残余变形**
+  - 屈服极限。
+- **零件的表面破坏**
+  - 腐蚀、磨损、接触疲劳。
+- **破坏正常工作条件引起的失效**
+
+## 设计机械零件时应满足的基本要求
+
+- **避免在预定寿命期内失效的要求**
+  - 强度。
+  - 刚度。
+  - 寿命。
+- **结构工艺性要求**
+- **经济性要求**
+- **质量小的要求**
+- **可靠性要求**
+
+## 机械零件的设计准则
+
+- **强度准则**
+$$
+  \sigma \leq \frac{\sigma_{\lim}}{S}
+$$
+- **刚度准则**
+$$
+  y \leq [y]
+$$
+- **寿命准则**
+  - 影响寿命的主要因素：腐蚀、磨损、接触疲劳。
+- **振动稳定性准则**
+  - 振动稳定性：在设计时要使机器中受激振作用的各零件的固有频率与激振源的频率错开。
+$$
+  \begin{cases}
+  0.85f &gt; f_p \\
+  1.15f &lt; f_p
+  \end{cases}
+$$
+  - $ f $ 代表零件固有频率，$ f_p $ 代表激振源的频率。
+- **可靠性准则**
+  - **浴盆曲线**：失效率曲线。
+  - **平均寿命**：
+    - 对不可修复的零件，指其失效前的平均工作时间，MTTF（Mean Time To Failure）。
+    - 对于可修复的零件，指其平均故障间隔时间，MTBF（Mean Time Between Failures）。
+
+## 机械零件的设计方法
+
+- **理论设计**
+$$
+  \sigma \leq \frac{\sigma_{\lim}}{S} \\
+
+  \frac{F}{A} \leq \frac{\sigma_{\lim}}{S}
+$$
+  - **字母符号含义**：
+    - $ F $：作用于拉杆上的外载荷。
+    - $ A $：拉杆横截面面积。
+    - $ \sigma_{\lim} $：拉杆材料的极限应力。
+    - $ S $：设计安全系数（简称安全系数）。
+  - **设计计算**：能通过简单的力学模型进行设计的零件。
+  - **校核计算**：结构复杂，应力分布较复杂，但又能用现有的应力分析方法（以强度为设计准则时）或变形分析方法（以刚度为设计准则时）进行计算的场合。
+- **经验设计**
+- **模型试验设计**
+  - 费时、昂贵，只用于特别重要的设计中。
+
+## 2-8 机械零件设计的一般步骤
+
+1. **根据零件的使用要求，选择零件的类型和结构。**
+2. **根据机器的工作要求，计算作用在零件上的载荷。**
+3. **根据零件的类型、结构和所受载荷，分析零件可能的失效形式，从而确定零件的设计准则。**
+4. **根据零件的工作条件及对零件的特殊要求（例如高温或在腐蚀性介质中工作等），选择适当的材料。**
+5. **根据设计准则进行有关的计算，确定零件的基本尺寸。（标准化，系列化，通用化）**
+6. **根据工艺性及标准化等原则进行零件的结构设计。**
+7. **细节设计完成后，必要时进行详细的校核计算，以判定结构的合理性。**
+8. **画出零件的工作图，并写出计算说明书。**
+8. **对零件工作图进行严格的检查**
+
+## 机械零件的材料及其选用
+
+- **机械零件常用的材料**
+  - 金属材料。
+  - 高分子材料。
+  - 陶瓷材料。
+  - 复合材料。
+- **机械零件材料的选择原则**
+  - 载荷、应力的大小和性质。
+  - 零件的工作情况。
+  - 零件的尺寸及质量。
+  - 零件结构的复杂程度及材料的加工可能性。
+  - 材料的经济性。
+  - 材料的供应状况。
+
+## 标准化，系列化，通用化
+- **零件的标准化**：通过对零件的尺寸、结构要素、材料性能、检验方法、设计方法、制图要求等，制定出各类大家共同遵守的标准。
+- **系列化**：对于同一产品，为了符合不同的使用条件，在同一基本结构或基本尺寸条件下，规定出若干个辅助尺寸不同的产品，称为不同的系列。
+- **通用化**: 系列之内或跨系列的产品之间尽量采用同一结构和尺寸的零部件，以域少企业内部的零部件种数，从而简化生产管理和获得较高的经济效益。
+
+## 机械现代设计方法简介
+
+- **从静态设计到动态设计的转化**
+- **从定性分析到定量分析的转化**
+- **从常规设计到可靠性设计的转化**
+- **从一般性设计到优化设计的转化**
+- **从串行设计到并行设计的转化**
+- **从宏观分析到微观分析的转化**
+- **从离散性分析到系统性分析的转化**
+- **从人工设计到自动化设计的转化**</content:encoded></item><item><title>机械设计学习笔记——零件的工作能力和计算准则</title><link>https://weilv.space/posts/mechanical-design-parts-working-capacity-and-calculation-criteria/</link><guid isPermaLink="true">https://weilv.space/posts/mechanical-design-parts-working-capacity-and-calculation-criteria/</guid><description>希望对你我的机械设计学习之旅有所帮助</description><pubDate>Tue, 26 Nov 2024 00:00:00 GMT</pubDate><content:encoded>失效：机械零件丧失工作能力或达不到设计性能要求时
+
+工作能力：零件不发生失效时的安全工作限度（对于载荷而言的工作能力称为承载能力）
+
+同一零件有多种失效形式，对应有多种工作能力，起决定作用的是承载能力中的较小值
+
+机械零件虽然有很多种可能的失效形式，但归纳起来，最主要的是由于强度、刚度、耐磨性、温度对工作能力的影响以及振动稳定性、可靠性等方面的问题
+
+## 载荷与应力的分类
+
+**载荷分类**
+
+- **静载荷**：不随时间变化或变化缓慢的载荷
+- **变载荷**：随时间做周期性变化或非周期性变化的载荷
+
+**设计载荷与名义载荷**：设计载荷 = 名义载荷 × 载荷系数 K
+
+**应力分类**
+
+- **静应力**
+- **变应力**
+  - **非对称循环变应力**
+  - **脉动循环变应力**
+  - **对称循环变应力**
+
+|                                 | 静应力                                     | 非对称循环变应力                                     | 脉动循环变应力                                   | 对称循环变应力                   |
+| ------------------------------- | ------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | -------------------------------- |
+| **平均应力 $\sigma_m$** | $\sigma_m = \sigma_{max} = \sigma_{min}$ | $\sigma_m = \frac{\sigma_{max} + \sigma_{min}}{2}$ | $\sigma_m = \sigma_a = \frac{\sigma_{max}}{2}$ | $\sigma_m = 0$                 |
+| **应力幅 $\sigma_a$**   | $\sigma_a = 0$                           | $\frac{\sigma_{max} - \sigma_{min}}{2}$            | $\sigma_a = \frac{\sigma_{max}}{2}$            | $\sigma_{max} = -\sigma_{min}$ |
+| **循环特性 $r$**        | +1                                         | $\frac{\sigma_{min}}{\sigma_{max}}$                | 0                                                | -1                               |
+
+**几个指标：**
+
+- **最大应力 $\sigma_{max}$**
+- **最小应力 $\sigma_{min}$**
+- **平均应力 $\sigma_m = \frac{\sigma_{max} + \sigma_{min}}{2}$**
+- **应力幅 $\sigma_a = \frac{\sigma_{max} - \sigma_{min}}{2}$**
+- **循环特性 $r = \frac{\sigma_{min}}{\sigma_{max}}$**
+  知二求三
+
+**静载荷也可产生变应力**
+
+**名义应力**：用材料力学公式，根据名义载荷求得的应力
+
+**计算应力**：根据计算载荷求得的应力
+
+**名义应力**：用材料力学公式，根据名义载荷求得的应力
+
+**计算应力**：根据计算载荷求得的应力
+
+## 机械零件的强度
+
+**两种判断零件强度的方法**
+
+- **许用应力**
+
+$$
+\begin{align*}
+\sigma \leq [\sigma],[\sigma] &amp;= \frac{\sigma_{\lim}}{[S_\sigma]} \\
+\tau \leq [\tau],[\tau] &amp;= \frac{\tau_{\lim}}{[S_\tau]}
+\end{align*}
+$$
+
+式中，$\tau_{\lim},\sigma_{\lim}$分别为极限切应力和极限正应力，由工艺材料决定；$[S_{\sigma}],[S_{\tau}]$分别为正应力和切应力的许用安全系数
+
+- **许用安全系数**
+
+$$
+\begin{align*}
+S_\sigma &amp;= \frac{\sigma_{\lim}}{\sigma} \geq [S_\sigma] \\
+S_\tau &amp;= \frac{\tau_{\lim}}{\tau} \geq [S_\tau]
+\end{align*}
+$$
+
+### 静应力强度
+
+**在静应力时工作的零件，其强度失效将是塑性变形或断裂**
+
+- **单向应力时的塑性材料零件**
+
+  按照不发生塑性变形的条件进行强度计算
+
+  **极限应力**应为材料的屈服极限 $\sigma_s$ 或 $\tau_s$
+- **复合应力时的塑性材料零件**
+
+  根据第三或第四强度理论来确定其强度条件
+
+  第三强度理论：
+
+  $$
+  \sigma = \sqrt{\sigma_b^2 + 4\tau_T^2} \leq [\sigma]
+  $$
+
+  第四强度理论：
+
+  $$
+  \sigma = \sqrt{\sigma_b^2 + 3\tau_T^2} \leq [\sigma]
+  $$
+
+式中，$\sigma_b$——弯曲应力；$\tau_T$——切应力；按照第三强度理论 计算时近似取$\frac{\sigma_s}{\tau_s} = 2$,按第四强度理论计算时近似取$\frac{\sigma_s}{\tau_s} = \sqrt{3}$
+
+- **允许少量塑性变形的零件**
+
+  **极限载荷**：应力的极限状态对应的载荷
+- **脆性材料和低塑性材料的零件**
+
+  - **组织不均匀的材料（如灰铸铁）**：在计算时不考虑应力集中
+  - **组织均匀的低塑性材料（如低温回火的高强度钢）**：考虑应力集中
+
+### 变应力强度
+
+**在变应力时工作的零件，其强度失效将是疲劳断裂**
+
+- **疲劳极限 σ\*_rN**：循环特性 r 一定时，应力循环 N 次后，材料不发生疲劳破坏时的最大应力
+- **影响零件疲劳极限的因素**：循环特性、循环次数、应力集中、零件尺寸、表面状态等
+
+**许用安全系数**
+
+- **考虑因素：**
+
+  - 载荷和应力的性质和计算的准确性
+  - 材料的性质和材质的不均匀性
+  - 零件的重要程度
+  - 工艺质量和探伤水平
+  - 运行条件（平稳、冲击）
+  - 环境情况（腐蚀、温度）
+
+  **在保证安全、可靠的前提下，尽可能选用较小的许用安全系数**
+
+在不同的机器制造部门中，常制定有自己的许用应力和许用安全系数的专用规范。没有规范时可以遵循下述原则选定许用安全系数 $[S]$：
+
+- **使用塑性材料制成的零件**
+  在静应力下以屈服极限作为极限应力时，其许用安全系数 $S$ 可照下表选取；如载荷和应力的计算不十分准确，$[S]$ 应加大 20%~50%。$[S]$ 随比值$\frac{\sigma_S}{\sigma_B}$的增加而加大是为了保证防止破坏的安全度
+
+| $\frac{\sigma_S}{\sigma_B}$ | $[S]$ |
+| ----------------------------- | ------- |
+| 0.45--0.55                    | 1.2~1.5 |
+| 0.55--0.70                    | 1.4~1.8 |
+| 0.70--0.90                    | 1.7~2.2 |
+| 铸件                          | 1.6~2.5 |
+
+- **组织不均匀的材料制成的零件**
+  在静应力下以强度极限作为极限应力时，可取 $[S] = 3 \sim 4$；组织均匀的低塑性材料，取 $[S] = 2 \sim 3$。如果计算不十分准确，则应加大 50%~100%
+- **在变应力下**
+
+  以疲劳极限作为极限应力时：
+
+  - 若计算较为精确，作用载荷和材料力学性能等数据可靠，取 $[S] = 1.3 \sim 1.5$。
+  - 否则，根据准确性和可靠程度的不同：
+    - **钢件** 取 $[S] = 1.5 \sim 2.1$。
+    - **灰铸铁件** 取 $[S] = 2 \sim 2.4$。
+- **部分安全系数法：**
+
+  $$
+  [S] = [S_1][S_2]\dots [S_n]
+  $$
+
+**提高机械零件强度的措施**
+
+1. **合理布置零件，减小所受载荷**
+2. **降低载荷集中，均匀载荷分布**
+   - 使用鼓形齿
+   - 提高分度精度，使较多齿（如齿轮、花键）能同时分担载荷
+   - 自动调节载荷分布（如自动调心滑动轴承替换普通滑动轴承）
+3. **并联零件不能过多**（如限制 V 带传动的 V 带根数）
+4. **采用等强度结构**
+5. **选用合理截面**
+   - 梁的截面宜采用工字型、T 字形；轴的截面采用圆形、空心圆形
+6. **减小应力集中**
+   - 避免零件两交接部分的截面尺寸相差太大
+   - 增大零件上过渡曲线的曲率半径
+   - 增加卸载结构以减小或“转移”应力集中
+
+## 机械零件的表面强度
+
+### 表面接触强度
+
+在载荷作用下，两零件表面理论上为线接触或点接触，考虑到弹性变形，实际上为很小的面接触。
+
+**表面疲劳磨损**：零件在循环接触条件下工作（如齿轮传动），接触应力随时间变化，接触表面的失效属于疲劳破坏，为表面疲劳磨损。
+
+**提高表面接触强度的主要措施**：
+
+- 增大接触表面的综合曲率半径 $h_o$，以降低接触应力
+- 将外接触改成内接触
+- 在结构设计上将点接触改为线接触
+- 提高零件表面硬度
+- 在一定范围内提高接触表面的加工质量
+- 采用黏度较高的润滑油，除降低渗入裂纹的能力外，还能在接触区形成较厚的油膜，增大接触面积，从而降低接触应力
+
+### 表面挤压强度
+
+**压溃**
+
+**挤压应力**：通过局部配合面间的接触来传递载荷的零件，在接触面上的压应力
+
+$$
+\sigma_p = \frac{F}{A} \leq [\sigma_p]
+$$
+
+**字母符号 含义**
+
+| 符号           | 含义                             |
+| -------------- | -------------------------------- |
+| $\sigma_p$   | 挤压应力                         |
+| $[\sigma_p]$ | 许用挤压应力                     |
+| $A$          | 接触面积，或曲面接触时的投影面积 |
+
+### 表面磨损强度
+
+$$
+p \leq [p] \quad \text{MPa}
+$$
+
+$$
+v \leq [v] \quad \text{m/s}
+$$
+
+$$
+pv \leq [pv]
+$$
+
+**提高表面磨损强度的主要措施**：
+
+- 选用合适的摩擦副材料，如钢 - 青铜
+- 提高表面硬度
+- 降低表面粗糙度值
+- 采用有效的润滑剂和润滑方法
+- 表面镀层、氧化处理
+- 防止灰尘落入两摩擦表面间，如加防尘罩
+- 限制工作温度过高，如利用风扇散热
+
+## 机械零件的刚度
+
+**刚度**：零件在载荷作用下抵抗弹性变形的能力，其大小常用产生单位弹性变形所需的外力或外力矩表示。
+
+**柔度**：常用单位外力或外力矩所产生的弹性变形来表示。
+
+### 刚度的影响
+
+凡是对弹性变形、变形稳定性、精度或振动有一定要求的零件，都应具有一定的刚度。
+
+如果某些零件刚度不足，将影响机器正常工作。
+
+刚度有时也是保证强度的一个重要条件。
+
+被加工零件和机床零件都应具有一定的刚度，以保证加工精度。
+
+对弹簧一类的弹性零件，满足柔度要求是计算前提。
+
+刚度影响零件自振频率。刚度小自振频率低，刚度大自振频率高。
+
+### 刚度计算概述
+
+利用材料力学公式计算零件的弹性变形量，使其不超过相应的许用值。
+
+### 影响刚度的因素及其改进措施
+
+- **材料对刚度的影响**
+- **结构对刚度的影响**
+- **预装紧配对接触刚度的影响**
+
+## 机械零件的冲击强度
+
+### 冲击强度和冲击变形计算
+
+冲击载荷和冲击系数的计算公式如下：
+
+$$
+F&apos; = \left(1 + \frac{y}{2h}\right) F = K_1 F&apos;
+$$
+
+$$
+K_1 = 1 + \frac{y}{2h}
+$$
+
+**字母符号 含义**
+
+| 符号      | 含义     |
+| --------- | -------- |
+| \( F&apos; \)  | 冲击载荷 |
+| \( K_1 \) | 冲击系数 |
+
+在自由落体冲击下，距离 \( h \) 愈小和零件静载荷弹性变形 \( y \) 愈大，冲击系数、冲击载荷和冲击变形愈小；即使 \( h \approx 0 \)，冲击载荷和冲击变形也要增大到静载荷时的两倍。
+
+### 提高机械零件冲击强度和缓冲能力的措施
+
+- 采用能增大零件弹性变形的结构
+- 采用弹性模量低的材料，以获得大的弹性变形
+- 增加缓冲零件吸收冲击能
+- 采用无间隙或预紧的联接，防止由间隙引起冲击
+
+## 温度对机械零件工作能力的影响
+
+### 温度对材料膨胀和收缩的影响
+
+温度变化能使材料膨胀和收缩，引起零件尺寸、配合间隙或过盈量发生变化，从而影响零件的正常工作能力。当尺寸变化受到约束而不能自由膨胀或收缩时，便在零件中产生应力。
+
+### 温度对材料力学性能的影响
+
+**蠕变**：在一定的工作温度和应力下，零件塑形变形缓慢而连续增长的现象。
+
+**蠕变极限**：在工作温度下，蠕变速率达到某一值时的极限应力。
+
+**改善蠕变措施**：
+
+- 高温工作的零件要采用蠕变小的材料制造
+- 对有蠕变的零件进行冷却或隔热
+- 防止零件向可能损害设备功能或造成拆卸困难的方向蠕变
+
+**松弛**：在预紧情况下工作的零件总变形量不变，而其弹性变形随时间逐渐转化为塑形变形，引起应力逐渐降低的现象。
+
+**改善松弛措施**：
+
+- 选择满足工作温度要求的材料
+- 尽量采用少而加工良好的接合面
+- 对于输送气体等的管道凸缘的紧螺栓联接，定期补充拧紧
+
+## 机械零件的振动稳定性
+
+### 振动稳定性
+
+**振动**：零件发生周期弹性变形的现象。
+
+**失稳**：机器或零件发生共振，振幅急剧增大，丧失振动稳定性。
+
+### 振动稳定性计算概述
+
+由于外力作用频率常取决于机器工作频率，不可改变，故应改变零件自振频率以避免发生共振。
+
+- **提高零件自振频率**：增大零件刚度、减小质量
+- **降低零件自振频率**：减小零件刚度、增大质量
+
+### 减轻振动的措施
+
+- 采用对称结构、减少悬臂长度、缩短中心距
+- 对转动零件进行平衡
+- 利用阻尼作用消耗引起振动的能量
+- 设置隔振零件
+- 设置阻尼器或吸振器
+
+## 2-8 机械零件的可靠性
+
+### 可靠性概念
+
+**可靠性**：产品在规定的条件下和规定的时间内，完成规定功能的能力。
+
+**可靠度**：产品在规定的条件下和规定的时间内，完成规定功能的概率，常用 \( R_t \) 表示。
+
+**累积失效概率**：产品在规定的条件下和规定的时间内失效的概率，常用 \( F_t \) 表示。
+
+### 机械零件的可靠性计算
+
+将工作应力和极限应力等参数看作随机变量，根据它们的失效分布规律，运用概率论和数理统计的方法得出可靠的定量指标。
+
+### 串联系统可靠度
+
+$$
+R = R_1 \times R_2 \times \dots \times R_n
+$$
+
+### 提高机械零件可靠性的措施
+
+- 设计上要力求结构简单，传动链短，零件数少，调整环节少，联接可靠等
+- 设法提高系统中最低可靠度零件的可靠度
+- 尽量选用可靠度高的标准件
+- 避免采用容易出现维护疏忽和操作错误的结构
+- 结构布置要能直接检查和修理
+- 合理规定维修期
+- 必要时增加备用系统
+- 设置检测系统以便及时报警故障
+- 增加过载保护装置、自动停机装置等
+</content:encoded></item><item><title>罗德里格斯旋转公式的详细证明</title><link>https://weilv.space/posts/rodrigues-rotation-formula-proof/</link><guid isPermaLink="true">https://weilv.space/posts/rodrigues-rotation-formula-proof/</guid><description>个人对证明罗德里格斯旋转公式的一点理解</description><pubDate>Sun, 10 Nov 2024 00:00:00 GMT</pubDate><content:encoded>## 1. 引言
+
+对于一个三维向量 $\mathbf{v}$，我们希望将其绕单位旋转轴 $\mathbf{k}$ 旋转角度 $\theta$，得到新的向量 $\mathbf{v&apos;}$。罗德里格斯旋转公式给出了这个旋转的显式表达：
+
+$$
+\mathbf{v&apos;} = \mathbf{v}\cos\theta + (\mathbf{k} \times \mathbf{v})\sin\theta + \mathbf{k}(\mathbf{k} \cdot \mathbf{v})(1 - \cos\theta)
+$$
+
+## 2. 前期准备
+
+在推导之前，我们需要了解以下向量运算：
+
+- **向量点积（内积）**：$\mathbf{a} \cdot \mathbf{b}$
+- **向量叉积（外积）**：$\mathbf{a} \times \mathbf{b}$
+- **向量的分解**：任意向量可分解为平行于某单位向量 $\mathbf{k}$ 和垂直于 $\mathbf{k}$ 的分量。
+
+## 3. 向量的分解
+
+给定单位向量 $\mathbf{k}$，将向量 $\mathbf{v}$ 分解为：
+
+$$
+\mathbf{v} = \mathbf{v}_{\parallel} + \mathbf{v}_{\perp}
+$$
+
+其中：
+
+- 平行分量：$\mathbf{v}_{\parallel} = (\mathbf{v} \cdot \mathbf{k})\mathbf{k}$
+- 垂直分量：$\mathbf{v}_{\perp} = \mathbf{v} - \mathbf{v}_{\parallel}$
+
+## 4. 旋转垂直分量
+
+由于 $\mathbf{v}_{\parallel}$ 与旋转轴方向相同，在旋转过程中保持不变。我们只需处理 $\mathbf{v}_{\perp}$ 的旋转。
+
+### 4.1 旋转向量推导
+
+在垂直于 $\mathbf{k}$ 的平面内，向量 $\mathbf{v}_{\perp}$ 绕 $\mathbf{k}$ 旋转角度 $\theta$。为了理解旋转后的向量表达式，我们可以借助旋转矩阵和叉积的性质。
+
+#### **步骤 1：定义平面内的正交基**
+
+在平面内，选择两个正交单位向量：
+
+- **$\mathbf{e}_1$**：方向与 $\mathbf{v}_{\perp}$ 相同，$\mathbf{e}_1 = \dfrac{\mathbf{v}_{\perp}}{|\mathbf{v}_{\perp}|}$
+- **$\mathbf{e}_2$**：由 $\mathbf{k}$ 和 $\mathbf{v}_{\perp}$ 的叉积得到，$\mathbf{e}_2 = \dfrac{\mathbf{k} \times \mathbf{v}_{\perp}}{|\mathbf{v}_{\perp}|}$
+
+这两个单位向量在平面内且正交。
+
+#### **步骤 2：表示旋转操作**
+
+在这个基底下，$\mathbf{v}_{\perp}$ 可以表示为：
+
+$$
+\mathbf{v}_{\perp} = |\mathbf{v}_{\perp}| \mathbf{e}_1
+$$
+
+旋转 $\theta$ 后的向量为：
+
+$$
+\mathbf{v&apos;}_{\perp} = |\mathbf{v}_{\perp}| (\mathbf{e}_1 \cos\theta + \mathbf{e}_2 \sin\theta)
+$$
+
+#### **步骤 3：替换回原始向量形式**
+
+替换 $\mathbf{e}_1$ 和 $\mathbf{e}_2$：
+
+$$
+\begin{align*}
+\mathbf{v&apos;}_{\perp} &amp;= |\mathbf{v}_{\perp}| \left( \dfrac{\mathbf{v}_{\perp}}{|\mathbf{v}_{\perp}|} \cos\theta + \dfrac{\mathbf{k} \times \mathbf{v}_{\perp}}{|\mathbf{v}_{\perp}|} \sin\theta \right) \\
+&amp;= \mathbf{v}_{\perp} \cos\theta + (\mathbf{k} \times \mathbf{v}_{\perp}) \sin\theta
+\end{align*}
+$$
+
+因此，旋转后的向量 $\mathbf{v&apos;}_{\perp}$ 可以表示为上述公式。
+
+#### **几何直观解释**
+
+- **$\mathbf{v}_{\perp} \cos\theta$**：原始向量在旋转后新的方向上的投影。
+- **$(\mathbf{k} \times \mathbf{v}_{\perp}) \sin\theta$**：原始向量在旋转过程中产生的垂直分量，方向由叉积确定。
+
+通过这两个分量的合成，就得到了旋转后的向量 $\mathbf{v&apos;}_{\perp}$。
+
+## 5. 合成新的向量
+
+旋转后的向量为：
+
+$$
+\mathbf{v&apos;} = \mathbf{v}_{\parallel} + \mathbf{v&apos;}_{\perp}
+$$
+
+展开并替换 $\mathbf{v}_{\perp}$：
+
+$$
+\begin{align*}
+\mathbf{v&apos;} &amp;= \mathbf{v}_{\parallel} + \mathbf{v}_{\perp}\cos\theta + (\mathbf{k} \times \mathbf{v}_{\perp})\sin\theta \\
+&amp;= \mathbf{v}_{\parallel} + (\mathbf{v} - \mathbf{v}_{\parallel})\cos\theta + (\mathbf{k} \times (\mathbf{v} - \mathbf{v}_{\parallel}))\sin\theta
+\end{align*}
+$$
+
+由于 $\mathbf{k} \times \mathbf{v}_{\parallel} = \mathbf{0}$，简化后得：
+
+$$
+\mathbf{v&apos;} = \mathbf{v}\cos\theta + (\mathbf{k} \times \mathbf{v})\sin\theta + \mathbf{v}_{\parallel}(1 - \cos\theta)
+$$
+
+替换 $\mathbf{v}_{\parallel}$：
+
+$$
+\mathbf{v&apos;} = \mathbf{v}\cos\theta + (\mathbf{k} \times \mathbf{v})\sin\theta + \mathbf{k}(\mathbf{k} \cdot \mathbf{v})(1 - \cos\theta)
+$$
+
+## 6. 矩阵指数形式的推导
+
+### 6.1 旋转操作的矩阵表示
+
+旋转操作可以用矩阵表示。对于绕单位向量 $\mathbf{k}$ 旋转角度 $\theta$，旋转矩阵 $\mathbf{R}$ 可以通过矩阵指数形式表示：
+
+$$
+\mathbf{R} = e^{\mathbf{K}\theta}
+$$
+
+其中，$\mathbf{K}$ 是 $\mathbf{k}$ 对应的反对称矩阵（叉积矩阵）：
+
+$$
+\mathbf{K} = \begin{pmatrix}
+0 &amp; -k_z &amp; k_y \\
+k_z &amp; 0 &amp; -k_x \\
+-k_y &amp; k_x &amp; 0 \\
+\end{pmatrix}
+$$
+
+### 6.2 矩阵指数的泰勒展开
+
+矩阵指数可以展开为：
+
+$$
+e^{\mathbf{K}\theta} = \mathbf{I} + \mathbf{K}\theta + \frac{1}{2!}(\mathbf{K}\theta)^2 + \frac{1}{3!}(\mathbf{K}\theta)^3 + \cdots
+$$
+
+由于 $\mathbf{K}$ 的性质（$\mathbf{K}$ 是反对称矩阵，且 $\mathbf{K}^3 = -\mathbf{K}\theta^2$），我们可以将高次项进行合并。
+
+### 6.3 计算 $\mathbf{K}$ 的幂
+
+利用 $\mathbf{K}$ 的性质：
+
+- **反对称性**：$\mathbf{K}^\mathrm{T} = -\mathbf{K}$
+- **平方性质**：$\mathbf{K}^2 = -(\mathbf{k} \cdot\mathbf{k})\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}$，由于 $\mathbf{k}$ 是单位向量，因此 $\mathbf{k} \cdot\mathbf{k} = 1$，所以：
+
+$$
+\mathbf{K}^2 = -\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}
+$$
+
+- **更高次幂**：
+
+$$
+\mathbf{K}^3 = \mathbf{K} \cdot\mathbf{K}^2 = \mathbf{K}(-\mathbf{I} + \mathbf{k}\mathbf{k}^\mathrm{T}) = -\mathbf{K} + \mathbf{K}\mathbf{k}\mathbf{k}^\mathrm{T}
+$$
+
+  由于 $\mathbf{K}\mathbf{k} = \mathbf{0}$（因为 $\mathbf{K}$ 与 $\mathbf{k}$ 平行），所以 $\mathbf{K}^3 = -\mathbf{K}$。
+
+其中，$\mathbf{I}$ 是单位矩阵，$\mathbf{k}\mathbf{k}^\mathrm{T}$ 是 $\mathbf{k}$ 的外积矩阵。
+
+### 6.4 合并矩阵指数
+
+将矩阵指数展开，并利用 $\mathbf{K}$ 的幂次性质：
+
+$$
+\begin{align*}
+e^{\mathbf{K}\theta} &amp;= \mathbf{I} + \mathbf{K}\theta + \frac{1}{2!}(\mathbf{K}\theta)^2 + \frac{1}{3!}(\mathbf{K}\theta)^3 + \cdots \\
+&amp;= \mathbf{I} + \mathbf{K}\theta - \frac{1}{2!}(\mathbf{I} - \mathbf{k}\mathbf{k}^\mathrm{T})\theta^2 - \frac{1}{3!}\mathbf{K}\theta^3 + \cdots
+\end{align*}
+$$
+
+将同类项合并，得到：
+
+$$
+e^{\mathbf{K}\theta} = \mathbf{I} + \sin\theta \mathbf{K} + (1 - \cos\theta)(\mathbf{k}\mathbf{k}^\mathrm{T} - \mathbf{I})
+$$
+
+### 6.5 应用于向量 $\mathbf{v}$
+
+旋转后的向量为：
+
+$$
+\mathbf{v&apos;} = e^{\mathbf{K}\theta} \mathbf{v}
+$$
+
+展开得：
+
+$$
+\begin{align*}
+\mathbf{v&apos;} &amp;= \left( \mathbf{I} + \sin\theta \mathbf{K} + (1 - \cos\theta)(\mathbf{k}\mathbf{k}^\mathrm{T} - \mathbf{I}) \right) \mathbf{v} \\
+&amp;= \mathbf{v} + \sin\theta \mathbf{K}\mathbf{v} + (1 - \cos\theta)(\mathbf{k}\mathbf{k}^\mathrm{T}\mathbf{v} - \mathbf{v})
+\end{align*}
+$$
+
+### 6.6 简化各项
+
+1. **第一项**：$\mathbf{v}$
+2. **第二项**：$\sin\theta \mathbf{K}\mathbf{v} = \sin\theta (\mathbf{k} \times \mathbf{v})$
+3. **第三项**：
+
+   $$
+   (1 - \cos\theta)(\mathbf{k}\mathbf{k}^\mathrm{T}\mathbf{v} - \mathbf{v}) = (1 - \cos\theta)(\mathbf{k}(\mathbf{k} \cdot \mathbf{v}) - \mathbf{v})
+   $$
+
+### 6.7 合并所有项
+
+将所有项相加：
+
+$$
+\begin{align*}
+\mathbf{v&apos;} &amp;= \mathbf{v} + \sin\theta (\mathbf{k} \times \mathbf{v}) + (1 - \cos\theta)(\mathbf{k}(\mathbf{k} \cdot \mathbf{v}) - \mathbf{v}) \\
+&amp;= \mathbf{v} - (1 - \cos\theta)\mathbf{v} + (1 - \cos\theta)\mathbf{k}(\mathbf{k} \cdot \mathbf{v}) + \sin\theta (\mathbf{k} \times \mathbf{v}) \\
+&amp;= \mathbf{v}\cos\theta + (\mathbf{k} \times \mathbf{v})\sin\theta + \mathbf{k}(\mathbf{k} \cdot \mathbf{v})(1 - \cos\theta)
+\end{align*}
+$$
+
+这就是罗德里格斯旋转公式。
+
+## 7. 几何直观
+
+- **平行分量保持不变**：$\mathbf{v}_{\parallel}$ 沿旋转轴方向，不受旋转影响。
+- **垂直分量旋转**：$\mathbf{v}_{\perp}$ 在垂直于 $\mathbf{k}$ 的平面内旋转角度 $\theta$。
+- **叉积的作用**：$\mathbf{k} \times \mathbf{v}$ 给出了 $\mathbf{v}$ 在平面内旋转的方向，结合 $\sin\theta$ 达到旋转 $\theta$ 的效果。
+
+
+</content:encoded></item><item><title>机械设计学习笔记——齿轮传动</title><link>https://weilv.space/posts/Machine-Design-gear-transsmission/</link><guid isPermaLink="true">https://weilv.space/posts/Machine-Design-gear-transsmission/</guid><description>希望对你我的机械设计学习之旅有所帮助</description><pubDate>Fri, 08 Nov 2024 00:00:00 GMT</pubDate><content:encoded>## 概述
+
+### 特点
+
+齿轮传动的主要优点：
+
+- 工作可靠，使用寿命长
+- 瞬时传动比为常数
+- 传动效率高
+- 结构紧凑
+- 使用的功率、速度和尺寸范围大
+
+缺点：
+
+- 制造需要专用机床和设备，成本较高
+- 安装精度要求高
+- 精度低时，振动和噪较大
+- 不适用与轴距离较大的传动
+
+### 分类
+
+按轴线相对位置
+
+- 平行轴齿轮传动
+- 相交轴齿轮传动
+- 交错轴齿轮传动
+
+按按封闭程度
+
+- 开式齿轮传动：没有防尘罩或机壳，齿轮完全暴露在外，外界杂物极易侵入，润滑不良，轮齿易磨损，只宜用于低速传动
+- 半开式齿轮传动，装有简单的防护罩，有时把大齿轮部分浸入油池中
+- 闭式齿轮传动：装在经过精确加工且封闭严密的箱体（机匣）内，润滑防护等条件最好，多用于重要的场合（汽车、机床、航空发动机等）
+
+按齿面软硬程度
+
+- 软齿面传动：硬度 $\leq 350 \text{HBW}$
+- 硬齿面传动：硬度 $&gt; 350 \text{HBW}$
+
+按使用情况
+
+- 动力齿轮：动力传输，高速重载或低速重载
+- 传动齿轮：运动准确，轻载高精度
+
+### 精度及其选择
+
+[齿轮精度等级及其选择](https://www.mechtool.cn/geardrive/geardrive_gearaccuracygradeanditsselection.html)
+
+## 齿轮传动的失效形式及设计准则
+
+### 失效形式
+
+齿轮传动的失效主要是轮齿的失效，主要分为轮齿折断和齿面损伤两大类
+齿面损伤又有点蚀，磨损，胶合，塑性流动
+
+#### 轮齿折断
+
+齿轮折断通常是闭式硬齿面齿轮传动和开式齿轮传的经典失效形式
+折断情况：
+
+- 正常工况下，齿根处弯曲应力最大，且齿根过渡形状突变以及加工刀痕引起应力集中，部分将在齿根处产生疲劳裂纹，齿根的循环弯曲应力超过其疲劳极限时，裂纹逐步扩展致使轮齿疲劳折断。（一般发生在受拉应力的部分）
+- 突加载荷作用下过载折断。
+- 严重磨损导致齿厚过分减薄，也会在名义载荷作用下发生折断。
+
+折断扩展方式：
+
+- 齿宽较小的直齿圆柱齿轮：整齿折断（从齿根沿着横向扩展）。
+- 齿宽较大的直齿圆柱齿轮：局部折断（从齿根斜向齿顶的方向扩展）。
+- 斜齿圆柱齿轮、人字齿圆柱齿轮：局部折断（从齿根斜向齿顶的方向扩展）。
+
+应对措施：
+
+- 采用正变位齿轮，增加齿根的强度。
+- 使齿根过渡曲线变化更为平缓及消除加工刀痕，减小齿根应力集中。
+- 增大轴及支承的刚性，使轮齿接触线上的受载较为均匀。
+- 采用合适的热处理方法使齿芯材料具有足够的韧性。
+- 采用喷丸、滚压等工艺措施对齿根表层进行强化处理。（喷丸+光整）
+
+#### 齿面磨损
+
+开式齿轮传动的主要失效形式之一。
+主要因为齿面摩擦或啮合齿面落入磨料性物质（砂粒，铁屑等），磨损会引起齿廓变形和齿厚减薄，产生振动和噪声，甚至因轮齿过薄而断裂。
+
+措施：
+
+- 采用闭式齿轮传动。
+- 提高齿面硬度。
+- 降低齿面粗糙度值。
+- 注意保持润滑油清洁。
+
+#### 齿面点蚀
+
+齿面点蚀是闭式软齿面齿轮传动的主要失效形式。（开式齿轮传动由于齿面磨损较快，一般发生齿面磨损，来不及发生点蚀）
+
+齿轮工作时，在循环应力（脉动循环，$r=0$）、齿面摩擦力及润滑剂的反复作用下，在齿面或其表层内会产生微小的裂纹。这些裂纹继续扩展，相互连接，形成小片并脱落，在齿面上出现细碎的凹坑或麻点，从而造成齿面损伤，称为疲劳点蚀。润滑油是接触疲劳磨损的媒介。
+
+收敛性点蚀：
+
+- 新齿轮在短期工作后出现的点蚀痕迹，继续工作不再发展或反而消失。只发生在软齿面上。
+
+扩展性点蚀：
+
+- 随着工作时间的延长而继续扩展的点蚀。点蚀往往首先出现在靠近节线的齿根面上，然后再向其他部位扩展，靠近节线处的齿根面抵抗点蚀破坏的能力最弱。
+
+齿面点蚀往往首先发生在靠近节线的齿根面上的原因：
+
+- 轮齿在节线附近啮合，同时啮合齿对数少，接触应力大
+- 节线附近啮合时，相对滑动速度小，润滑油膜不易形成
+- 润滑油浸入裂纹，产生油压，加快裂纹扩展。（润滑油年度越低，越容易浸入）
+
+措施：
+
+- 提高齿轮材料的硬度。
+- 降低表面粗糙度值。
+- 加注（合理限度内）高黏度的润滑油。
+- 减小动载荷。
+
+对于硬齿面齿轮，一般不易出现点蚀，一旦出现，，由于齿面硬，脆,,快速形成扩展性点蚀
+
+#### 齿面胶合
+
+由于齿面间未能有效地形成润滑油膜，导致齿面金属直接接触，并在随后的相对滑动中，相互粘连的金属沿着相对滑动方向相互撕扯而出现 `&lt;span style=&quot;color: red;&quot;&gt;`一条条划痕。齿面胶合会引起振动和噪声，导致齿轮传动性能下降，甚至失效。
+
+齿面热胶合：
+
+- 因摩擦导致局部温度上升、油膜破裂，造成齿面金属直接接触并相互黏着（高速重载齿轮）。
+
+齿面冷胶合：
+
+- 齿面间压力很高，导致油膜破裂而使金属黏着（低速重载， $v &lt; 4 \text{m/s}$）。
+
+措施：
+
+- 采用正变位齿轮。
+- 减小模数。
+- 降低齿高以减小滑动速度。
+- 提高齿面硬度并使配对齿轮有一定硬度差。
+- 降低齿面粗糙度值。
+- 采用抗胶合能力强的齿轮材料。
+- 在润滑油中加入抗胶合能力强的极压添加剂。
+
+#### 塑性变形
+
+轮齿材料过软，轮齿上的载荷所产生的应力超过材料的屈服极限，则轮齿出现塑性变形。沿摩擦力作用方向发生金属塑形流动：主动轮的轮齿上，齿面金属的流动导致节线处下凹；从动轮轮齿上，齿面金属的流动导致节线处凸起。
+
+措施：
+
+- 提高轮齿齿面硬度。
+- 采用高黏度的或加油极压添加剂的润滑油。
+
+其他措施
+
+- 选配主、从动齿轮的材料及硬度。
+- 适当的磨合（跑合）。
+- 选用合适的润滑剂及润滑方法等。
+
+### 设计准则
+
+保证足够的齿根弯曲疲劳强度，以免发生齿根折断
+保证足够的齿面接触疲劳强度，以免发生齿面点蚀
+对高速重载齿轮传动，除以上两设计准则外，还应按齿面抗胶合能力的准则进行设计。
+
+| **传动类型**     | **主要失效形式** | **设计准则**                                                   |
+| ---------------------- | ---------------------- | -------------------------------------------------------------------- |
+| 闭式齿轮传动（软齿面） | 齿面点蚀               | 按齿面接触疲劳强度进行设计，校核齿根弯曲疲劳强度                     |
+| 闭式齿轮传动（硬齿面） | 轮齿折断               | 按齿根弯曲疲劳强度进行设计，校核齿面接触疲劳强度                     |
+| 开式齿轮传动           | 齿面磨损、轮齿折断     | 只按齿根弯曲疲劳强度进行设计，并用适当增大模数的方法来考虑磨损的影响 |
+| 高速大功率齿轮传动     | 齿面胶合               | 除保证接触疲劳强度和弯曲疲劳强度外，还须按抗胶合力进行计算           |
+
+## 齿轮的常用材料及其热处理
+
+### 齿轮材料
+
+齿轮的轮齿应有较高的抗折断能力，齿面应有较强的抗点蚀、抗磨损和较高的抗胶合能力，即 `&lt;span style=&quot;color: red;&quot;&gt;`齿面要硬 齿芯要韧。
+
+#### **钢**
+
+- **锻钢**（0.15% ~ 0.6%的碳钢或合金钢）
+  - 一般用途齿轮用碳素钢，重要齿轮用合金钢
+  - 软齿面，正火或调质处理后切齿，精度，8 级（一般）7 级（精切）
+  - 硬齿面，调质或正火后切齿，表面硬化（深潭，渗氮或碳氮共渗），精度4，5级
+- **铸钢**
+  - 耐磨性及强度较好，常用于大尺寸(顶圆直径 $d \geq 400mm$)齿轮
+  - 退火、正火（进行正火处理以消除残余应力和硬度不均匀现象）处理，必要时也可进行调质
+
+#### **铸铁**
+
+- 常用于低速、无冲击和大尺寸的场合。
+- 普通灰铸铁的铸造性能和切削性能好、价廉、抗点蚀和抗胶合能力强，有自润滑能力；但弯曲强度低，冲击韧性差。
+- 球墨铸铁的力学性能和抗冲击性能远高于灰铸铁，可替代某些调质钢的大齿轮，
+
+#### **非金属材料**
+
+- 高速、轻载、精度不高的齿轮传动
+- 常用夹布胶木、尼龙等非金属材料做小齿轮，降低噪声
+- 齿面硬度应为 250 ~ 350 HBW
+
+### 齿轮材料的选择原则
+
+- 齿轮材料必须满足工作条件的要求，如强度、寿命、可靠性、经济性等
+- 考虑齿轮尺寸的大小、毛坯成形方式及热处理和制造工艺
+- 正火碳钢：适用于载荷平稳或轻度冲击下工作的齿轮，不能承受大的冲击载荷
+- 调制碳钢：适用于中等冲击载荷下工作的齿轮
+- 合金钢：适用于高速、重载并在冲击载荷下工作的齿轮
+- 飞行器中的齿轮传动：要求齿轮尺寸尽可能小，应采用表面硬化处理的高强度合金钢
+- 金属制的软齿面齿轮：配对两轮齿面的硬度差应保持为 30 ~ 50 HBW 或更多
+
+## 齿轮传动的计算载荷
+
+以法向力 $F_n$ 为例，其计算载荷 $F_{nc}$ 可以表示为：
+
+$$
+F_{nc} = K F_n
+$$
+
+式中，$K$ 为载荷系数，$K_H$ 和 $K_F$ 是接触应力和弯曲应力计算时的载荷系数；
+齿面接触应力计算时：
+
+$$
+K = K_H = K_A K_V K_\beta K_{H\alpha}
+$$
+
+齿根弯曲应力计算时：
+
+$$
+K = K_F = K_A K_V K_\beta K_{F\alpha}
+$$
+
+式中，
+
+- $K_A$ ————使用系数
+- $K_A$————动载系数
+- $K_\beta$————齿向载荷分布系数
+- $K_{H\alpha}、K_{F\alpha}$————齿间载荷分布系数
+
+下面对这四个系数依次进行说明：
+
+### 1. 使用系数 $K_A$
+
+使用系数 $K_A$ 表征齿轮传动中的实际载荷受原动机和工作机特性、质量比、联轴器类型、运动状态的影响。实用值应针对设计对象通过实践确定。参考值可查表获得。
+
+### 2. 动载系数 $K_V$
+
+由于制造与安装误差，以及受载后的变形，导致啮合齿轮的法节（法向齿距）不相等，引起内部附加动载荷。考虑齿轮啮合误差和运转速度等内部因素等内部因素引起的附加动载荷影响的系数。
+影响齿向载荷系数 $K_V $的主要因素有：
+
+- 由基节和齿形偏差产生的传动误差（主要）
+- 齿轮的节圆速度（主要）
+- 轮齿载荷
+- 啮合循环中轮齿啮合刚度的变化
+  其他因素还有磨合效果、润滑油特性、轴承以及箱体支承刚度以及动平衡精度等。
+  动载系数$K_V$可以根据齿轮制造精度和节圆速度进行选取。
+  实践证明，采用轮内修缘（修缘齿），即将靠经轮齿顶部分渐开线适当修削的一种方法，有利于减小内部载荷和噪声。
+
+### 3. 齿向载荷分布系数 $K_\beta$
+
+考虑齿轮工作时，沿齿宽方向载荷分布不均因而对接触应力和齿根弯曲应力影响的系数K。
+影响齿向载荷分布的主要因素有齿轮在轴上的布置方式、支承刚度、齿面硬度、齿宽以及齿轮的制造与安装误差等。
+
+#### 降低载荷沿接触线分布不均的措施
+
+- 增大轴、轴承及支座的刚度
+- 对称地配置轴承
+- 适当地限制齿轮的宽度
+- 尽可能避免齿轮作悬臂布置
+- 齿轮修行，使用鼓形齿
+- 齿轮应布置在远离转矩输入\输出端
+
+### 4. 齿间载荷分布系数 $K_{\alpha}$
+
+齿间载荷分布系数 $K_{\alpha}$ 是一个衡量在齿轮啮合过程中，同时啮合的各对轮齿之间载荷分配不均匀程度的系数。
+
+## 标准直齿轮圆柱齿轮传动强度计算
+
+# 受力分析
+
+假定齿面上的总作用力（法向力，略去齿面间的摩擦力）集中于齿宽中点啮合节点处。
+主动轮传递的转矩
+
+$$
+T = 9.55 \times 10^6 \frac{P}{n}
+$$
+
+式中，$P$——主动轮传递的功率$(kw)$
+
+$n$——主动轮转速$(r/min)$
+
+在驱动力矩作用下，主动轮齿啮合线受到来自从动齿轮的法向力$F_{n1}$作用。在其作用端面内，可以分解成圆周力$F_{t1}$和径向力$F_{r1}$
+
+$$
+F_{t1} = \frac{2T}{d_1}
+$$
+
+$$
+F_{r1=\tan{\alpha}}
+$$
+
+$$
+F_{n1} +\frac{F_{t1}}{\cos{\alpha}}
+$$
+
+方向：
+切向力$F_t$：在主动轮上为工作阻力，其与回转方向相反：在从动轮上为驱动力，与其回转方向相同。
+径向力$F_r$：外齿轮指向其齿轮中心；内齿轮，背离其齿轮中心。
+
+### 齿根弯曲疲劳强度
+</content:encoded></item><item><title>自主探索——Autonomous Exploration Development Environment笔记（一）</title><link>https://weilv.space/posts/autonomous-exploration-development-environment_part_1/</link><guid isPermaLink="true">https://weilv.space/posts/autonomous-exploration-development-environment_part_1/</guid><description>深入了解 CMU Autonomous Exploration Development Environment 的代码结构和实现细节</description><pubDate>Wed, 23 Oct 2024 00:00:00 GMT</pubDate><content:encoded>[官方文档](https://www.cmu-exploration.com/)
+[官方github](https://github.com/HongbiaoZ/autonomous_exploration_development_environment)
+
+## 简介
+CMU机器人研究所于2021年7月开源了一套完整的移动机器人自主导航和探索框架,旨在为地面自主导航和探索提供系统开发和机器人部署支持。  
+包含各种仿真环境、自主导航模块（如避障、地形可通行性分析、路径跟随等）以及一套可视化工具，用户可以开发自主导航系统，并将这些系统移植到真实机器人上进行部署。
+
+## Qick Start
+###  1. 安装依赖
+该库已在 Ubuntu 18.04（ROS Melodic）和 Ubuntu 20.04（ROS Noetic）上测试。
+&gt; ```bash
+&gt; sudo apt update
+&gt; sudo apt install libusb-dev  
+&gt; ```  
+
+###  2. 克隆开源库
+&gt; ```bash
+&gt; git clone https://github.com/HongbiaoZ/autonomous_exploration_development_environment.git  
+&gt; ```  
+
+###  3. 切换到与计算机设置匹配的分支并编译
+&gt; ```bash
+&gt; cd autonomous_exploration_development_environment
+&gt; git checkout distribution  # 将 &apos;distribution&apos; 替换为 &apos;melodic&apos; 或 &apos;noetic&apos;
+&gt; catkin_make  
+&gt; ```  
+
+###  4. 下载仿真环境
+如果脚本未能启动下载，用户可以手动下载[仿真环境](https://drive.google.com/file/d/1GMT8tptb3nAb87F8eFfmIgjma6Bu0reV/view)并将文件解压到 src/vehicle_simulator/meshes 目录中。
+&gt; ```bash
+&gt; ./src/vehicle_simulator/mesh/download_environments.sh  
+&gt; ```  
+
+###  5. 运行仿真环境
+该库包含多种类型和规模的仿真环境。要启动特定环境，
+将 &apos;environment&apos; 替换为环境名称，如 &apos;campus&apos;、&apos;indoor&apos;、&apos;garage&apos;、&apos;tunnel&apos; 和 &apos;forest&apos;。  
+&gt; ```bash
+&gt; source devel/setup.sh
+&gt; roslaunch vehicle_simulator system_environment.launch  
+&gt; ```  
+
+现在可以通过点击 RVIZ 中的 &apos;Waypoint&apos; 按钮并选择一个点来发送航点。车辆将导航到该航点，避开沿途的障碍物。Waypoint应在车辆附近且可到达。  
+</content:encoded></item><item><title>拉普拉斯变换</title><link>https://weilv.space/posts/laplace-trans/</link><guid isPermaLink="true">https://weilv.space/posts/laplace-trans/</guid><description>拉普拉斯变换是一种强大的数学工具，用于将时间域信号转换为复频域信号，从而简化微分方程的求解过程。</description><pubDate>Mon, 21 Oct 2024 00:00:00 GMT</pubDate><content:encoded>## 拉普拉斯变换简介 
+拉普拉斯变换是一种积分变换，主要用于解决微分方程和差分方程。它将一个时间域中的函数$f(t)$转换为复频域中的函数$F(s)$。
+拉普拉斯变换在工程学、物理学和数学中有着广泛的应用，特别是在控制系统理论和信号处理领域。 
+## 定义 
+对于一个定义在$[0, +\infty)$上的函数$f(t)$，其拉普拉斯变换定义为： $F(s) = \mathcal{L}\{f(t)\} = \int_0^\infty e^{-st} f(t) \, dt$ 其中，$s$ 是复变量，通常表示为 $s = \sigma + j\omega$，其中 $\sigma$ 和 $\omega$ 分别是实部和虚部。 
+## 性质 
+1. **线性性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$ 和 $\mathcal{L}\{g(t)\} = G(s)$，则 $\mathcal{L}\{a f(t) + b g(t)\} = a F(s) + b G(s)$ 其中，$a$ 和 $b$ 是常数。
+   - **证明**：利用拉普拉斯变换的定义：
+     $$ 
+     \mathcal{L}\{a f(t) + b g(t)\} = \int_0^\infty (a f(t) + b g(t)) e^{-st} \, dt 
+     $$ 
+     $$ 
+     = a \int_0^\infty f(t) e^{-st} \, dt + b \int_0^\infty g(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = a F(s) + b G(s) 
+     $$  
+
+2. **时移性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$，则 $\mathcal{L}\{f(t - a) u(t - a)\} = e^{-as} F(s)$ 其中，$u(t)$ 是单位阶跃函数。
+   - **证明**：利用拉普拉斯变换的定义和变量替换：
+     $$ 
+     \mathcal{L}\{f(t - a) u(t - a)\} = \int_0^\infty f(t - a) u(t - a) e^{-st} \, dt 
+     $$  
+     令 $\tau = t - a$，则 $d\tau = dt$，当 $t = a$ 时，$\tau = 0$，当 $t \to \infty$ 时，$\tau \to \infty$：
+     $$ 
+     = \int_0^\infty f(\tau) e^{-s(\tau + a)} \, d\tau 
+     $$  
+     $$ 
+     = e^{-as} \int_0^\infty f(\tau) e^{-s\tau} \, d\tau 
+     $$  
+     $$ 
+     = e^{-as} F(s) 
+     $$  
+
+3. **频移性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$，则 $\mathcal{L}\{e^{at} f(t)\} = F(s - a)$ 
+   - **证明**：利用拉普拉斯变换的定义和变量替换：
+     $$ 
+     \mathcal{L}\{e^{at} f(t)\} = \int_0^\infty e^{at} f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = \int_0^\infty f(t) e^{-(s - a)t} \, dt 
+     $$  
+     $$ 
+     = F(s - a) 
+     $$  
+
+4. **微分性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$，则 $\mathcal{L}\{f&apos;(t)\} = sF(s) - f(0)$ $\mathcal{L}\{f&apos;&apos;(t)\} = s^2 F(s) - sf(0) - f&apos;(0)$ 
+   - **证明**：利用分部积分法：
+     $$ 
+     \mathcal{L}\{f&apos;(t)\} = \int_0^\infty f&apos;(t) e^{-st} \, dt 
+     $$  
+     令 $u = e^{-st}$，$dv = f&apos;(t) dt$，则 $du = -se^{-st} dt$，$v = f(t)$：
+     $$ 
+     = \left[ f(t) e^{-st} \right]_0^\infty + s \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = -f(0) + sF(s) 
+     $$  
+     对于 $\mathcal{L}\{f&apos;&apos;(t)\}$，同理可得：
+     $$ 
+     \mathcal{L}\{f&apos;&apos;(t)\} = s \mathcal{L}\{f&apos;(t)\} - f&apos;(0) 
+     $$  
+     $$ 
+     = s(sF(s) - f(0)) - f&apos;(0) 
+     $$  
+     $$ 
+     = s^2 F(s) - sf(0) - f&apos;(0) 
+     $$  
+
+5. **积分性质**： 如果 $\mathcal{L}\{f(t)\} = F(s)$，则 $\mathcal{L}\left\{\int_0^t f(\tau) \, d\tau\right\} = \frac{1}{s} F(s)$ 
+   - **证明**：利用拉普拉斯变换的定义和分部积分法：
+     $$ 
+     \mathcal{L}\left\{\int_0^t f(\tau) \, d\tau\right\} = \int_0^\infty \left( \int_0^t f(\tau) \, d\tau \right) e^{-st} \, dt 
+     $$  
+     令 $F(t) = \int_0^t f(\tau) \, d\tau$，则 $F&apos;(t) = f(t)$：
+     $$ 
+     = \int_0^\infty F(t) e^{-st} \, dt 
+     $$  
+     利用分部积分法，令 $u = F(t)$，$dv = e^{-st} dt$，则 $du = f(t) dt$，$v = -\frac{1}{s} e^{-st}$：
+     $$ 
+     = \left[ F(t) \left( -\frac{1}{s} e^{-st} \right) \right]_0^\infty + \frac{1}{s} \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = 0 + \frac{1}{s} F(s) 
+     $$  
+     $$ 
+     = \frac{1}{s} F(s) 
+     $$  
+
+6. **卷积定理**： 如果 $\mathcal{L}\{f(t)\} = F(s)$ 和 $\mathcal{L}\{g(t)\} = G(s)$，则 $\mathcal{L}\{(f * g)(t)\} = F(s) G(s)$ 其中，$(f * g)(t) = \int_0^t f(\tau) g(t - \tau) \, d\tau$ 是 $f(t)$ 和 $g(t)$ 的卷积。
+   - **证明**：利用拉普拉斯变换的定义和变量替换：
+     $$ 
+     \mathcal{L}\{(f * g)(t)\} = \int_0^\infty \left( \int_0^t f(\tau) g(t - \tau) \, d\tau \right) e^{-st} \, dt 
+     $$  
+     交换积分次序：
+     $$ 
+     = \int_0^\infty \int_0^t f(\tau) g(t - \tau) e^{-st} \, d\tau \, dt 
+     $$  
+     令 $u = t - \tau$，则 $du = dt$，当 $t = \tau$ 时，$u = 0$，当 $t \to \infty$ 时，$u \to \infty$：
+     $$ 
+     = \int_0^\infty f(\tau) \left( \int_0^\infty g(u) e^{-s(\tau + u)} \, du \right) \, d\tau 
+     $$  
+     $$ 
+     = \int_0^\infty f(\tau) e^{-s\tau} \left( \int_0^\infty g(u) e^{-su} \, du \right) \, d\tau 
+     $$  
+     $$ 
+     = F(s) G(s) 
+     $$  
+
+7. **初值定理**：如果 $f(t)$ 在 $t=0$ 处连续，则有： 
+     $$ 
+     \lim_{t \to 0^+} f(t) = \lim_{s \to \infty} sF(s) 
+     $$  
+   - **证明**：利用拉普拉斯变换的定义：
+     $$ 
+     \mathcal{L}\{f(t)\} = \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     当 $s \to \infty$ 时，$e^{-st} \to 0$，则：
+     $$ 
+     sF(s) = s \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = \int_0^\infty f(t) s e^{-st} \, dt 
+     $$  
+     当 $t \to 0^+$ 时，$s e^{-st} \to 1$，则：
+     $$ 
+     \lim_{s \to \infty} sF(s) = f(0) 
+     $$  
+
+8. **终值定理**：如果 $\lim_{t \to \infty} f(t)$ 存在且有限，则有： 
+     $$ 
+     \lim_{t \to \infty} f(t) = \lim_{s \to 0} sF(s) 
+     $$  
+   注：极限必须存在
+   - **证明**：利用拉普拉斯变换的定义：
+     $$ 
+     \mathcal{L}\{f(t)\} = \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     当 $s \to 0$ 时，$e^{-st} \to 1$，则：
+     $$ 
+     sF(s) = s \int_0^\infty f(t) e^{-st} \, dt 
+     $$  
+     $$ 
+     = \int_0^\infty f(t) s e^{-st} \, dt 
+     $$  
+     当 $t \to \infty$ 时，$s e^{-st} \to 0$，则：
+     $$ 
+     \lim_{s \to 0} sF(s) = \lim_{t \to \infty} f(t) 
+     $$  
+## 常见函数的拉普拉斯变换
+
+| 函数 $f(t)$ | 拉普拉斯变换 $\mathcal{L}\{f(t)\}$ |
+|-------------|------------------------------------|
+| 单位阶跃函数 $u(t)$ | $\frac{1}{s}$ |
+| 指数函数 $e^{-at}$ | $\frac{1}{s + a}$ |
+| 正弦函数 $\sin(bt)$ | $\frac{b}{s^2 + b^2}$ |
+| 余弦函数 $\cos(bt)$ | $\frac{s}{s^2 + b^2}$ |
+| 幂函数 $t^n$ | $\frac{n!}{s^{n+1}}$ |
+| $\delta$ 函数 | $1$ |
+| $n$ 阶导数 $f^{(n)}(t)$ | $s^n F(s) - s^{n-1}f(0) - s^{n-2}f&apos;(0) - \cdots - sf^{(n-2)}(0) - f^{(n-1)}(0)$ |
+| 多次积分 $\int_0^t \int_0^{t_1} \cdots \int_0^{t_{n-1}} f(t_n) dt_n \cdots dt_1$ | $\frac{1}{s^n}F(s)$ |  
+
+
+#### 1. 单位阶跃函数 $u(t)$ 
+单位阶跃函数定义为： $u(t) = \begin{cases} 0 &amp; t &lt; 0 \\ 1 &amp; t \geq 0 \end{cases}$ 其拉普拉斯变换为: $$\mathcal{L}\{u(t)\} = \int_0^\infty e^{-st} \cdot 1 \, dt = \left[ -\frac{1}{s} e^{-st} \right]_0^\infty = \frac{1}{s}$$
+#### 2. 指数函数 $e^{-at}$ 
+对于指数衰减函数 $e^{-at}$，其拉普拉斯变换为： $$\mathcal{L}\{e^{-at}\} = \int_0^\infty e^{-st} e^{-at} \, dt = \int_0^\infty e^{-(s+a)t} \, dt = \left[ -\frac{1}{s+a} e^{-(s+a)t} \right]_0^\infty = \frac{1}{s + a}$$
+#### 3. 正弦函数 $\sin(bt)$ 
+正弦函数的拉普拉斯变换可以通过欧拉公式 $e^{ix} = \cos(x) + i\sin(x)$ 获得： $$\mathcal{L}\{\sin(bt)\} = \mathcal{L}\left\{\frac{e^{ibt} - e^{-ibt}}{2i}\right\} = \frac{1}{2i} \left( \frac{1}{s-ib} - \frac{1}{s+ib} \right) = \frac{b}{s^2 + b^2} $$ 
+#### 4. 余弦函数 $\cos(bt)$
+类似地，余弦函数的拉普拉斯变换为： $$\mathcal{L}\{\cos(bt)\} = \mathcal{L}\left\{\frac{e^{ibt} + e^{-ibt}}{2}\right\} = \frac{1}{2} \left( \frac{1}{s-ib} + \frac{1}{s+ib} \right) = \frac{s}{s^2 + b^2}$$ 
+#### 5. 幂函数 $t^n$
+幂函数的拉普拉斯变换可以使用分部积分法得到： $\mathcal{L}\{t^n\} = \int_0^\infty t^n e^{-st} \, dt$ 通过分部积分，我们有： $$\mathcal{L}\{t^n\} = \left[ -\frac{t^n}{s} e^{-st} \right]_0^\infty + \frac{n}{s} \int_0^\infty t^{n-1} e^{-st} \, dt = \frac{n}{s} \mathcal{L}\{t^{n-1}\}$$ 递归应用此结果直到 $n=0$，最终得到： $\mathcal{L}\{t^n\} = \frac{n!}{s^{n+1}}$ 
+#### 6. $\delta$ 函数 
+$\delta$ 函数（狄拉克δ函数）是一个广义函数，表示一个在所有点上都为零，但在原点处无限高的脉冲。它的拉普拉斯变换为： $$\mathcal{L}\{\delta(t)\} = \int_{-\infty}^{\infty} \delta(t) e^{-st} \, dt = 1$$ 这是因为 $\delta(t)$ 在 $t=0$ 时的积分等于$1$。 
+#### 7. $n$ 阶导数
+$n$ 阶导数的拉普拉斯变换考虑了初始条件，表达式如下： $$\mathcal{L}\{f^{(n)}(t)\} = s^n F(s) - s^{n-1}f(0) - s^{n-2}f&apos;(0) - \cdots - sf^{(n-2)}(0) - f^{(n-1)}(0)$$ 这里，$F(s)$ 是 $f(t)$ 的拉普拉斯变换，$f(0), f&apos;(0), \ldots, f^{(n-1)}(0)$ 是 $f(t)$ 及其各阶导数在 $t=0$ 时的值。 
+#### 8.多次积分
+对于多次积分，其拉普拉斯变换可以表示为： $$\mathcal{L}\left\{\int_0^t \int_0^{t_1} \cdots \int_0^{t_{n-1}} f(t_n) dt_n \cdots dt_1\right\} = \frac{1}{s^n}F(s)$$ 这里 $F(s)$ 是 $f(t)$ 的拉普拉斯变换。这个结果可以通过重复应用拉普拉斯变换的一阶积分性质来证明。一阶积分的拉普拉斯变换是 $\mathcal{L}\left\{\int_0^t f(\tau)d\tau\right\} = \frac{1}{s}F(s)$，因此对于 $n$ 次积分，就是将这个过程重复 $n$ 次，从而得到上述结果。  
+  
+  </content:encoded></item><item><title>京东京造G96机械键盘说明书</title><link>https://weilv.space/posts/JD_G96_Mechanical_Keyboard_Manual/</link><guid isPermaLink="true">https://weilv.space/posts/JD_G96_Mechanical_Keyboard_Manual/</guid><description>京东京造G96机械键盘说明</description><pubDate>Tue, 01 Oct 2024 00:00:00 GMT</pubDate><content:encoded>&lt;embed src=&quot;https://dd-static.jd.com/dd-file/9BA1477F-FE8F-4F7D-8796-49DEF34BB486.pdf?Expires=3847791460&amp;AccessKey=rNTo3WeCgiX8gBnf&amp;Signature=3CBnyn4TjA5PbHFboBJCC09oADE%3D&quot; type=&quot;application/pdf&quot; width=&quot;100%&quot; height=&quot;600px&quot; /&gt;
+</content:encoded></item></channel></rss>
