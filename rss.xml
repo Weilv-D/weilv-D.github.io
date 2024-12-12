@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>未来回忆录</title><description>我的时空褶皱</description><link>https://weilv.space/</link><item><title>自主探索——Autonomous Exploration Development Environment笔记（一）</title><link>https://weilv.space/posts/autonomous-exploration-development-environment_part_1/</link><guid isPermaLink="true">https://weilv.space/posts/autonomous-exploration-development-environment_part_1/</guid><description>深入了解 CMU Autonomous Exploration Development Environment 的代码结构和实现细节</description><pubDate>Wed, 23 Oct 2024 00:00:00 GMT</pubDate><content:encoded>[官方文档](https://www.cmu-exploration.com/)
+[官方github](https://github.com/HongbiaoZ/autonomous_exploration_development_environment)
+
+## 简介
+CMU机器人研究所于2021年7月开源了一套完整的移动机器人自主导航和探索框架,旨在为地面自主导航和探索提供系统开发和机器人部署支持。  
+包含各种仿真环境、自主导航模块（如避障、地形可通行性分析、路径跟随等）以及一套可视化工具，用户可以开发自主导航系统，并将这些系统移植到真实机器人上进行部署。
+
+## Qick Start
+###  1. 安装依赖
+该库已在 Ubuntu 18.04（ROS Melodic）和 Ubuntu 20.04（ROS Noetic）上测试。
+&gt; ```bash
+&gt; sudo apt update
+&gt; sudo apt install libusb-dev  
+&gt; ```  
+
+###  2. 克隆开源库
+&gt; ```bash
+&gt; git clone https://github.com/HongbiaoZ/autonomous_exploration_development_environment.git  
+&gt; ```  
+
+###  3. 切换到与计算机设置匹配的分支并编译
+&gt; ```bash
+&gt; cd autonomous_exploration_development_environment
+&gt; git checkout distribution  # 将 &apos;distribution&apos; 替换为 &apos;melodic&apos; 或 &apos;noetic&apos;
+&gt; catkin_make  
+&gt; ```  
+
+###  4. 下载仿真环境
+如果脚本未能启动下载，用户可以手动下载[仿真环境](https://drive.google.com/file/d/1GMT8tptb3nAb87F8eFfmIgjma6Bu0reV/view)并将文件解压到 src/vehicle_simulator/meshes 目录中。
+&gt; ```bash
+&gt; ./src/vehicle_simulator/mesh/download_environments.sh  
+&gt; ```  
+
+###  5. 运行仿真环境
+该库包含多种类型和规模的仿真环境。要启动特定环境，
+将 &apos;environment&apos; 替换为环境名称，如 &apos;campus&apos;、&apos;indoor&apos;、&apos;garage&apos;、&apos;tunnel&apos; 和 &apos;forest&apos;。  
+&gt; ```bash
+&gt; source devel/setup.sh
+&gt; roslaunch vehicle_simulator system_environment.launch  
+&gt; ```  
+
+现在可以通过点击 RVIZ 中的 &apos;Waypoint&apos; 按钮并选择一个点来发送航点。车辆将导航到该航点，避开沿途的障碍物。Waypoint应在车辆附近且可到达。  
+</content:encoded></item><item><title>京东京造G96机械键盘说明书</title><link>https://weilv.space/posts/JD_G96_Mechanical_Keyboard_Manual/</link><guid isPermaLink="true">https://weilv.space/posts/JD_G96_Mechanical_Keyboard_Manual/</guid><description>京东京造G96机械键盘说明</description><pubDate>Tue, 01 Oct 2024 00:00:00 GMT</pubDate><content:encoded>&lt;embed src=&quot;https://dd-static.jd.com/dd-file/9BA1477F-FE8F-4F7D-8796-49DEF34BB486.pdf?Expires=3847791460&amp;AccessKey=rNTo3WeCgiX8gBnf&amp;Signature=3CBnyn4TjA5PbHFboBJCC09oADE%3D&quot; type=&quot;application/pdf&quot; width=&quot;100%&quot; height=&quot;600px&quot; /&gt;
+</content:encoded></item></channel></rss>
