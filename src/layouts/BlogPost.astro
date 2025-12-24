@@ -4,14 +4,17 @@ import BaseLayout from './BaseLayout.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category, tags } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
 	<article class="prose dark:prose-invert prose-lg max-w-none animate-fade-in-up">
         <header class="mb-10 not-prose">
-            <div class="text-sm text-[var(--color-secondary)] mb-4 flex items-center gap-2">
-                <time datetime={pubDate.toISOString()}>
+            <div class="flex flex-wrap items-center gap-4 mb-6 text-sm">
+                <span class="px-3 py-1 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] font-medium text-[var(--color-primary)]">
+                    {category}
+                </span>
+                <time datetime={pubDate.toISOString()} class="text-[var(--color-secondary)]">
                     {pubDate.toLocaleDateString('en-us', {
                         year: 'numeric',
                         month: 'long',
@@ -19,12 +22,24 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
                     })}
                 </time>
                 {updatedDate && (
-                    <span class="italic text-xs bg-[var(--color-surface)] px-2 py-0.5 rounded-full border border-[var(--color-border)]">
-                        Updated
+                    <span class="italic text-xs text-[var(--color-secondary)]">
+                        (Updated: {updatedDate.toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })})
                     </span>
                 )}
             </div>
+            
             <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight text-[var(--color-primary)]">{title}</h1>
+            
+            {tags && tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-8">
+                    {tags.map(tag => (
+                        <a href={`${import.meta.env.BASE_URL}tags/${tag}`} class="text-sm text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors">
+                            #{tag}
+                        </a>
+                    ))}
+                </div>
+            )}
+
             {heroImage && (
                 <div class="relative aspect-video overflow-hidden rounded-xl shadow-lg mb-8">
                     <img src={heroImage} alt="" class="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
