@@ -7,7 +7,6 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://weilv-d.github.io',
-  base: '/WeilvBlog/',
   integrations: [
     tailwind(),
     react(),
