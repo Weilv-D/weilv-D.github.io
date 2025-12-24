@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="文章 | 未来回忆录" description="weilv的所有文章">
+	<section>
+		<h1 class="text-4xl font-serif font-bold mb-12">所有文章</h1>
+		<div class="space-y-12">
+			{posts.map((post, index) => (
+				<article class={`flex flex-col md:flex-row gap-4 md:gap-8 items-baseline group animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
+                    <div class="md:w-1/4 text-sm text-[var(--color-secondary)] flex flex-col md:items-end">
+                        <time datetime={post.data.pubDate.toISOString()}>
+                            {post.data.pubDate.toLocaleDateString('en-us', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                            })}
+                        </time>
+                        <span class="hidden md:inline mt-1 text-xs uppercase tracking-wider opacity-70">{post.data.category}</span>
+                    </div>
+					<div class="md:w-3/4">
+                        <a href={`/blog/${post.slug}`} class="block">
+                            <h2 class="text-2xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors">
+                                {post.data.title}
+                            </h2>
+                            <p class="text-[var(--color-secondary)] mb-4">
+                                {post.data.description}
+                            </p>
+                            <span class="text-sm font-medium link-underline">阅读更多</span>
+                        </a>
+                    </div>
+				</article>
+			))}
+		</div>
+	</section>
+</BaseLayout>

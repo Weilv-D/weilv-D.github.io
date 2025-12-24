@@ -1,0 +1,18 @@
+---
+import ThemeToggle from './ThemeToggle';
+---
+
+<header class="w-full py-6 px-4 md:px-8 max-w-4xl mx-auto flex justify-between items-center">
+  <a href="/" class="flex items-center gap-3 group">
+    <div class="w-8 h-8 text-[var(--color-primary)] group-hover:rotate-180 transition-transform duration-700 ease-in-out">
+      <img src="/logo.svg" alt="Logo" class="w-full h-full dark:invert" />
+    </div>
+    <span class="text-xl font-serif font-bold tracking-tight group-hover:opacity-80 transition-opacity">未来回忆录</span>
+  </a>
+  
+  <nav class="flex items-center gap-6">
+    <a href="/blog" class="text-sm font-medium link-underline">Blog</a>
+    <a href="/about" class="text-sm font-medium link-underline">About</a>
+    <ThemeToggle client:load />
+  </nav>
+</header>

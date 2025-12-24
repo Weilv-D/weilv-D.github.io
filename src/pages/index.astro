@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+).slice(0, 5);
+---
+
+<BaseLayout title="未来回忆录" description="weilv的时空褶皱 - 技术与生活的数字花园">
+	<section class="py-20">
+		<h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+			<span class="text-[var(--color-accent)]">未来回忆录</span><br/>
+			<span class="text-2xl md:text-4xl opacity-80">weilv的时空褶皱</span>
+		</h1>
+		<p class="text-lg md:text-xl text-[var(--color-secondary)] max-w-2xl leading-relaxed">
+			在这里记录技术探索的足迹，也收藏生活中的吉光片羽。
+            试图在时间的长河中，折叠出属于自己的意义。
+		</p>
+	</section>
+
+	<section class="mt-12">
+		<div class="flex justify-between items-baseline mb-8">
+			<h2 class="text-2xl font-serif font-bold">最新篇章</h2>
+			<a href="/blog" class="text-sm font-medium link-underline">查看全部</a>
+		</div>
+
+		<div class="space-y-8">
+			{posts.map((post, index) => (
+				<article class={`group animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
+					<a href={`/blog/${post.slug}`} class="block">
+						<h3 class="text-xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors">
+							{post.data.title}
+						</h3>
+						<div class="flex items-center gap-3 text-sm text-[var(--color-secondary)] mb-3">
+							<time datetime={post.data.pubDate.toISOString()}>
+								{post.data.pubDate.toLocaleDateString('en-us', {
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric',
+								})}
+							</time>
+                            <span>&middot;</span>
+                            <span>{post.data.category}</span>
+						</div>
+						<p class="text-[var(--color-secondary)] line-clamp-2">
+							{post.data.description}
+						</p>
+					</a>
+				</article>
+			))}
+            {posts.length === 0 && (
+                <p class="text-[var(--color-secondary)]">No posts yet. Stay tuned!</p>
+            )}
+		</div>
+	</section>
+</BaseLayout>

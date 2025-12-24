@@ -1,0 +1,100 @@
+@import "@fontsource/inter";
+@import "@fontsource/playfair-display";
+@import "@fontsource/noto-serif-sc";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-background: #ffffff;
+    --color-surface: #f9fafb;
+    --color-text: #374151; /* Gray 700 - Softer than pure black */
+    --color-primary: #111827; /* Gray 900 */
+    --color-secondary: #6b7280; /* Gray 500 */
+    --color-accent: #64748b; /* Slate 500 */
+    --color-border: #e5e7eb;
+  }
+
+  .dark {
+    --color-background: #0f172a; /* Slate 900 */
+    --color-surface: #1e293b; /* Slate 800 */
+    --color-text: #cbd5e1; /* Slate 300 */
+    --color-primary: #f8fafc; /* Slate 50 */
+    --color-secondary: #94a3b8; /* Slate 400 */
+    --color-accent: #cbd5e1;
+    --color-border: #334155;
+  }
+
+  body {
+    @apply bg-[var(--color-background)] text-[var(--color-text)] transition-colors duration-300 ease-in-out antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold text-[var(--color-primary)];
+  }
+  
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-400/30 rounded-full hover:bg-gray-400/50 transition-colors;
+  }
+}
+
+@layer components {
+  .link-underline {
+    @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-current after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  }
+
+  /* Code Block Styling */
+  .prose pre {
+    @apply relative rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] !important;
+    padding-top: 2.5rem !important; /* Space for the window controls */
+  }
+
+  /* Mac-style window controls */
+  .prose pre::before {
+    content: "";
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background-color: #ff5f56; /* Red */
+    box-shadow: 1.25rem 0 0 #ffbd2e, 2.5rem 0 0 #27c93f; /* Yellow and Green */
+  }
+
+  /* Copy Button */
+  .copy-code-btn {
+    @apply absolute top-2 right-2 p-1.5 rounded-md text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)] transition-all opacity-0;
+  }
+  
+  .prose pre:hover .copy-code-btn {
+    @apply opacity-100;
+  }
+
+  /* Animation Utilities */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
