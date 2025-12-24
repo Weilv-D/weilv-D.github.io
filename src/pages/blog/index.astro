@@ -24,7 +24,7 @@ const posts = (await getCollection('blog')).sort(
                         <span class="hidden md:inline mt-1 text-xs uppercase tracking-wider opacity-70">{post.data.category}</span>
                     </div>
 					<div class="md:w-3/4">
-                        <a href={`/blog/${post.slug}`} class="block">
+                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block">
                             <h2 class="text-2xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors">
                                 {post.data.title}
                             </h2>
