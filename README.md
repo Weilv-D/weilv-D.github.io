@@ -2,7 +2,7 @@
 
 这是 [Weilv](https://github.com/Weilv-D) 的个人博客源码仓库。
 
-访问地址：[https://weilv-d.github.io/](https://weilv-d.github.io/)
+访问地址：[https://weilv.space/](https://weilv.space/)
 
 ## 关于
 
