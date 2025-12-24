@@ -5,6 +5,7 @@ import BaseLayout from './BaseLayout.astro';
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage, category, tags } = Astro.props;
+const heroImageUrl = heroImage && (heroImage.startsWith('/') ? import.meta.env.BASE_URL + heroImage.slice(1) : heroImage);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -40,9 +41,9 @@ const { title, description, pubDate, updatedDate, heroImage, category, tags } = 
                 </div>
             )}
 
-            {heroImage && (
+            {heroImageUrl && (
                 <div class="relative aspect-video overflow-hidden rounded-xl shadow-lg mb-8">
-                    <img src={heroImage} alt="" class="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                    <img src={heroImageUrl} alt="" class="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
                 </div>
             )}
             <hr class="border-[var(--color-border)]" />
