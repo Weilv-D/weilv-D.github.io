@@ -1,11 +1,16 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
+import { GRAVATAR_EMAIL } from '../consts';
+import { createHash } from 'node:crypto';
 
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage, category, tags } = Astro.props;
 const heroImageUrl = heroImage && (heroImage.startsWith('/') ? import.meta.env.BASE_URL + heroImage.slice(1) : heroImage);
+
+const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).digest('hex');
+const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -31,6 +36,16 @@ const heroImageUrl = heroImage && (heroImage.startsWith('/') ? import.meta.env.B
             
             <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight text-[var(--color-primary)]">{title}</h1>
             
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-[var(--color-border)]">
+                    <img src={avatarUrl} alt="weilv" class="w-full h-full object-cover" />
+                </div>
+                <div class="text-sm">
+                    <p class="font-medium text-[var(--color-primary)]">weilv</p>
+                    <p class="text-[var(--color-secondary)]">Author</p>
+                </div>
+            </div>
+
             {tags && tags.length > 0 && (
                 <div class="flex flex-wrap gap-2 mb-8">
                     {tags.map(tag => (
@@ -42,8 +57,8 @@ const heroImageUrl = heroImage && (heroImage.startsWith('/') ? import.meta.env.B
             )}
 
             {heroImageUrl && (
-                <div class="relative aspect-video overflow-hidden rounded-xl shadow-lg mb-8">
-                    <img src={heroImageUrl} alt="" class="object-cover w-full h-full hover:scale-105 transition-transform duration-700" />
+                <div class="relative aspect-video mb-8">
+                    <img src={heroImageUrl} alt="" class="w-full h-full object-cover img-liquid" />
                 </div>
             )}
             <hr class="border-[var(--color-border)]" />

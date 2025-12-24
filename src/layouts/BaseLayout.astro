@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Snow from '../components/Snow';
 
 interface Props {
 	title: string;
@@ -16,9 +17,10 @@ const { title, description } = Astro.props;
 	<head>
 		<BaseHead title={title} description={description} />
 	</head>
-	<body class="flex flex-col min-h-screen">
+	<body class="flex flex-col min-h-screen relative">
+        <Snow client:only="react" />
 		<Header />
-		<main class="flex-grow w-full max-w-4xl mx-auto px-4 md:px-8 py-8">
+		<main class="flex-grow w-full max-w-4xl mx-auto px-4 md:px-8 py-8 relative z-10">
 			<slot />
 		</main>
 		<Footer />
