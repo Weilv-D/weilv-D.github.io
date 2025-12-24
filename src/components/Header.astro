@@ -1,12 +1,17 @@
 ---
 import ThemeToggle from './ThemeToggle';
 import Search from './Search';
+import { GRAVATAR_EMAIL } from '../consts';
+import { createHash } from 'node:crypto';
+
+const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).digest('hex');
+const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
 ---
 
 <header class="w-full py-6 px-4 md:px-8 max-w-4xl mx-auto flex justify-between items-center">
   <a href={import.meta.env.BASE_URL} class="flex items-center gap-3 group">
-    <div class="w-8 h-8 text-[var(--color-primary)] group-hover:rotate-180 transition-transform duration-700 ease-in-out">
-      <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Logo" class="w-full h-full dark:invert" />
+    <div class="w-10 h-10 rounded-full overflow-hidden border border-[var(--color-border)] group-hover:scale-105 transition-transform duration-300 ease-in-out">
+      <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
     </div>
     <span class="text-xl font-serif font-bold tracking-tight group-hover:opacity-80 transition-opacity">未来回忆录</span>
   </a>
