@@ -54,8 +54,9 @@
 
   /* Code Block Styling */
   .prose pre {
-    @apply relative rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] !important;
+    @apply relative rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] !important;
     padding-top: 2.5rem !important; /* Space for the window controls */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   }
 
   /* Mac-style window controls */
@@ -73,7 +74,7 @@
 
   /* Copy Button */
   .copy-code-btn {
-    @apply absolute top-2 right-2 p-1.5 rounded-md text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)] transition-all opacity-0;
+    @apply absolute top-2 right-2 p-1.5 rounded-xl text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)] transition-all opacity-0;
   }
   
   .prose pre:hover .copy-code-btn {
@@ -93,22 +94,27 @@
 
   /* Liquid Glass Effect */
   .glass-panel {
-    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 shadow-xl;
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 shadow-xl rounded-3xl;
+  }
+
+  /* Squircle Utility */
+  .squircle {
+    clip-path: url(#squircle-clip);
   }
 
   /* Image Liquid Effect */
   .img-liquid {
-    @apply rounded-2xl shadow-2xl transition-all duration-700 ease-out;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+    @apply rounded-[2rem] transition-all duration-700 ease-out; /* High-order rounded look via large radius */
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.15));
   }
   
   .dark .img-liquid {
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
   }
 
   .img-liquid:hover {
     transform: scale(1.02);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.25));
   }
 }
 

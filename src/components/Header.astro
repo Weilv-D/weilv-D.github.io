@@ -22,7 +22,7 @@ const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
     </div>
     <a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline">Blog</a>
     <a href={`${import.meta.env.BASE_URL}about`} class="text-sm font-medium link-underline">About</a>
-    <a href={`${import.meta.env.BASE_URL}about`} class="w-8 h-8 rounded-full overflow-hidden border border-[var(--color-border)] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 ease-out">
+    <a href={`${import.meta.env.BASE_URL}about`} class="w-8 h-8 squircle overflow-hidden border border-[var(--color-border)] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 ease-out">
         <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
     </a>
     <ThemeToggle client:load />

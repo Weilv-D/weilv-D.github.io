@@ -5,12 +5,21 @@ import { GRAVATAR_EMAIL } from '../consts';
 
 <BaseLayout title="关于 | 未来回忆录" description="关于 weilv">
 	<article class="prose dark:prose-invert prose-lg max-w-none">
-		<h1>关于我</h1>
-		<p>
-			你好！我是 weilv。这里是我的“未来回忆录”，一个记录技术思考与生活点滴的时空褶皱。
-		</p>
+        <div class="flex flex-col md:flex-row gap-12 items-center mb-16">
+            <div class="w-full md:w-1/2">
+                <div class="aspect-square relative">
+                     <img src={`${import.meta.env.BASE_URL}space-station.svg`} alt="Space Station" class="w-full h-full object-cover" />
+                </div>
+            </div>
+            <div class="w-full md:w-1/2">
+		        <h1 class="mb-6 text-5xl font-bold !leading-tight">关于我</h1>
+		        <p class="text-xl leading-relaxed text-[var(--color-secondary)]">
+			        你好！我是 weilv。这里是我的“未来回忆录”，一个记录技术思考与生活点滴的时空褶皱。
+		        </p>
+            </div>
+        </div>
         
-        <div class="flex gap-6 mt-8 not-prose">
+        <div class="flex gap-6 mt-8 not-prose justify-center md:justify-start">
             <a href={`mailto:${GRAVATAR_EMAIL}`} class="text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors" aria-label="Email">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
             </a>

@@ -7,6 +7,9 @@ interface Snowflake {
   speed: number;
   wind: number;
   opacity: number;
+  rotation: number;
+  rotationSpeed: number;
+  type: 'circle' | 'hexagon';
 }
 
 export default function Snow() {
@@ -29,38 +32,60 @@ export default function Snow() {
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
-      // Reset or adjust snowflakes on resize if needed
     };
 
     const createSnowflakes = () => {
-      const count = Math.floor((width * height) / 15000); // Density
+      const count = Math.floor((width * height) / 12000); // Increased density slightly
       snowflakes = [];
       for (let i = 0; i < count; i++) {
+        const isLarge = Math.random() > 0.85; // 15% chance of being a large snowflake
         snowflakes.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 2 + 0.5,
-          speed: Math.random() * 1 + 0.2,
+          radius: isLarge ? Math.random() * 3 + 2 : Math.random() * 2 + 0.5,
+          speed: isLarge ? Math.random() * 0.8 + 0.4 : Math.random() * 1 + 0.2,
           wind: Math.random() * 0.5 - 0.25,
-          opacity: Math.random() * 0.5 + 0.1,
+          opacity: isLarge ? Math.random() * 0.4 + 0.2 : Math.random() * 0.5 + 0.1,
+          rotation: Math.random() * Math.PI * 2,
+          rotationSpeed: (Math.random() - 0.5) * 0.02,
+          type: isLarge ? 'hexagon' : 'circle',
         });
       }
+    };
+
+    const drawHexagon = (x: number, y: number, radius: number, rotation: number) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rotation);
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        ctx.lineTo(radius * Math.cos((i * Math.PI) / 3), radius * Math.sin((i * Math.PI) / 3));
+      }
+      ctx.closePath();
+      ctx.fill();
+      
+      // Inner detail for structure
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 0.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+      
+      ctx.restore();
     };
 
     const update = () => {
       ctx.clearRect(0, 0, width, height);
       
-      // Check for dark mode to adjust snow color
       const isDark = document.documentElement.classList.contains('dark');
-      ctx.fillStyle = isDark ? 'rgba(255, 255, 255, ' : 'rgba(100, 116, 139, '; // White in dark, Slate-500 in light
 
       snowflakes.forEach((flake) => {
         flake.y += flake.speed;
         flake.x += flake.wind;
+        flake.rotation += flake.rotationSpeed;
 
-        // Wrap around
         if (flake.y > height) {
-          flake.y = -5;
+          flake.y = -10;
           flake.x = Math.random() * width;
         }
         if (flake.x > width) {
@@ -69,12 +94,17 @@ export default function Snow() {
           flake.x = width;
         }
 
-        ctx.beginPath();
-        ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
         ctx.fillStyle = isDark 
             ? `rgba(255, 255, 255, ${flake.opacity})` 
-            : `rgba(148, 163, 184, ${flake.opacity})`; // Slate-400 for light mode
-        ctx.fill();
+            : `rgba(148, 163, 184, ${flake.opacity})`;
+
+        if (flake.type === 'hexagon') {
+           drawHexagon(flake.x, flake.y, flake.radius, flake.rotation);
+        } else {
+           ctx.beginPath();
+           ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+           ctx.fill();
+        }
       });
 
       animationFrameId = requestAnimationFrame(update);

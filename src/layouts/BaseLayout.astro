@@ -17,7 +17,16 @@ const { title, description } = Astro.props;
 	<head>
 		<BaseHead title={title} description={description} />
 	</head>
-	<body class="flex flex-col min-h-screen relative">
+	<body class="flex flex-col min-h-screen relative overflow-x-hidden">
+        {/* SVG Definition for Squircle Clip Path */}
+        <svg width="0" height="0" class="absolute">
+            <defs>
+                <clipPath id="squircle-clip" clipPathUnits="objectBoundingBox">
+                    <path d="M .5,0 C .1,0 0,.1 0,.5 0,.9 .1,1 .5,1 .9,1 1,.9 1,.5 1,.1 .9,0 .5,0 Z" />
+                </clipPath>
+            </defs>
+        </svg>
+
         <Snow client:only="react" />
 		<Header />
 		<main class="flex-grow w-full max-w-4xl mx-auto px-4 md:px-8 py-8 relative z-10">
