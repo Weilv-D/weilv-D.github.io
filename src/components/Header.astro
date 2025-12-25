@@ -14,13 +14,11 @@ const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
         <div class="w-8 h-8 text-[var(--color-primary)] group-hover:rotate-180 transition-transform duration-700 ease-in-out">
         <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Logo" class="w-full h-full dark:invert" />
         </div>
-        <span class="text-lg font-serif font-bold tracking-tight group-hover:opacity-80 transition-opacity hidden sm:block">未来回忆录</span>
+        <span class="text-lg font-serif font-bold tracking-tight group-hover:opacity-80 transition-opacity hidden sm:block whitespace-nowrap">未来回忆录</span>
     </a>
     
     <nav class="flex items-center gap-3 md:gap-6">
-        <div class="hidden md:block">
-            <Search client:load />
-        </div>
+        <Search client:load />
         <a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline">Blog</a>
         <a href={`${import.meta.env.BASE_URL}about`} class="text-sm font-medium link-underline">About</a>
         <a href={`${import.meta.env.BASE_URL}about`} class="w-8 h-8 squircle overflow-hidden border border-[var(--color-border)] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 ease-out">
