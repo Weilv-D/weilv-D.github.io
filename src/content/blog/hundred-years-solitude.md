@@ -1,7 +1,7 @@
 ---
 title: '读《百年孤独》'
 description: '孤独为宿命，爱为救赎，然爱终不可得，故孤独永恒。'
-pubDate: '2025-12-24'
+pubDate: '2025-12-24T12:00:00'
 heroImage: '/hundred-years-solitude.png'
 category: 'Life'
 tags: ['读书', '文学', '马尔克斯']

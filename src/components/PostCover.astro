@@ -1,0 +1,87 @@
+---
+interface Props {
+  title: string;
+  image?: string;
+  category?: string;
+  className?: string;
+}
+
+const { title, image, category, className = "" } = Astro.props;
+
+// Simple hash function to generate deterministic numbers from string
+function hashCode(str: string) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+}
+
+// Generate colors based on title hash
+const hash = hashCode(title);
+const hue1 = Math.abs(hash % 360);
+const hue2 = Math.abs((hash + 90) % 360);
+const color1 = `hsl(${hue1}, 70%, 60%)`;
+const color2 = `hsl(${hue2}, 70%, 60%)`;
+
+const finalImage = image && (image.startsWith('/') ? import.meta.env.BASE_URL + image.slice(1) : image);
+---
+
+{finalImage ? (
+  <div class={`overflow-hidden ${className}`}>
+    <img 
+      src={finalImage} 
+      alt={title} 
+      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+    />
+  </div>
+) : (
+  <div class={`overflow-hidden relative bg-[var(--color-surface)] ${className}`}>
+    <svg 
+      class="w-full h-full transition-transform duration-700 group-hover:scale-105" 
+      viewBox="0 0 400 300" 
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id={`grad-${hash}`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style={`stop-color:${color1};stop-opacity:1`} />
+          <stop offset="100%" style={`stop-color:${color2};stop-opacity:1`} />
+        </linearGradient>
+        <filter id={`noise-${hash}`}>
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+            <feBlend mode="overlay" in2="SourceGraphic" result="blend"/>
+        </filter>
+      </defs>
+      <rect width="100%" height="100%" fill={`url(#grad-${hash})`} />
+      <rect width="100%" height="100%" filter={`url(#noise-${hash})`} opacity="0.4" />
+      
+      {/* Abstract Shapes */}
+      <circle cx="80%" cy="20%" r="30%" fill="white" fill-opacity="0.1" />
+      <circle cx="10%" cy="90%" r="40%" fill="white" fill-opacity="0.1" />
+      
+      {/* Text Overlay */}
+      <text 
+        x="50%" 
+        y="50%" 
+        dominant-baseline="middle" 
+        text-anchor="middle" 
+        fill="white" 
+        font-family="serif" 
+        font-size="32"
+        font-weight="bold"
+        style="text-shadow: 0 2px 4px rgba(0,0,0,0.2);"
+      >
+        {title.length > 10 ? title.slice(0, 10) + '...' : title}
+      </text>
+    </svg>
+    
+    {/* Category Badge for generated images */}
+    {category && (
+        <div class="absolute top-2 right-2 px-2 py-1 bg-white/20 backdrop-blur-md rounded-lg text-xs text-white font-medium border border-white/30">
+            {category}
+        </div>
+    )}
+  </div>
+)}

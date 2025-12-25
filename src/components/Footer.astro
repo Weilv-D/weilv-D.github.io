@@ -2,9 +2,16 @@
 const today = new Date();
 ---
 
-<footer class="py-10 text-center text-sm text-[var(--color-secondary)]">
-	&copy; {today.getFullYear()} weilv. All rights reserved.
-    <div class="mt-2">
-        Built with <a href="https://astro.build" class="hover:text-[var(--color-primary)]">Astro</a> & <a href="https://tailwindcss.com" class="hover:text-[var(--color-primary)]">Tailwind</a>
+<footer class="py-12 mt-12 border-t border-[var(--color-border)]">
+    <div class="max-w-4xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-[var(--color-secondary)]">
+        <div class="flex flex-col items-center md:items-start gap-2">
+            <span class="font-serif font-bold text-lg text-[var(--color-primary)]">未来回忆录</span>
+            <span>&copy; {today.getFullYear()} weilv. All rights reserved.</span>
+        </div>
+        
+        <div class="flex gap-6">
+            <a href={`${import.meta.env.BASE_URL}rss.xml`} class="hover:text-[var(--color-primary)] transition-colors">RSS</a>
+            <a href="https://github.com/Weilv-D" target="_blank" class="hover:text-[var(--color-primary)] transition-colors">GitHub</a>
+        </div>
     </div>
 </footer>

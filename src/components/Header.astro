@@ -8,23 +8,25 @@ const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).
 const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
 ---
 
-<header class="w-full py-6 px-4 md:px-8 max-w-4xl mx-auto flex justify-between items-center">
-  <a href={import.meta.env.BASE_URL} class="flex items-center gap-3 group">
-    <div class="w-8 h-8 text-[var(--color-primary)] group-hover:rotate-180 transition-transform duration-700 ease-in-out">
-      <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Logo" class="w-full h-full dark:invert" />
-    </div>
-    <span class="text-xl font-serif font-bold tracking-tight group-hover:opacity-80 transition-opacity">未来回忆录</span>
-  </a>
-  
-  <nav class="flex items-center gap-4 md:gap-6">
-    <div class="hidden md:block">
-        <Search client:load />
-    </div>
-    <a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline">Blog</a>
-    <a href={`${import.meta.env.BASE_URL}about`} class="text-sm font-medium link-underline">About</a>
-    <a href={`${import.meta.env.BASE_URL}about`} class="w-8 h-8 squircle overflow-hidden border border-[var(--color-border)] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 ease-out">
-        <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
+<header class="sticky top-6 z-50 w-full max-w-4xl mx-auto px-4 md:px-8 mb-8">
+  <div class="glass-liquid flex justify-between items-center py-3 px-6 rounded-full transition-all duration-300 hover:shadow-xl hover:bg-white/70 dark:hover:bg-slate-900/70">
+    <a href={import.meta.env.BASE_URL} class="flex items-center gap-3 group">
+        <div class="w-8 h-8 text-[var(--color-primary)] group-hover:rotate-180 transition-transform duration-700 ease-in-out">
+        <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Logo" class="w-full h-full dark:invert" />
+        </div>
+        <span class="text-lg font-serif font-bold tracking-tight group-hover:opacity-80 transition-opacity">未来回忆录</span>
     </a>
-    <ThemeToggle client:load />
-  </nav>
+    
+    <nav class="flex items-center gap-4 md:gap-6">
+        <div class="hidden md:block">
+            <Search client:load />
+        </div>
+        <a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline">Blog</a>
+        <a href={`${import.meta.env.BASE_URL}about`} class="text-sm font-medium link-underline">About</a>
+        <a href={`${import.meta.env.BASE_URL}about`} class="w-8 h-8 squircle overflow-hidden border border-[var(--color-border)] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 ease-out">
+            <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
+        </a>
+        <ThemeToggle client:load />
+    </nav>
+  </div>
 </header>

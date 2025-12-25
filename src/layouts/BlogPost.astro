@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
+import ReadingProgress from '../components/ReadingProgress';
+import PostCover from '../components/PostCover.astro';
 import { GRAVATAR_EMAIL } from '../consts';
 import { createHash } from 'node:crypto';
 
@@ -11,13 +13,13 @@ type Props = CollectionEntry<'blog'>['data'] & {
 };
 
 const { title, description, pubDate, updatedDate, heroImage, category, tags, readingTime, prevPost, nextPost } = Astro.props;
-const heroImageUrl = heroImage && (heroImage.startsWith('/') ? import.meta.env.BASE_URL + heroImage.slice(1) : heroImage);
 
 const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).digest('hex');
 const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
 ---
 
-<BaseLayout title={title} description={description} image={heroImageUrl}>
+<BaseLayout title={title} description={description} image={heroImage}>
+    <ReadingProgress client:idle />
 	<article class="prose dark:prose-invert prose-lg max-w-none animate-fade-in-up">
         <header class="mb-10 not-prose">
             <div class="flex flex-wrap items-center gap-4 mb-6 text-sm">
@@ -62,11 +64,13 @@ const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
                 </div>
             )}
 
-            {heroImageUrl && (
-                <div class="relative mb-8">
-                    <img src={heroImageUrl} alt="" class="w-full h-auto img-liquid" />
-                </div>
-            )}
+            <div class="relative mb-8 rounded-[2rem] overflow-hidden shadow-lg">
+                <PostCover 
+                    title={title} 
+                    image={heroImage} 
+                    className="w-full h-auto aspect-video"
+                />
+            </div>
             <hr class="border-[var(--color-border)]" />
         </header>
 		<div class="prose-content">

@@ -92,9 +92,14 @@
   .delay-200 { animation-delay: 200ms; }
   .delay-300 { animation-delay: 300ms; }
 
-  /* Liquid Glass Effect */
+  /* Liquid Glass Effect - Apple Style */
+  .glass-liquid {
+    @apply bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl backdrop-saturate-150 border border-white/40 dark:border-slate-700/40 shadow-lg;
+    /* Fallback for browsers that don't support backdrop-filter if needed, but most do now */
+  }
+
   .glass-panel {
-    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-700/30 shadow-xl rounded-3xl;
+    @apply glass-liquid rounded-3xl;
   }
 
   /* Squircle Utility */

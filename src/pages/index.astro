@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCover from '../components/PostCover.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
 ).slice(0, 5);
 ---
 
@@ -25,41 +26,54 @@ const posts = (await getCollection('blog')).sort(
 			<a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline">查看全部</a>
 		</div>
 
-		<div class="space-y-8">
+		<div class="space-y-12">
 			{posts.map((post, index) => (
-				<article class={`group animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
-					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block">
-                        {post.data.heroImage && (
-                            <div class="mb-4 rounded-2xl overflow-hidden shadow-sm">
-                                <img 
-                                    src={post.data.heroImage.startsWith('/') ? import.meta.env.BASE_URL + post.data.heroImage.slice(1) : post.data.heroImage} 
-                                    alt="" 
-                                    class="w-full h-auto transition-transform duration-500 group-hover:scale-105" 
-                                />
-                            </div>
-                        )}
-						<h3 class="text-xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors">
-							{post.data.title}
-						</h3>
-						<div class="flex items-center gap-3 text-sm text-[var(--color-secondary)] mb-3">
-							<time datetime={post.data.pubDate.toISOString()}>
-								{post.data.pubDate.toLocaleDateString('en-us', {
-									year: 'numeric',
-									month: 'short',
-									day: 'numeric',
-								})}
-							</time>
-                            <span>&middot;</span>
+				<article class={`group relative flex flex-col md:flex-row gap-6 md:gap-8 items-start p-4 -mx-4 rounded-3xl hover:bg-[var(--color-surface)] transition-colors duration-300 animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
+					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block md:w-1/3 shrink-0">
+                        <PostCover 
+                            title={post.data.title} 
+                            image={post.data.heroImage} 
+                            category={post.data.category}
+                            className="aspect-[4/3] rounded-2xl shadow-sm border border-[var(--color-border)]"
+                        />
+                    </a>
+                    
+                    <div class="flex-1 flex flex-col justify-center py-2">
+                        <div class="flex items-center gap-3 text-xs font-medium text-[var(--color-secondary)] mb-3 uppercase tracking-wider">
+                            <time datetime={post.data.pubDate.toISOString()}>
+                                {post.data.pubDate.toLocaleDateString('en-us', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric',
+                                })}
+                            </time>
+                            <span class="w-1 h-1 rounded-full bg-[var(--color-accent)]"></span>
                             <span>{post.data.category}</span>
-						</div>
-						<p class="text-[var(--color-secondary)] line-clamp-2">
-							{post.data.description}
-						</p>
-					</a>
+                        </div>
+                        
+                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="group-hover:text-[var(--color-accent)] transition-colors">
+                            <h3 class="text-2xl font-bold mb-3 leading-tight">
+                                {post.data.title}
+                            </h3>
+                        </a>
+                        
+                        <p class="text-[var(--color-secondary)] line-clamp-2 mb-4 leading-relaxed">
+                            {post.data.description}
+                        </p>
+                        
+                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="inline-flex items-center text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors">
+                            Read Article 
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                    </div>
 				</article>
 			))}
             {posts.length === 0 && (
-                <p class="text-[var(--color-secondary)]">No posts yet. Stay tuned!</p>
+                <div class="text-center py-20">
+                    <p class="text-[var(--color-secondary)] text-lg">No posts yet. Stay tuned!</p>
+                </div>
             )}
 		</div>
 	</section>
