@@ -56,15 +56,15 @@ export default function Search() {
     const baseUrl = import.meta.env.BASE_URL;
 
     return (
-        <div className="relative" ref={searchRef}>
-            <div className="relative group">
+        <div className="relative w-9 md:w-auto h-9 flex items-center" ref={searchRef}>
+            <div className="absolute md:relative left-0 top-0 md:top-auto md:left-auto z-10">
                 <input
                     type="text"
                     placeholder="搜索..."
                     value={query}
                     onChange={handleSearch}
                     onFocus={() => query.length > 0 && setIsOpen(true)}
-                    className="w-9 md:w-48 focus:w-40 md:focus:w-48 px-4 py-1.5 pl-9 rounded-full bg-transparent md:bg-[var(--color-surface)] focus:bg-[var(--color-surface)] border border-transparent md:border-[var(--color-border)] focus:border-[var(--color-primary)] text-sm focus:outline-none transition-all duration-300 cursor-pointer focus:cursor-text placeholder-transparent focus:placeholder-gray-400 md:placeholder-gray-400"
+                    className="w-9 md:w-48 focus:w-64 md:focus:w-48 px-4 py-1.5 pl-9 rounded-full bg-transparent md:bg-[var(--color-surface)] focus:bg-[var(--color-surface)] border border-transparent md:border-[var(--color-border)] focus:border-[var(--color-primary)] text-sm focus:outline-none transition-all duration-300 cursor-pointer focus:cursor-text placeholder-transparent focus:placeholder-gray-400 md:placeholder-gray-400 shadow-none focus:shadow-lg"
                 />
                 <svg 
                     className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--color-primary)] md:text-[var(--color-secondary)] w-4 h-4 pointer-events-none"
