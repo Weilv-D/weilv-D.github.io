@@ -1,0 +1,34 @@
+---
+title: '构建未来回忆录：技术栈解构'
+description: '极简，高性能，液态玻璃质感。解构本站背后的技术实现。'
+pubDate: '2025-12-25'
+category: 'Tech'
+tags: ['Astro', 'React', 'TailwindCSS', 'Design']
+---
+
+## 核心架构
+
+**Astro 4** 驱动。
+
+选择 Astro 是为了追求极致的性能。采用 **Island Architecture**（孤岛架构），绝大部分页面为静态 HTML，仅在需要交互的组件（如搜索、主题切换）中按需加载 **React**。
+
+## 设计语言：Liquid Glass
+
+摒弃了现成的 UI 库，基于 **TailwindCSS** 构建了一套名为 "Liquid Glass" 的设计系统。
+
+- **视觉**：磨砂玻璃、流体渐变、Squircle（超椭圆）圆角。
+- **动效**：View Transitions API 实现无缝页面切换；CSS 关键帧实现细腻的入场动画。
+- **主题**：基于 CSS 变量的深色模式，平滑切换，持久化存储。
+
+## 工程化细节
+
+- **类型安全**：Content Collections 确保 Markdown Frontmatter 的严格类型检查。
+- **自动化封面**：对于未指定封面的文章，基于标题哈希值确定性生成 SVG 抽象艺术画。
+- **交互体验**：
+    - 客户端模糊搜索（基于构建时生成的索引）。
+    - 智能目录（TOC）：根据文章结构自动切换宽/窄布局。
+    - 响应式排版：Prose 插件定制，确保最佳阅读行长。
+
+## 部署
+
+源码托管于 GitHub，通过 GitHub Actions 自动构建并部署至 **GitHub Pages**。
