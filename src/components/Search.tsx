@@ -64,10 +64,26 @@ export default function Search() {
                     value={query}
                     onChange={handleSearch}
                     onFocus={() => query.length > 0 && setIsOpen(true)}
-                    className="w-9 md:w-48 focus:w-64 md:focus:w-48 px-4 py-1.5 pl-9 rounded-full bg-transparent md:bg-[var(--color-surface)] focus:bg-[var(--color-surface)] border border-transparent md:border-[var(--color-border)] focus:border-[var(--color-primary)] text-sm focus:outline-none transition-all duration-300 cursor-pointer focus:cursor-text placeholder-transparent focus:placeholder-gray-400 md:placeholder-gray-400 shadow-none focus:shadow-lg"
+                    className="
+                        w-9 md:w-48 
+                        focus:w-[200px] md:focus:w-48 
+                        h-9
+                        px-4 py-1.5 pl-9 
+                        rounded-full 
+                        bg-transparent md:bg-[var(--color-surface)] 
+                        focus:bg-[var(--color-background)] 
+                        border border-transparent md:border-[var(--color-border)] 
+                        focus:border-[var(--color-primary)] 
+                        text-sm 
+                        focus:outline-none 
+                        transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
+                        cursor-pointer focus:cursor-text 
+                        placeholder-transparent focus:placeholder-gray-400 md:placeholder-gray-400 
+                        shadow-none focus:shadow-2xl
+                    "
                 />
                 <svg 
-                    className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--color-primary)] md:text-[var(--color-secondary)] w-4 h-4 pointer-events-none"
+                    className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--color-primary)] md:text-[var(--color-secondary)] w-4 h-4 pointer-events-none transition-colors duration-300"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                 >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
