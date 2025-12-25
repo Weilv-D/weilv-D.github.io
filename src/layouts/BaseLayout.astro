@@ -9,9 +9,10 @@ interface Props {
 	title: string;
 	description: string;
     image?: string;
+    wide?: boolean;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, wide = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -31,7 +32,7 @@ const { title, description, image } = Astro.props;
 
         <Snow client:only="react" />
 		<Header />
-		<main class="flex-grow w-full max-w-4xl mx-auto px-4 md:px-8 py-8 relative z-10">
+		<main class={`flex-grow w-full mx-auto px-4 md:px-8 py-8 relative z-10 ${wide ? 'max-w-5xl' : 'max-w-4xl'}`}>
 			<slot />
 		</main>
 		<Footer />

@@ -1,0 +1,55 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
+---
+
+{filteredHeadings.length > 0 && (
+  <nav class="toc hidden xl:block sticky top-32 w-56 max-h-[calc(100vh-8rem)] overflow-y-auto">
+    <h2 class="font-serif font-bold text-lg mb-4 text-[var(--color-primary)] flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+      </svg>
+      目录
+    </h2>
+    <ul class="space-y-2 text-sm border-l-2 border-[var(--color-border)]">
+      {filteredHeadings.map((heading) => (
+        <li>
+          <a
+            href={`#${heading.slug}`}
+            class={`block py-1 pl-4 border-l-2 -ml-[2px] transition-all duration-300 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)] ${
+              heading.depth === 3 ? 'ml-4 text-[var(--color-secondary)]' : 'text-[var(--color-text)]'
+            }`}
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  // Highlight active TOC item on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const id = entry.target.getAttribute('id');
+      if (entry.intersectionRatio > 0) {
+        document.querySelector(`.toc a[href="#${id}"]`)?.classList.add('text-[var(--color-accent)]', 'border-[var(--color-accent)]', 'font-medium');
+      } else {
+        document.querySelector(`.toc a[href="#${id}"]`)?.classList.remove('text-[var(--color-accent)]', 'border-[var(--color-accent)]', 'font-medium');
+      }
+    });
+  });
+
+  // Track all headings that have an id
+  document.querySelectorAll('h2[id], h3[id]').forEach((section) => {
+    observer.observe(section);
+  });
+</script>

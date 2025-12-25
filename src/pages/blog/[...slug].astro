@@ -17,10 +17,21 @@ export async function getStaticPaths() {
 }
 
 const { post, prevPost, nextPost } = Astro.props;
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
 const readingTime = Math.ceil(post.body.length / 300); // Estimate: 300 chars/min
+
+// Calculate related posts
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+    .filter(p => p.slug !== post.slug && p.data.tags && post.data.tags && p.data.tags.some(t => post.data.tags.includes(t)))
+    .sort((a, b) => {
+        const aMatches = a.data.tags.filter(t => post.data.tags.includes(t)).length;
+        const bMatches = b.data.tags.filter(t => post.data.tags.includes(t)).length;
+        return bMatches - aMatches;
+    })
+    .slice(0, 3);
 ---
 
-<BlogPost {...post.data} readingTime={readingTime} prevPost={prevPost} nextPost={nextPost}>
+<BlogPost {...post.data} readingTime={readingTime} prevPost={prevPost} nextPost={nextPost} headings={headings} relatedPosts={relatedPosts}>
 	<Content />
 </BlogPost>

@@ -1,8 +1,10 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import ReadingProgress from '../components/ReadingProgress';
 import PostCover from '../components/PostCover.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 import { GRAVATAR_EMAIL } from '../consts';
 import { createHash } from 'node:crypto';
 
@@ -10,91 +12,137 @@ type Props = CollectionEntry<'blog'>['data'] & {
     readingTime: number;
     prevPost?: CollectionEntry<'blog'> | null;
     nextPost?: CollectionEntry<'blog'> | null;
+    headings?: MarkdownHeading[];
+    relatedPosts?: CollectionEntry<'blog'>[];
 };
 
-const { title, description, pubDate, updatedDate, heroImage, category, tags, readingTime, prevPost, nextPost } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category, tags, readingTime, prevPost, nextPost, headings, relatedPosts } = Astro.props;
 
 const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).digest('hex');
 const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
+
+const hasHeadings = headings && headings.length > 0;
 ---
 
-<BaseLayout title={title} description={description} image={heroImage}>
+<BaseLayout title={title} description={description} image={heroImage} wide={hasHeadings}>
     <ReadingProgress client:idle />
-	<article class="prose dark:prose-invert prose-lg max-w-none animate-fade-in-up">
-        <header class="mb-10 not-prose">
-            <div class="flex flex-wrap items-center gap-4 mb-6 text-sm">
-                <span class="px-3 py-1 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] font-medium text-[var(--color-primary)]">
-                    {category}
-                </span>
-                <time datetime={pubDate.toISOString()} class="text-[var(--color-secondary)]">
-                    {pubDate.toLocaleDateString('en-us', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                    })}
-                </time>
-                <span class="text-[var(--color-secondary)]">&middot;</span>
-                <span class="text-[var(--color-secondary)]">{readingTime} min read</span>
-                {updatedDate && (
-                    <span class="italic text-xs text-[var(--color-secondary)]">
-                        (Updated: {updatedDate.toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })})
+    
+    <div class={`relative ${hasHeadings ? 'xl:flex xl:gap-10 items-start' : ''}`}>
+        <article class={`prose dark:prose-invert prose-lg max-w-none animate-fade-in-up ${hasHeadings ? 'flex-1 min-w-0' : ''}`}>
+            <header class="mb-10 not-prose">
+                <div class="flex flex-wrap items-center gap-4 mb-6 text-sm">
+                    <span class="px-3 py-1 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] font-medium text-[var(--color-primary)]">
+                        {category}
                     </span>
+                    <time datetime={pubDate.toISOString()} class="text-[var(--color-secondary)]">
+                        {pubDate.toLocaleDateString('en-us', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })}
+                    </time>
+                    <span class="text-[var(--color-secondary)]">&middot;</span>
+                    <span class="text-[var(--color-secondary)]">{readingTime} min read</span>
+                    {updatedDate && (
+                        <span class="italic text-xs text-[var(--color-secondary)]">
+                            (Updated: {updatedDate.toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })})
+                        </span>
+                    )}
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight text-[var(--color-primary)]">{title}</h1>
+                
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 squircle overflow-hidden border border-[var(--color-border)]">
+                        <img src={avatarUrl} alt="weilv" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="text-sm">
+                        <p class="font-medium text-[var(--color-primary)]">weilv</p>
+                        <p class="text-[var(--color-secondary)]">Author</p>
+                    </div>
+                </div>
+
+                {tags && tags.length > 0 && (
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        {tags.map(tag => (
+                            <a href={`${import.meta.env.BASE_URL}tags/${tag}`} class="text-sm text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors">
+                                #{tag}
+                            </a>
+                        ))}
+                    </div>
                 )}
-            </div>
-            
-            <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight text-[var(--color-primary)]">{title}</h1>
-            
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-10 h-10 squircle overflow-hidden border border-[var(--color-border)]">
-                    <img src={avatarUrl} alt="weilv" class="w-full h-full object-cover" />
-                </div>
-                <div class="text-sm">
-                    <p class="font-medium text-[var(--color-primary)]">weilv</p>
-                    <p class="text-[var(--color-secondary)]">Author</p>
-                </div>
+
+                {heroImage ? (
+                    <img 
+                        src={heroImage.startsWith('/') ? import.meta.env.BASE_URL + heroImage.slice(1) : heroImage} 
+                        alt={title} 
+                        class="w-full h-auto rounded-[2rem] shadow-lg mb-8"
+                    />
+                ) : (
+                    <div class="relative mb-8 rounded-[2rem] overflow-hidden shadow-lg">
+                        <PostCover 
+                            title={title} 
+                            image={heroImage} 
+                            className="w-full h-auto aspect-video"
+                        />
+                    </div>
+                )}
+                <hr class="border-[var(--color-border)]" />
+            </header>
+            <div class="prose-content">
+                <slot />
             </div>
 
-            {tags && tags.length > 0 && (
-                <div class="flex flex-wrap gap-2 mb-8">
-                    {tags.map(tag => (
-                        <a href={`${import.meta.env.BASE_URL}tags/${tag}`} class="text-sm text-[var(--color-secondary)] hover:text-[var(--color-accent)] transition-colors">
-                            #{tag}
-                        </a>
-                    ))}
+            <hr class="border-[var(--color-border)] my-12" />
+            
+            {/* Related Posts */}
+            {relatedPosts && relatedPosts.length > 0 && (
+                <div class="not-prose mb-12">
+                    <h3 class="text-2xl font-serif font-bold mb-6">相关推荐</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {relatedPosts.map(post => (
+                            <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="group block">
+                                <div class="aspect-video rounded-xl overflow-hidden mb-3 border border-[var(--color-border)]">
+                                    <PostCover 
+                                        title={post.data.title} 
+                                        image={post.data.heroImage} 
+                                        className="w-full h-full"
+                                    />
+                                </div>
+                                <h4 class="font-bold text-sm group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">
+                                    {post.data.title}
+                                </h4>
+                                <time class="text-xs text-[var(--color-secondary)] mt-1 block">
+                                    {post.data.pubDate.toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                </time>
+                            </a>
+                        ))}
+                    </div>
                 </div>
             )}
 
-            <div class="relative mb-8 rounded-[2rem] overflow-hidden shadow-lg">
-                <PostCover 
-                    title={title} 
-                    image={heroImage} 
-                    className="w-full h-auto aspect-video"
-                />
+            <div class="flex flex-col md:flex-row justify-between gap-8 not-prose">
+                {prevPost ? (
+                    <a href={`${import.meta.env.BASE_URL}blog/${prevPost.slug}`} class="flex-1 group text-left p-4 rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors">
+                        <span class="text-sm text-[var(--color-secondary)] mb-2 block group-hover:text-[var(--color-primary)] transition-colors">&larr; 上一篇</span>
+                        <span class="text-lg font-serif font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">{prevPost.data.title}</span>
+                    </a>
+                ) : <div class="flex-1"></div>}
+                
+                {nextPost ? (
+                    <a href={`${import.meta.env.BASE_URL}blog/${nextPost.slug}`} class="flex-1 group text-right p-4 rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors">
+                        <span class="text-sm text-[var(--color-secondary)] mb-2 block group-hover:text-[var(--color-primary)] transition-colors">下一篇 &rarr;</span>
+                        <span class="text-lg font-serif font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">{nextPost.data.title}</span>
+                    </a>
+                ) : <div class="flex-1"></div>}
             </div>
-            <hr class="border-[var(--color-border)]" />
-        </header>
-		<div class="prose-content">
-            <slot />
-        </div>
+        </article>
 
-        <hr class="border-[var(--color-border)] my-12" />
-        
-        <div class="flex flex-col md:flex-row justify-between gap-8 not-prose">
-            {prevPost ? (
-                <a href={`${import.meta.env.BASE_URL}blog/${prevPost.slug}`} class="flex-1 group text-left p-4 rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors">
-                    <span class="text-sm text-[var(--color-secondary)] mb-2 block group-hover:text-[var(--color-primary)] transition-colors">&larr; 上一篇</span>
-                    <span class="text-lg font-serif font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">{prevPost.data.title}</span>
-                </a>
-            ) : <div class="flex-1"></div>}
-            
-            {nextPost ? (
-                <a href={`${import.meta.env.BASE_URL}blog/${nextPost.slug}`} class="flex-1 group text-right p-4 rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors">
-                    <span class="text-sm text-[var(--color-secondary)] mb-2 block group-hover:text-[var(--color-primary)] transition-colors">下一篇 &rarr;</span>
-                    <span class="text-lg font-serif font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">{nextPost.data.title}</span>
-                </a>
-            ) : <div class="flex-1"></div>}
-        </div>
-	</article>
+        {/* Table of Contents Sidebar */}
+        {headings && headings.length > 0 && (
+            <TableOfContents headings={headings} />
+        )}
+    </div>
 </BaseLayout>
 
 <script>
