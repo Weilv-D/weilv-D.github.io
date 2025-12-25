@@ -47,19 +47,19 @@ const imageURL = new URL(image.startsWith('/') ? import.meta.env.BASE_URL + imag
 
 <!-- Theme Initialization -->
 <script is:inline>
-  const theme = (() => {
+  const getThemePreference = () => {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
       return localStorage.getItem('theme');
     }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
-  })();
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
 
-  if (theme === 'dark') {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
+  const setDarkClass = () => {
+    const isDark = getThemePreference() === 'dark';
+    document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+  };
+
+  setDarkClass();
+
+  document.addEventListener('astro:after-swap', setDarkClass);
 </script>

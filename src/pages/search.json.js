@@ -10,7 +10,8 @@ export async function GET(context) {
 				slug: post.slug,
 				pubDate: post.data.pubDate,
                 category: post.data.category,
-                tags: post.data.tags
+                tags: post.data.tags,
+                heroImage: post.data.heroImage
 			}))
 		),
         {
