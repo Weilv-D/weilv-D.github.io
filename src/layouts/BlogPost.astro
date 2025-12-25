@@ -29,8 +29,8 @@ const hasHeadings = headings && headings.length > 0;
     
     <div class={`relative ${hasHeadings ? 'xl:flex xl:gap-10 items-start' : ''}`}>
         <article class={`prose dark:prose-invert prose-lg max-w-none animate-fade-in-up ${hasHeadings ? 'flex-1 min-w-0' : ''}`}>
-            <header class="mb-10 not-prose">
-                <div class="flex flex-wrap items-center gap-4 mb-6 text-sm">
+            <header class="mb-8 md:mb-10 not-prose">
+                <div class="flex flex-wrap items-center gap-4 mb-4 md:mb-6 text-sm">
                     <span class="px-3 py-1 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] font-medium text-[var(--color-primary)]">
                         {category}
                     </span>
@@ -50,9 +50,9 @@ const hasHeadings = headings && headings.length > 0;
                     )}
                 </div>
                 
-                <h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight text-[var(--color-primary)]">{title}</h1>
+                <h1 class="text-3xl md:text-4xl lg:text-6xl font-serif font-bold mb-4 md:mb-6 leading-tight text-[var(--color-primary)]">{title}</h1>
                 
-                <div class="flex items-center gap-3 mb-8">
+                <div class="flex items-center gap-3 mb-6 md:mb-8">
                     <div class="w-10 h-10 squircle overflow-hidden border border-[var(--color-border)]">
                         <img src={avatarUrl} alt="weilv" class="w-full h-full object-cover" />
                     </div>
@@ -76,10 +76,10 @@ const hasHeadings = headings && headings.length > 0;
                     <img 
                         src={heroImage.startsWith('/') ? import.meta.env.BASE_URL + heroImage.slice(1) : heroImage} 
                         alt={title} 
-                        class="w-full h-auto rounded-[2rem] shadow-lg mb-8"
+                        class="w-full h-auto rounded-[2rem] shadow-lg mb-6 md:mb-8"
                     />
                 ) : (
-                    <div class="relative mb-8 rounded-[2rem] overflow-hidden shadow-lg">
+                    <div class="relative mb-6 md:mb-8 rounded-[2rem] overflow-hidden shadow-lg">
                         <PostCover 
                             title={title} 
                             image={heroImage} 

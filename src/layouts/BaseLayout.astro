@@ -32,7 +32,7 @@ const { title, description, image, wide = false } = Astro.props;
 
         <Snow client:only="react" />
 		<Header />
-		<main class={`flex-grow w-full mx-auto px-4 md:px-8 py-8 relative z-10 ${wide ? 'max-w-5xl' : 'max-w-4xl'}`}>
+		<main class={`flex-grow w-full mx-auto px-4 md:px-8 py-6 md:py-8 relative z-10 ${wide ? 'max-w-5xl' : 'max-w-4xl'}`}>
 			<slot />
 		</main>
 		<Footer />
