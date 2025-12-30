@@ -54,27 +54,16 @@
 
   /* Code Block Styling */
   .prose pre {
-    @apply relative rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] !important;
-    padding-top: 2.5rem !important; /* Space for the window controls */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  }
-
-  /* Mac-style window controls */
-  .prose pre::before {
-    content: "";
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    width: 0.75rem;
-    height: 0.75rem;
-    border-radius: 50%;
-    background-color: #ff5f56; /* Red */
-    box-shadow: 1.25rem 0 0 #ffbd2e, 2.5rem 0 0 #27c93f; /* Yellow and Green */
+    @apply relative rounded-2xl border border-black/5 dark:border-white/10 !important;
+    background-color: rgba(15, 23, 42, 0.9) !important; /* Slate-900 with opacity - Always Dark */
+    backdrop-filter: blur(10px);
+    padding: 1.5rem !important; /* Balanced padding */
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3); /* Deeper shadow */
   }
 
   /* Copy Button */
   .copy-code-btn {
-    @apply absolute top-2 right-2 p-1.5 rounded-xl text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:bg-[var(--color-border)] transition-all opacity-0;
+    @apply absolute top-2 right-2 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all opacity-0;
   }
   
   .prose pre:hover .copy-code-btn {
