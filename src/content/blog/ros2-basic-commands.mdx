@@ -1,0 +1,98 @@
+---
+title: 'ROS 2 Jazzy: 核心指令集'
+description: '从节点到计算图，解构 ROS 2 Jazzy 机器人开发的核心 CLI 工具。'
+pubDate: '2025-12-30'
+category: 'Tech'
+tags: ['ROS2', 'Robotics', 'Linux']
+---
+
+
+## 1. 基础与包管理
+
+一切始于环境。
+
+```bash
+# 检查环境
+ros2 doctor
+ros2 doctor --report
+
+# 包操作
+ros2 pkg list
+ros2 pkg executables [package_name]
+```
+
+## 2. 节点与运行
+
+节点是计算图的原子单位。
+
+```bash
+# 运行节点
+ros2 run <package_name> <executable_name>
+
+# 节点内省
+ros2 node list
+ros2 node info /node_name
+```
+
+## 3. 通信机制
+
+ROS 2 的核心在于数据流。
+
+### Topics (发布/订阅)
+用于连续的数据流。
+
+```bash
+ros2 topic list
+ros2 topic echo /topic_name
+ros2 topic hz /topic_name
+ros2 topic bw /topic_name
+ros2 topic pub /topic_name <type> "<data>"
+```
+
+### Services (请求/响应)
+用于同步的远程过程调用。
+
+```bash
+ros2 service list
+ros2 service type /service_name
+ros2 service call /service_name <type> "<data>"
+```
+
+### Actions (目标/反馈/结果)
+用于长时任务，支持抢占和反馈。
+
+```bash
+ros2 action list
+ros2 action info /action_name
+ros2 action send_goal /action_name <type> "<data>"
+```
+
+## 4. 参数与状态
+
+动态调整节点行为。
+
+```bash
+ros2 param list
+ros2 param get /node_name <param_name>
+ros2 param set /node_name <param_name> <value>
+ros2 param dump /node_name > params.yaml
+```
+
+## 5. 记录与回放
+
+调试机器人系统的“黑匣子”。
+
+```bash
+# 记录
+ros2 bag record /topic1 /topic2
+
+# 回放
+ros2 bag play <bag_file>
+ros2 bag info <bag_file>
+```
+
+## 结语
+
+熟练掌握 CLI 是从“调包侠”进化为“架构师”的第一步。ROS 2 的强大不在于复杂的 GUI，而在于这些简洁、可组合的指令。
+
+> 参考文档：[ROS 2 Jazzy Documentation](https://docs.ros.org/en/jazzy/index.html)
