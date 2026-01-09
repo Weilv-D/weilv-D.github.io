@@ -1,175 +1,223 @@
 ---
-title: '二连杆机器人：拉格朗日动力学推导'
-description: '平面二连杆、质量集中于末端。一份追求优雅与严谨的动力学推导笔记，包含惯量矩阵、斜对称科氏项与能量一致性检验。'
+title: '二连杆机械臂动力学方程：拉格朗日方法推导'
+description: '基于点质量模型，使用拉格朗日方法推导平面二连杆机械臂的完整动力学方程（M, C, G矩阵）。'
 pubDate: '2026-01-09'
 category: 'Tech'
 tags: ['Robotics', 'Dynamics', 'Math']
 heroImage: '/two-link-diagram.svg'
 ---
 
-推导笔记。
+本文记录平面二连杆机械臂（2R Robot Arm）动力学方程的推导过程。
 
-针对对象为**平面二连杆机器人**，假设质量集中于连杆末端。我们将基于拉格朗日函数 $L=T-V$，严谨推导 $M(q)$、$C(q, \dot q)$、$G(q)$，并特别关注**科氏矩阵的斜对称性构造**，以便于能量检验和基于无源性的控制律设计。
+推导采用 **欧拉-拉格朗日 (Euler-Lagrange)** 方法，并假设杆件质量集中于连杆末端（点质量模型）。
 
+## 1. 模型与符号
 
+考虑一个在竖直平面内运动的二连杆系统。
 
-## 1. 假设与符号
+*   **广义坐标**: $\boldsymbol{q} = [q_1, q_2]^\top$
+    *   $q_1$: 关节 1 角度（相对于水平 $x$ 轴）。
+    *   $q_2$: 关节 2 角度（相对于第一杆）。
+*   **物理参数**:
+    *   $l_1, l_2$: 连杆长度。
+    *   $m_1, m_2$: 连杆末端的点质量。
+    *   $g$: 重力加速度，方向沿 $y$ 轴负向。
 
-<div className="glass-liquid p-6 rounded-2xl my-8 border border-white/10">
-  <ul className="list-disc pl-4 space-y-2">
-    <li>**运动平面**：竖直平面，$q_1, q_2$ 按逆时针为正。</li>
-    <li>**几何参数**：杆长 $l_1, l_2$。</li>
-    <li>**惯性参数**：$m_1$ 集中在第一杆末端，$m_2$ 集中在第二杆末端（忽略杆自身转动惯量）。</li>
-    <li>**坐标定义**：基座在原点，$x$ 水平向右，$y$ 竖直向上（重力 $g$ 指向 $-y$）。</li>
-    <li>**状态变量**：$q=[q_1, q_2]^\top$。</li>
-  </ul>
-</div>
+## 2. 运动学分析
 
-## 2. 运动学几何
+计算动能需要先求出各质点的速度。
 
-首先建立位置与速度关系。
+### 2.1 位置向量
+根据几何关系，各质点坐标为：
 
-末端位置 $\mathbf p_1, \mathbf p_2$ 为：
-$$
-\mathbf p_1=\begin{bmatrix}l_1 c_1 \\ l_1 s_1\end{bmatrix},\quad
-\mathbf p_2=\begin{bmatrix}l_1 c_1+l_2 c_{12} \\ l_1 s_1+l_2 s_{12}\end{bmatrix}
-$$
-其中 $s_1=\sin q_1, c_{12}=\cos(q_1+q_2)$ 等简写。
-
-速度平方是动能计算的基础。利用余弦定理或直接展开 $\dot{\mathbf p}_i^\top \dot{\mathbf p}_i$，我们得到简洁形式：
+质点 1 ($m_1$):
 $$
 \begin{aligned}
-v_1^2 &= l_1^2\dot q_1^2 \\
-v_2^2 &= l_1^2\dot q_1^2 + l_2^2(\dot q_1+\dot q_2)^2 + 2 l_1 l_2 \cos q_2\, \dot q_1 (\dot q_1+\dot q_2)
+x_1 &= l_1 \cos q_1 \\
+y_1 &= l_1 \sin q_1
 \end{aligned}
 $$
-> **注意**：$v_2^2$ 中的交叉项仅与 $\cos q_2$ 有关，这源于两杆相对角度仅为 $q_2$。
 
-## 3. 能量与拉格朗日函数
+质点 2 ($m_2$):
+$$
+\begin{aligned}
+x_2 &= l_1 \cos q_1 + l_2 \cos(q_1 + q_2) \\
+y_2 &= l_1 \sin q_1 + l_2 \sin(q_1 + q_2)
+\end{aligned}
+$$
+*(注：后续使用简写 $s_1 = \sin q_1, c_{12} = \cos(q_1+q_2)$ 等)*
 
-这里的推导核心在于将动能整理为二次型 $T=\tfrac12 \dot q^\top M(q) \dot q$。
+### 2.2 速度向量
+对时间 $t$ 求导得到速度：
 
-### 动能 $T$
+质点 1:
 $$
-T = \underbrace{\tfrac12 m_1 v_1^2}_{link 1} + \underbrace{\tfrac12 m_2 v_2^2}_{link 2}
+\begin{aligned}
+\dot{x}_1 &= -l_1 \dot{q}_1 s_1 \\
+\dot{y}_1 &= l_1 \dot{q}_1 c_1
+\end{aligned}
 $$
-代入速度公式并合并同类项（按 $\dot q_1^2, \dot q_2^2, \dot q_1 \dot q_2$ 分组），得到惯性矩阵 $M(q)$ 的元素：
+
+质点 2:
 $$
-M(q)=
+\begin{aligned}
+\dot{x}_2 &= -l_1 \dot{q}_1 s_1 - l_2 (\dot{q}_1 + \dot{q}_2) s_{12} \\
+\dot{y}_2 &= l_1 \dot{q}_1 c_1 + l_2 (\dot{q}_1 + \dot{q}_2) c_{12}
+\end{aligned}
+$$
+
+### 2.3 速度平方
+计算 $v^2 = \dot{x}^2 + \dot{y}^2$：
+
+质点 1:
+$$
+v_1^2 = l_1^2 \dot{q}_1^2
+$$
+
+质点 2:
+$$
+\begin{aligned}
+v_2^2 &= (\dot{x}_2)^2 + (\dot{y}_2)^2 \\
+&= l_1^2 \dot{q}_1^2 + l_2^2 (\dot{q}_1 + \dot{q}_2)^2 + 2 l_1 l_2 \dot{q}_1 (\dot{q}_1 + \dot{q}_2) (s_1 s_{12} + c_1 c_{12})
+\end{aligned}
+$$
+利用三角恒等式 $\cos(A-B) = \cos A \cos B + \sin A \sin B$：
+$$
+v_2^2 = l_1^2 \dot{q}_1^2 + l_2^2 (\dot{q}_1 + \dot{q}_2)^2 + 2 l_1 l_2 \dot{q}_1 (\dot{q}_1 + \dot{q}_2) \cos q_2
+$$
+
+## 3. 能量计算
+
+### 3.1 动能
+系统总动能为：
+$$
+\begin{aligned}
+T &= \frac{1}{2} m_1 v_1^2 + \frac{1}{2} m_2 v_2^2 \\
+  &= \frac{1}{2} m_1 l_1^2 \dot{q}_1^2 + \frac{1}{2} m_2 \left[ l_1^2 \dot{q}_1^2 + l_2^2 (\dot{q}_1 + \dot{q}_2)^2 + 2 l_1 l_2 (\dot{q}_1^2 + \dot{q}_1 \dot{q}_2) c_2 \right]
+\end{aligned}
+$$
+整理后：
+$$
+T = \frac{1}{2} (m_1 + m_2) l_1^2 \dot{q}_1^2 + \frac{1}{2} m_2 l_2^2 (\dot{q}_1 + \dot{q}_2)^2 + m_2 l_1 l_2 c_2 (\dot{q}_1^2 + \dot{q}_1 \dot{q}_2)
+$$
+
+### 3.2 势能
+以 $y=0$ 为零势能面：
+$$
+\begin{aligned}
+V &= m_1 g y_1 + m_2 g y_2 \\
+  &= (m_1 + m_2) g l_1 s_1 + m_2 g l_2 s_{12}
+\end{aligned}
+$$
+
+### 3.3 拉格朗日函数
+$$
+L = T - V
+$$
+拉格朗日方程为：
+$$
+\frac{d}{dt} \left( \frac{\partial L}{\partial \dot{q}_k} \right) - \frac{\partial L}{\partial q_k} = \tau_k
+$$
+
+## 4. 方程推导
+
+### 4.1 关节 2
+
+1.  **对 $\dot{q}_2$ 求偏导**:
+    $$
+    \frac{\partial L}{\partial \dot{q}_2} = m_2 l_2^2 (\dot{q}_1 + \dot{q}_2) + m_2 l_1 l_2 c_2 \dot{q}_1
+    $$
+
+2.  **对时间 $t$ 求导**:
+    注意 $c_2$ 是时间函数，$\frac{d}{dt}c_2 = -s_2 \dot{q}_2$。
+    $$
+    \begin{aligned}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{q}_2} \right) &= m_2 l_2^2 (\ddot{q}_1 + \ddot{q}_2) + m_2 l_1 l_2 (\ddot{q}_1 c_2 - \dot{q}_1 s_2 \dot{q}_2) \\
+    &= (m_2 l_2^2 + m_2 l_1 l_2 c_2) \ddot{q}_1 + m_2 l_2^2 \ddot{q}_2 - m_2 l_1 l_2 s_2 \dot{q}_1 \dot{q}_2
+    \end{aligned}
+    $$
+
+3.  **对 $q_2$ 求偏导**:
+    $$
+    \frac{\partial L}{\partial q_2} = \frac{\partial T}{\partial q_2} - \frac{\partial V}{\partial q_2}
+    $$
+    $$
+    \begin{aligned}
+    \frac{\partial T}{\partial q_2} &= -m_2 l_1 l_2 s_2 (\dot{q}_1^2 + \dot{q}_1 \dot{q}_2) \\
+    \frac{\partial V}{\partial q_2} &= m_2 g l_2 c_{12}
+    \end{aligned}
+    $$
+
+4.  **合并得到 $\tau_2$**:
+    $$
+    \tau_2 = (m_2 l_2^2 + m_2 l_1 l_2 c_2) \ddot{q}_1 + m_2 l_2^2 \ddot{q}_2 + m_2 l_1 l_2 s_2 \dot{q}_1^2 + m_2 g l_2 c_{12}
+    $$
+
+### 4.2 关节 1
+
+1.  **对 $\dot{q}_1$ 求偏导**:
+    $$
+    \frac{\partial L}{\partial \dot{q}_1} = (m_1+m_2)l_1^2 \dot{q}_1 + m_2 l_2^2 (\dot{q}_1 + \dot{q}_2) + m_2 l_1 l_2 c_2 (2\dot{q}_1 + \dot{q}_2)
+    $$
+    整理得：
+    $$
+    \frac{\partial L}{\partial \dot{q}_1} = \left[ (m_1+m_2)l_1^2 + m_2 l_2^2 + 2m_2 l_1 l_2 c_2 \right] \dot{q}_1 + \left[ m_2 l_2^2 + m_2 l_1 l_2 c_2 \right] \dot{q}_2
+    $$
+
+2.  **对时间 $t$ 求导**:
+    $$
+    \begin{aligned}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{q}_1} \right) &= \left[ (m_1+m_2)l_1^2 + m_2 l_2^2 + 2m_2 l_1 l_2 c_2 \right] \ddot{q}_1 \\
+    &\quad - 2 m_2 l_1 l_2 s_2 \dot{q}_2 \dot{q}_1 \\
+    &\quad + \left[ m_2 l_2^2 + m_2 l_1 l_2 c_2 \right] \ddot{q}_2 \\
+    &\quad - m_2 l_1 l_2 s_2 \dot{q}_2 \dot{q}_2
+    \end{aligned}
+    $$
+    整理得：
+    $$
+    \dots = M_{11} \ddot{q}_1 + M_{12} \ddot{q}_2 - 2 m_2 l_1 l_2 s_2 \dot{q}_1 \dot{q}_2 - m_2 l_1 l_2 s_2 \dot{q}_2^2
+    $$
+
+3.  **对 $q_1$ 求偏导**:
+    $$
+    \frac{\partial L}{\partial q_1} = - \frac{\partial V}{\partial q_1} = - [ (m_1+m_2)g l_1 c_1 + m_2 g l_2 c_{12} ]
+    $$
+
+4.  **合并得到 $\tau_1$**:
+    $$
+    \tau_1 = M_{11} \ddot{q}_1 + M_{12} \ddot{q}_2 - 2 m_2 l_1 l_2 s_2 \dot{q}_1 \dot{q}_2 - m_2 l_1 l_2 s_2 \dot{q}_2^2 + G_1
+    $$
+
+## 5. 动力学方程矩阵形式
+
+标准形式为 $M(\boldsymbol{q})\ddot{\boldsymbol{q}} + C(\boldsymbol{q}, \dot{\boldsymbol{q}})\dot{\boldsymbol{q}} + \boldsymbol{G}(\boldsymbol{q}) = \boldsymbol{\tau}$。
+
+### 5.1 惯性矩阵
+$$
+M(\boldsymbol{q}) = 
 \begin{bmatrix}
-(m_1+m_2)l_1^2 + m_2 l_2^2 + 2 m_2 l_1 l_2 c_2 & m_2 l_2^2 + m_2 l_1 l_2 c_2 \\
+(m_1 + m_2) l_1^2 + m_2 l_2^2 + 2 m_2 l_1 l_2 c_2 & m_2 l_2^2 + m_2 l_1 l_2 c_2 \\
 m_2 l_2^2 + m_2 l_1 l_2 c_2 & m_2 l_2^2
 \end{bmatrix}
 $$
 
-### 势能 $V$
-选取 $y=0$ 为零势能面，$y$ 轴向上为正：
+### 5.2 科氏力与离心力项
+定义 $h = m_2 l_1 l_2 \sin q_2$，采用 Christoffel 符号构造：
 $$
-V = g\big[(m_1+m_2)l_1\sin q_1 + m_2 l_2 \sin(q_1+q_2)\big]
-$$
-
-### 拉格朗日函数
-$$L = T - V$$
-
-## 4. 动力学方程
-
-代入拉格朗日方程 $\frac{d}{dt}(\frac{\partial L}{\partial \dot q}) - \frac{\partial L}{\partial q} = \tau$，整理为标准形式：
-$$
-M(q)\ddot q + C(q,\dot q)\dot q + G(q) = \tau
-$$
-
-### 科氏与离心项 $C(q, \dot q)$
-定义辅助常数 $h = m_2 l_1 l_2 \sin q_2$。
-虽然 $C$ 矩阵不唯一，但为了满足 **$\dot M - 2C$ 是反对称矩阵** 这一重要性质（对稳定性分析至关重要），通常采用 Christoffel 符号构造标准形式：
-
-$$
-C(q,\dot q) =
+C(\boldsymbol{q}, \dot{\boldsymbol{q}}) = 
 \begin{bmatrix}
--h\dot q_2 & -h(\dot q_1 + \dot q_2) \\
-h\dot q_1 & 0
+-h \dot{q}_2 & -h (\dot{q}_1 + \dot{q}_2) \\
+h \dot{q}_1 & 0
 \end{bmatrix}
 $$
 
-对应的项 $C(q,\dot q)\dot q$ 展开为：
+### 5.3 重力项
 $$
+\boldsymbol{G}(\boldsymbol{q}) = 
 \begin{bmatrix}
--h \dot q_2^2 - 2h \dot q_1 \dot q_2 \\
-h \dot q_1^2
-\end{bmatrix}
-$$
-*第一行包含离心力 $-h \dot q_2^2$ 和科氏力 $-2h \dot q_1 \dot q_2$，第二行仅含离心力 $h \dot q_1^2$。*
-
-### 重力项 $G(q)$
-对势能求偏导 $G(q) = \frac{\partial V}{\partial q}$：
-$$
-G(q)=
-\begin{bmatrix}
- g(m_1+m_2)l_1 c_1 + g m_2 l_2 c_{12} \\
- g m_2 l_2 c_{12}
+(m_1 + m_2) g l_1 \cos q_1 + m_2 g l_2 \cos(q_1 + q_2) \\
+m_2 g l_2 \cos(q_1 + q_2)
 \end{bmatrix}
 $$
 
-## 5. 能量一致性与代码实现
-
-在数值仿真中，检验推导正确性的最佳方法是验证**能量守恒**（在 $\tau=0$ 且无阻尼时）。
-$$
-E = \tfrac12 \dot q^\top M(q) \dot q + V(q) = \text{const}
-$$
-若 $\frac{dE}{dt} = \dot q^\top (\tau - \text{damping})$ 成立，则模型自洽。
-
-### Python 参考实现 (NumPy)
-
-```python
-import numpy as np
-
-def two_link_dynamics(q, dq, params, g=9.81):
-    """
-    计算二连杆动力学方程 M(q)ddq + C(q,dq)dq + G(q) = tau
-    params: [l1, l2, m1, m2]
-    """
-    q1, q2 = q
-    dq1, dq2 = dq
-    l1, l2, m1, m2 = params
-    
-    # 辅助变量
-    c1, s1 = np.cos(q1), np.sin(q1)
-    c2, s2 = np.cos(q2), np.sin(q2)
-    c12 = np.cos(q1 + q2)
-    
-    # 1. 惯性矩阵 M(q)
-    # 显式对称化以减少数值误差
-    m11 = (m1 + m2) * l1**2 + m2 * l2**2 + 2 * m2 * l1 * l2 * c2
-    m12 = m2 * l2**2 + m2 * l1 * l2 * c2
-    m22 = m2 * l2**2
-    M = np.array([[m11, m12], [m12, m22]])
-    
-    # 2. 科氏与离心项 C(q, dq)
-    # 采用斜对称构造
-    h = m2 * l1 * l2 * s2
-    C = np.array([
-        [-h * dq2, -h * (dq1 + dq2)],
-        [ h * dq1,  0.0]
-    ])
-    
-    # 3. 重力项 G(q)
-    # 势能 V 关于 q 的梯度
-    g1 = g * ((m1 + m2) * l1 * c1 + m2 * l2 * c12)
-    g2 = g * m2 * l2 * c12
-    G = np.array([g1, g2])
-
-    return M, C @ dq, G
-
-def check_energy(q, dq, params, g=9.81):
-    M, _, _ = two_link_dynamics(q, dq, params, g)
-    l1, l2, m1, m2 = params
-    
-    # 动能
-    T = 0.5 * dq @ M @ dq
-    
-    # 势能
-    y1 = l1 * np.sin(q[0])
-    y2 = y1 + l2 * np.sin(q[0] + q[1])
-    V = m1 * g * y1 + m2 * g * y2
-    
-    return T + V
-```
+以上即为平面二连杆机械臂在点质量模型下的完整动力学方程。

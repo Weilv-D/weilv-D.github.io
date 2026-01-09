@@ -37,5 +37,20 @@ const { title, description, image, wide = false } = Astro.props;
 		</main>
 		<Footer />
         <BackToTop client:idle />
+        <script>
+            import renderMathInElement from 'katex/dist/contrib/auto-render.mjs';
+
+            document.addEventListener("astro:page-load", function() {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            });
+        </script>
 	</body>
 </html>
