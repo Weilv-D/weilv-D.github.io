@@ -1,5 +1,6 @@
 @import "@fontsource/inter";
 @import "@fontsource/playfair-display";
+@import "@fontsource/bodoni-moda";
 @import "@fontsource/noto-serif-sc";
 
 @tailwind base;
@@ -28,7 +29,7 @@
   }
 
   body {
-    @apply bg-[var(--color-background)] text-[var(--color-text)] transition-colors duration-300 ease-in-out antialiased;
+    @apply bg-[var(--color-background)] text-[var(--color-text)] font-serif transition-colors duration-300 ease-in-out antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {

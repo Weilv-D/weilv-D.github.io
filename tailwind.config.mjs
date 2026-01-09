@@ -2,31 +2,15 @@
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	darkMode: 'class',
-	theme: {
-		extend: {
-			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				serif: ['"Playfair Display"', '"Noto Serif SC"', 'serif'],
-			},
-            colors: {
-                // 定义优雅的自定义色板
-                primary: 'var(--color-primary)',
-                secondary: 'var(--color-secondary)',
-                accent: 'var(--color-accent)',
-                background: 'var(--color-background)',
-                surface: 'var(--color-surface)',
-                text: 'var(--color-text)',
-            }
-		},
-	},
+
 	plugins: [
 		require('@tailwindcss/typography'),
 	],
     theme: {
 		extend: {
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				serif: ['"Playfair Display"', '"Noto Serif SC"', 'serif'],
+				sans: ['"Inter"', '"Noto Serif SC"', 'sans-serif'],
+				serif: ['"Bodoni Moda"', '"Noto Serif SC"', '"Playfair Display"', 'serif'],
 			},
             colors: {
                 primary: 'var(--color-primary)',

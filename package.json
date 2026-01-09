@@ -16,6 +16,7 @@
     "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.1.6",
     "@astrojs/tailwind": "^5.1.0",
+    "@fontsource/bodoni-moda": "^5.2.7",
     "@fontsource/inter": "^5.0.18",
     "@fontsource/noto-serif-sc": "^5.0.18",
     "@fontsource/playfair-display": "^5.0.18",
