@@ -7,4 +7,4 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 .github/copilot-instructions.md
-
+AGENTS.md
