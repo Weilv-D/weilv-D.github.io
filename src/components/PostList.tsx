@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import PostCover from './PostCover';
 
 interface Post {
@@ -18,7 +18,7 @@ interface Props {
 type SortOption = 'date-desc' | 'date-asc' | 'title-asc' | 'title-desc';
 
 export default function PostList({ initialPosts }: Props) {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [posts] = useState<Post[]>(initialPosts);
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [sortOption, setSortOption] = useState<SortOption>('date-desc');
   const [isClientMode, setIsClientMode] = useState(false);
@@ -80,7 +80,11 @@ export default function PostList({ initialPosts }: Props) {
         <div className="relative group z-20">
           <button 
             className="flex items-center gap-2 px-4 py-2 rounded-full glass-liquid text-sm font-medium text-[var(--color-primary)] hover:scale-105 transition-all duration-300"
-            onMouseEnter={loadAllPosts}
+            onClick={() => {
+              if (!isClientMode) {
+                void loadAllPosts();
+              }
+            }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
@@ -116,20 +120,20 @@ export default function PostList({ initialPosts }: Props) {
             sortedPosts.map((post, index) => (
             <article 
                 key={post.slug}
-                className="group relative flex flex-col md:flex-row gap-6 md:gap-8 items-start p-4 -mx-4 rounded-3xl hover:bg-[var(--color-surface)] transition-colors duration-300 animate-fade-in-up"
+                className="group relative flex flex-col md:flex-row gap-6 md:gap-10 items-start p-6 -mx-6 rounded-[2rem] hover:bg-[var(--color-surface)] transition-all duration-500 animate-fade-in-up"
                 style={{ animationDelay: `${index * 50}ms` }}
             >
-                <a href={`${baseUrl}blog/${post.slug}`} className="block md:w-1/3 shrink-0 w-full">
+                <a href={`${baseUrl}blog/${post.slug}`} className="block md:w-[35%] shrink-0 w-full overflow-hidden rounded-2xl">
                 <PostCover 
                     title={post.title} 
                     image={post.heroImage} 
                     category={post.category}
-                    className="aspect-[4/3] rounded-2xl shadow-sm border border-[var(--color-border)]"
+                    className="aspect-[4/3] w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 </a>
                 
                 <div className="flex-1 flex flex-col justify-center py-2 w-full">
-                <div className="flex items-center gap-3 text-xs font-medium text-[var(--color-secondary)] mb-3 uppercase tracking-wider">
+                <div className="flex items-center gap-3 text-xs font-semibold text-[var(--color-secondary)] mb-4 uppercase tracking-widest">
                     <time dateTime={post.pubDate}>
                     {new Date(post.pubDate).toLocaleDateString('en-us', {
                         year: 'numeric',
@@ -137,21 +141,21 @@ export default function PostList({ initialPosts }: Props) {
                         day: 'numeric',
                     })}
                     </time>
-                    <span className="w-1 h-1 rounded-full bg-[var(--color-accent)]"></span>
-                    <span>{post.category}</span>
+                    <span className="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
+                    <span className="text-[var(--color-primary)]">{post.category}</span>
                 </div>
                 
-                <a href={`${baseUrl}blog/${post.slug}`} className="group-hover:text-[var(--color-accent)] transition-colors">
-                    <h2 className="text-2xl font-bold mb-3 leading-tight">
+                <a href={`${baseUrl}blog/${post.slug}`} className="group/title block">
+                    <h2 className="text-2xl md:text-3xl font-serif font-bold mb-3 leading-tight group-hover/title:text-[var(--color-accent)] transition-colors">
                     {post.title}
                     </h2>
                 </a>
                 
-                <p className="text-[var(--color-secondary)] line-clamp-2 mb-4 leading-relaxed">
+                <p className="text-[var(--color-secondary)] line-clamp-2 mb-6 leading-relaxed opacity-90">
                     {post.description}
                 </p>
                 
-                <a href={`${baseUrl}blog/${post.slug}`} className="inline-flex items-center text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors">
+                <a href={`${baseUrl}blog/${post.slug}`} className="inline-flex items-center text-sm font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
                     Read Article 
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

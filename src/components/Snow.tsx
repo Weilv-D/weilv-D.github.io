@@ -22,10 +22,13 @@ export default function Snow() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationFrameId: number;
+    let animationFrameId = 0;
     let snowflakes: Snowflake[] = [];
     let width = window.innerWidth;
     let height = window.innerHeight;
+    let isPaused = false;
+    let isDark = document.documentElement.classList.contains('dark');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const resize = () => {
       width = window.innerWidth;
@@ -34,11 +37,15 @@ export default function Snow() {
       canvas.height = height;
     };
 
+    const updateTheme = () => {
+      isDark = document.documentElement.classList.contains('dark');
+    };
+
     const createSnowflakes = () => {
-      const count = Math.floor((width * height) / 12000); // Increased density slightly
+      const count = Math.floor((width * height) / 16000);
       snowflakes = [];
       for (let i = 0; i < count; i++) {
-        const isLarge = Math.random() > 0.85; // 15% chance of being a large snowflake
+        const isLarge = Math.random() > 0.85;
         snowflakes.push({
           x: Math.random() * width,
           y: Math.random() * height,
@@ -63,21 +70,19 @@ export default function Snow() {
       }
       ctx.closePath();
       ctx.fill();
-      
-      // Inner detail for structure
+
       ctx.globalCompositeOperation = 'destination-out';
       ctx.beginPath();
       ctx.arc(0, 0, radius * 0.4, 0, Math.PI * 2);
       ctx.fill();
       ctx.globalCompositeOperation = 'source-over';
-      
+
       ctx.restore();
     };
 
     const update = () => {
+      if (isPaused || reduceMotion.matches) return;
       ctx.clearRect(0, 0, width, height);
-      
-      const isDark = document.documentElement.classList.contains('dark');
 
       snowflakes.forEach((flake) => {
         flake.y += flake.speed;
@@ -94,30 +99,70 @@ export default function Snow() {
           flake.x = width;
         }
 
-        ctx.fillStyle = isDark 
-            ? `rgba(255, 255, 255, ${flake.opacity})` 
-            : `rgba(148, 163, 184, ${flake.opacity})`;
+        ctx.fillStyle = isDark
+          ? `rgba(255, 255, 255, ${flake.opacity})`
+          : `rgba(148, 163, 184, ${flake.opacity})`;
 
         if (flake.type === 'hexagon') {
-           drawHexagon(flake.x, flake.y, flake.radius, flake.rotation);
+          drawHexagon(flake.x, flake.y, flake.radius, flake.rotation);
         } else {
-           ctx.beginPath();
-           ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
-           ctx.fill();
+          ctx.beginPath();
+          ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+          ctx.fill();
         }
       });
 
-      animationFrameId = requestAnimationFrame(update);
+      animationFrameId = window.requestAnimationFrame(update);
+    };
+
+    const start = () => {
+      if (animationFrameId) return;
+      update();
+    };
+
+    const stop = () => {
+      if (!animationFrameId) return;
+      window.cancelAnimationFrame(animationFrameId);
+      animationFrameId = 0;
+    };
+
+    const handleVisibility = () => {
+      isPaused = document.hidden;
+      if (isPaused) {
+        stop();
+      } else {
+        start();
+      }
+    };
+
+    const handleReducedMotion = () => {
+      if (reduceMotion.matches) {
+        stop();
+      } else {
+        start();
+      }
     };
 
     window.addEventListener('resize', resize);
+    window.addEventListener('focus', updateTheme);
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('storage', updateTheme);
+    reduceMotion.addEventListener('change', handleReducedMotion);
+
     resize();
     createSnowflakes();
-    update();
+    updateTheme();
+    handleVisibility();
+    handleReducedMotion();
+    start();
 
     return () => {
       window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('focus', updateTheme);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('storage', updateTheme);
+      reduceMotion.removeEventListener('change', handleReducedMotion);
+      stop();
     };
   }, []);
 

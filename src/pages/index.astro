@@ -4,42 +4,42 @@ import PostCover from '../components/PostCover.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
-	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 ).slice(0, 5);
 ---
 
 <BaseLayout title="未来回忆录" description="weilv的时空褶皱 - 技术与生活的数字花园">
-	<section class="py-20">
-		<h1 class="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight">
-			<span class="text-[var(--color-accent)]">未来回忆录</span><br/>
-			<span class="text-2xl md:text-4xl opacity-80">weilv的时空褶皱</span>
+	<section class="py-24 md:py-32">
+		<h1 class="text-5xl md:text-7xl font-serif font-bold mb-8 leading-tight tracking-tight">
+			<span class="text-[var(--color-primary)] relative z-10">未来回忆录</span>
+            <span class="block text-2xl md:text-4xl text-[var(--color-secondary)] font-normal mt-4 tracking-normal opacity-80">weilv的时空褶皱</span>
 		</h1>
-		<p class="text-lg md:text-xl text-[var(--color-secondary)] max-w-2xl leading-relaxed">
-			在这里记录技术探索的足迹，也收藏生活中的吉光片羽。
+		<p class="text-lg md:text-xl text-[var(--color-secondary)] max-w-2xl leading-relaxed font-light">
+			在这里记录技术探索的足迹，也收藏生活中的吉光片羽。<br class="hidden md:block" />
             试图在时间的长河中，折叠出属于自己的意义。
 		</p>
 	</section>
 
-	<section class="mt-12">
-		<div class="flex justify-between items-baseline mb-8">
-			<h2 class="text-2xl font-serif font-bold">最新篇章</h2>
-			<a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline">查看全部</a>
+	<section class="mt-8 md:mt-16">
+		<div class="flex justify-between items-baseline mb-12 border-b border-[var(--color-border)] pb-4">
+			<h2 class="text-2xl font-serif font-bold tracking-tight">最新篇章</h2>
+			<a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline opacity-60 hover:opacity-100 transition-opacity">查看全部</a>
 		</div>
 
-		<div class="space-y-12">
+		<div class="space-y-8 md:space-y-12">
 			{posts.map((post, index) => (
-				<article class={`group relative flex flex-col md:flex-row gap-6 md:gap-8 items-start p-4 -mx-4 rounded-3xl hover:bg-[var(--color-surface)] transition-colors duration-300 animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
-					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block md:w-1/3 shrink-0">
+				<article class={`group relative flex flex-col md:flex-row gap-6 md:gap-10 items-start p-6 -mx-6 rounded-[2rem] hover:bg-[var(--color-surface)] transition-all duration-500 animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
+					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block md:w-[35%] shrink-0 overflow-hidden rounded-2xl">
                         <PostCover 
                             title={post.data.title} 
                             image={post.data.heroImage} 
                             category={post.data.category}
-                            className="aspect-[4/3] rounded-2xl shadow-sm border border-[var(--color-border)]"
+                            className="aspect-[4/3] w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                     </a>
                     
                     <div class="flex-1 flex flex-col justify-center py-2">
-                        <div class="flex items-center gap-3 text-xs font-medium text-[var(--color-secondary)] mb-3 uppercase tracking-wider">
+                        <div class="flex items-center gap-3 text-xs font-semibold text-[var(--color-secondary)] mb-4 uppercase tracking-widest">
                             <time datetime={post.data.pubDate.toISOString()}>
                                 {post.data.pubDate.toLocaleDateString('en-us', {
                                     year: 'numeric',
@@ -47,21 +47,21 @@ const posts = (await getCollection('blog')).sort(
                                     day: 'numeric',
                                 })}
                             </time>
-                            <span class="w-1 h-1 rounded-full bg-[var(--color-accent)]"></span>
-                            <span>{post.data.category}</span>
+                            <span class="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
+                            <span class="text-[var(--color-primary)]">{post.data.category}</span>
                         </div>
                         
-                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="group-hover:text-[var(--color-accent)] transition-colors">
-                            <h3 class="text-2xl font-bold mb-3 leading-tight">
+                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="group/title block">
+                            <h3 class="text-2xl md:text-3xl font-serif font-bold mb-3 leading-tight group-hover/title:text-[var(--color-accent)] transition-colors">
                                 {post.data.title}
                             </h3>
                         </a>
                         
-                        <p class="text-[var(--color-secondary)] line-clamp-2 mb-4 leading-relaxed">
+                        <p class="text-[var(--color-secondary)] line-clamp-2 mb-6 leading-relaxed opacity-90">
                             {post.data.description}
                         </p>
                         
-                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="inline-flex items-center text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors">
+                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="inline-flex items-center text-sm font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
                             Read Article 
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />

@@ -14,18 +14,25 @@ export default function Search() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
+    const isLoadingRef = useRef(false);
+
+    const baseUrl = import.meta.env.BASE_URL;
+
+    const loadPosts = async () => {
+        if (posts.length > 0 || isLoadingRef.current) return;
+        isLoadingRef.current = true;
+        try {
+            const res = await fetch(`${baseUrl}search.json`);
+            const data = await res.json();
+            setPosts(data);
+        } catch (err) {
+            console.error("Failed to load search index", err);
+        } finally {
+            isLoadingRef.current = false;
+        }
+    };
 
     useEffect(() => {
-        // Get the base URL from a meta tag or global variable if possible, 
-        // but for now we can infer it or hardcode the known base.
-        // Since we are in a component, import.meta.env.BASE_URL is available at build time.
-        const baseUrl = import.meta.env.BASE_URL;
-        
-        fetch(`${baseUrl}search.json`)
-            .then(res => res.json())
-            .then(data => setPosts(data))
-            .catch(err => console.error("Failed to load search index", err));
-            
         const handleClickOutside = (event: MouseEvent) => {
             if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
@@ -36,24 +43,27 @@ export default function Search() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        if (query.length === 0) {
+            setIsOpen(false);
+            setResults([]);
+            return;
+        }
+        setIsOpen(true);
+        const filtered = posts.filter(post =>
+            post.title.toLowerCase().includes(query.toLowerCase()) ||
+            post.description.toLowerCase().includes(query.toLowerCase())
+        );
+        setResults(filtered.slice(0, 5));
+    }, [query, posts]);
+
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const q = e.target.value;
         setQuery(q);
-        
         if (q.length > 0) {
-            setIsOpen(true);
-            const filtered = posts.filter(post => 
-                post.title.toLowerCase().includes(q.toLowerCase()) ||
-                post.description.toLowerCase().includes(q.toLowerCase())
-            );
-            setResults(filtered.slice(0, 5)); // Limit to 5 results
-        } else {
-            setIsOpen(false);
-            setResults([]);
+            loadPosts();
         }
     };
-
-    const baseUrl = import.meta.env.BASE_URL;
 
     return (
         <div className="relative w-9 md:w-auto h-9 flex items-center" ref={searchRef}>
@@ -63,7 +73,12 @@ export default function Search() {
                     placeholder="搜索..."
                     value={query}
                     onChange={handleSearch}
-                    onFocus={() => query.length > 0 && setIsOpen(true)}
+                    onFocus={() => {
+                        if (query.length > 0) {
+                            setIsOpen(true);
+                        }
+                        loadPosts();
+                    }}
                     className="
                         w-9 md:w-48 
                         focus:w-[200px] md:focus:w-48 

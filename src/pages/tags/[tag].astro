@@ -5,10 +5,10 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
-  const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+  const uniqueTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))];
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post) => post.data.tags.includes(tag));
+    const filteredPosts = allPosts.filter((post) => (post.data.tags ?? []).includes(tag));
     return {
       params: { tag },
       props: { posts: filteredPosts },
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
-const sortedPosts = posts.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <BaseLayout title={`标签: ${tag} | 未来回忆录`} description={`关于 ${tag} 的文章`}>
@@ -31,17 +31,17 @@ const sortedPosts = posts.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDa
         
         <div class="space-y-12">
             {sortedPosts.map((post, index) => (
-                <article class={`group relative flex flex-col md:flex-row gap-6 md:gap-8 items-start p-4 -mx-4 rounded-3xl hover:bg-[var(--color-surface)] transition-colors duration-300 animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
-					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block md:w-1/3 shrink-0">
+                <article class={`group relative flex flex-col md:flex-row gap-6 md:gap-10 items-start p-6 -mx-6 rounded-[2rem] hover:bg-[var(--color-surface)] transition-all duration-500 animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
+					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block md:w-[35%] shrink-0 overflow-hidden rounded-2xl">
                         <PostCover 
                             title={post.data.title} 
                             image={post.data.heroImage} 
                             category={post.data.category}
-                            className="aspect-[4/3] rounded-2xl shadow-sm border border-[var(--color-border)]"
+                            className="aspect-[4/3] w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                     </a>
                     <div class="flex-1 flex flex-col justify-center py-2">
-                        <div class="flex items-center gap-3 text-xs font-medium text-[var(--color-secondary)] mb-3 uppercase tracking-wider">
+                        <div class="flex items-center gap-3 text-xs font-semibold text-[var(--color-secondary)] mb-4 uppercase tracking-widest">
                             <time datetime={post.data.pubDate.toISOString()}>
                                 {post.data.pubDate.toLocaleDateString('en-us', {
                                     year: 'numeric',
@@ -49,17 +49,22 @@ const sortedPosts = posts.sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDa
                                     day: 'numeric',
                                 })}
                             </time>
-                            <span class="w-1 h-1 rounded-full bg-[var(--color-accent)]"></span>
-                            <span>{post.data.category}</span>
+                            <span class="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
+                            <span class="text-[var(--color-primary)]">{post.data.category}</span>
                         </div>
-                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block">
-                            <h2 class="text-2xl font-bold mb-2 group-hover:text-[var(--color-accent)] transition-colors">
+                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="group/title block">
+                            <h2 class="text-2xl md:text-3xl font-serif font-bold mb-3 leading-tight group-hover/title:text-[var(--color-accent)] transition-colors">
                                 {post.data.title}
                             </h2>
-                            <p class="text-[var(--color-secondary)] mb-4">
+                            <p class="text-[var(--color-secondary)] line-clamp-2 mb-6 leading-relaxed opacity-90 font-sans font-normal">
                                 {post.data.description}
                             </p>
-                            <span class="text-sm font-medium link-underline">阅读更多</span>
+                            <span class="inline-flex items-center text-sm font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
+                                Read Article
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </span>
                         </a>
                     </div>
                 </article>

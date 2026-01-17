@@ -48,8 +48,14 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
     });
   });
 
-  // Track all headings that have an id
-  document.querySelectorAll('h2[id], h3[id]').forEach((section) => {
-    observer.observe(section);
-  });
+  const observeHeadings = () => {
+    observer.disconnect();
+    document.querySelectorAll('h2[id], h3[id]').forEach((section) => {
+      observer.observe(section);
+    });
+  };
+
+  observeHeadings();
+
+  document.addEventListener('astro:after-swap', observeHeadings);
 </script>

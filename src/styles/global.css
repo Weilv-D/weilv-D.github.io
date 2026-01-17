@@ -10,30 +10,34 @@
 @layer base {
   :root {
     --color-background: #ffffff;
-    --color-surface: #f9fafb;
-    --color-text: #374151; /* Gray 700 - Softer than pure black */
-    --color-primary: #111827; /* Gray 900 */
-    --color-secondary: #6b7280; /* Gray 500 */
-    --color-accent: #64748b; /* Slate 500 */
-    --color-border: #e5e7eb;
+    --color-surface: #f8fafc; /* Slightly cooler white */
+    --color-text: #334155; /* Slate 700 - Crisper */
+    --color-primary: #0f172a; /* Slate 900 */
+    --color-secondary: #64748b; /* Slate 500 */
+    --color-accent: #475569; /* Slate 600 */
+    --color-border: #e2e8f0;
   }
 
   .dark {
-    --color-background: #0f172a; /* Slate 900 */
-    --color-surface: #1e293b; /* Slate 800 */
-    --color-text: #cbd5e1; /* Slate 300 */
+    --color-background: #020617; /* Slate 950 - Deeper black */
+    --color-surface: #0f172a; /* Slate 900 */
+    --color-text: #e2e8f0; /* Slate 200 */
     --color-primary: #f8fafc; /* Slate 50 */
     --color-secondary: #94a3b8; /* Slate 400 */
     --color-accent: #cbd5e1;
-    --color-border: #334155;
+    --color-border: #1e293b;
   }
 
   body {
-    @apply bg-[var(--color-background)] text-[var(--color-text)] font-serif transition-colors duration-300 ease-in-out antialiased;
+    @apply bg-[var(--color-background)] text-[var(--color-text)] font-serif transition-colors duration-500 ease-out antialiased;
+  }
+
+  ::selection {
+    @apply bg-[var(--color-primary)] text-[var(--color-background)];
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-bold text-[var(--color-primary)];
+    @apply font-serif font-bold text-[var(--color-primary)] tracking-tight;
   }
   
   /* Custom Scrollbar */
@@ -84,12 +88,11 @@
 
   /* Liquid Glass Effect - Apple Style */
   .glass-liquid {
-    @apply bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl backdrop-saturate-150 border border-white/40 dark:border-slate-700/40 shadow-lg;
-    /* Fallback for browsers that don't support backdrop-filter if needed, but most do now */
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl backdrop-saturate-150 border border-white/50 dark:border-slate-700/50 shadow-sm supports-[backdrop-filter]:bg-white/50 supports-[backdrop-filter]:dark:bg-slate-900/50;
   }
 
   .glass-panel {
-    @apply glass-liquid rounded-3xl;
+    @apply glass-liquid rounded-[2rem];
   }
 
   /* Squircle Utility */
