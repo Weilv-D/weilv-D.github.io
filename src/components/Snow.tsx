@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface Snowflake {
   x: number;
@@ -14,8 +14,13 @@ interface Snowflake {
 
 export default function Snow() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [enabled] = useState(() => {
+    const month = new Date().getMonth();
+    return month === 11 || month === 0 || month === 1;
+  });
 
   useEffect(() => {
+    if (!enabled) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
