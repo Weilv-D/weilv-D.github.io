@@ -33,24 +33,27 @@ const initialPosts = page.data.map((post) => ({
 
 <BaseLayout title="文章 | 未来回忆录" description="weilv的所有文章">
 	<section>
-		<h1 class="text-4xl font-serif font-bold mb-12">所有文章</h1>
+		<div class="mb-12 border-b border-[var(--color-border)] pb-6">
+			<p class="text-[11px] uppercase tracking-[0.34em] text-[var(--color-secondary)] mb-3">Archive Ledger</p>
+			<h1 class="text-4xl md:text-5xl font-serif font-bold">所有文章</h1>
+		</div>
 		
         <PostList client:load initialPosts={initialPosts} />
 
         {/* Static Pagination Controls (Hidden when client mode is active, handled by React component logic visually) */}
         <div class="flex justify-between mt-12 pt-8 border-t border-[var(--color-border)]">
             {page.url.prev ? (
-                <a href={`${import.meta.env.BASE_URL}${page.url.prev.slice(1)}`} class="text-sm font-medium link-underline">
+                <a href={`${import.meta.env.BASE_URL}${page.url.prev.slice(1)}`} class="text-sm font-serif tracking-[0.14em] uppercase link-underline">
                     &larr; 上一页
                 </a>
             ) : <div></div>}
             
-            <span class="text-sm text-[var(--color-secondary)]">
+            <span class="text-sm text-[var(--color-secondary)] font-serif">
                 第 {page.currentPage} 页 / 共 {page.lastPage} 页
             </span>
 
             {page.url.next ? (
-                <a href={`${import.meta.env.BASE_URL}${page.url.next.slice(1)}`} class="text-sm font-medium link-underline">
+                <a href={`${import.meta.env.BASE_URL}${page.url.next.slice(1)}`} class="text-sm font-serif tracking-[0.14em] uppercase link-underline">
                     下一页 &rarr;
                 </a>
             ) : <div></div>}

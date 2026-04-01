@@ -89,7 +89,9 @@ export default function Search() {
                         focus:bg-[var(--color-background)] 
                         border border-transparent md:border-[var(--color-border)] 
                         focus:border-[var(--color-primary)] 
-                        text-sm 
+                        text-sm
+                        font-serif
+                        tracking-[0.08em]
                         focus:outline-none 
                         transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
                         cursor-pointer focus:cursor-text 
@@ -106,14 +108,14 @@ export default function Search() {
             </div>
 
             {isOpen && results.length > 0 && (
-                <div className="absolute top-full right-0 mt-2 w-80 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-lg shadow-xl overflow-hidden z-50">
+                <div className="absolute top-full right-0 mt-2 w-80 bg-[var(--color-background)] border border-[var(--color-border)] rounded-[1.2rem] shadow-xl overflow-hidden z-50">
                     {results.map((post) => (
                         <a 
                             key={post.slug} 
                             href={`${baseUrl}blog/${post.slug}`}
                             className="block px-4 py-3 hover:bg-[var(--color-surface)] border-b border-[var(--color-border)] last:border-0 transition-colors"
                         >
-                            <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1">{post.title}</h4>
+                            <h4 className="text-sm font-bold text-[var(--color-primary)] mb-1 font-serif">{post.title}</h4>
                             <p className="text-xs text-[var(--color-secondary)] line-clamp-1">{post.description}</p>
                         </a>
                     ))}
@@ -121,7 +123,7 @@ export default function Search() {
             )}
             
             {isOpen && query.length > 0 && results.length === 0 && (
-                 <div className="absolute top-full right-0 mt-2 w-64 bg-[var(--color-bg)] border border-[var(--color-border)] rounded-lg shadow-xl p-4 text-sm text-[var(--color-secondary)] z-50">
+                 <div className="absolute top-full right-0 mt-2 w-64 bg-[var(--color-background)] border border-[var(--color-border)] rounded-[1.2rem] shadow-xl p-4 text-sm text-[var(--color-secondary)] z-50 font-serif">
                     未找到相关文章
                 </div>
             )}

@@ -1,0 +1,101 @@
+---
+title: '记忆副刊：把博客做成一份会呼吸的纸上城市'
+description: '第二份 Prophet 增刊，验证同一排版引擎在不同版心组合下的复用能力：多障碍、不同叙事重心、不同栏目节奏。'
+pubDate: '2026-04-02'
+category: 'Life'
+tags: ['Editorial Design', 'Typography', 'Memoir']
+layoutStyle: 'prophet'
+edition: '记忆副刊第二号'
+series: 'Prophet'
+issueNumber: 2
+featured: true
+prophet:
+  kicker: 'MEMORY SUPPLEMENT'
+  deck: '同一个排版引擎，不该只会长出一张头版。它还应该能长出副刊、人物通讯、城市剪报与私人档案。'
+  sidebarTitle: '副刊档案'
+  sidebarItems:
+    - '版心重心从技术演示转为记忆叙事'
+    - '障碍块布局与上一份增刊完全不同'
+    - '引文、剪影、印章与栏目札记仍由同一引擎驱动'
+  stageBlocks:
+    - type: 'seal'
+      title: 'City'
+      text: 'Memoir'
+      desktop: { x: 0.82, y: 0.09, w: 0.12, h: 0.13 }
+      mobile: { x: 0.72, y: 0.11, w: 0.18, h: 0.12 }
+    - type: 'quote'
+      text: '一份好的副刊，不是把头版缩小，而是让叙述和留白重新达成新的平衡。'
+      desktop: { x: 0.56, y: 0.18, w: 0.25, h: 0.2 }
+      mobile: { x: 0, y: 0.21, w: 1, h: 0.18 }
+    - type: 'portrait'
+      src: '/prophet-portrait-silhouette.svg'
+      caption: '记忆肖像'
+      desktop: { x: 0.06, y: 0.12, w: 0.19, h: 0.28 }
+      mobile: { x: 0.02, y: 0.08, w: 0.28, h: 0.22 }
+      motion: { dx: 9, dy: 13, speed: 0.8 }
+    - type: 'note'
+      title: 'Marginalia'
+      items:
+        - '副刊中的 note block 更像编辑边注'
+        - '人物障碍块移到了左栏上半区'
+        - '印章不再是第一视觉，而是辅助层级'
+      desktop: { x: 0.63, y: 0.52, w: 0.21, h: 0.19 }
+      mobile: { x: 0, y: 0.58, w: 1, h: 0.17 }
+  editorialText: 'A newspaper front page shouts. A supplement lingers. That is the tonal difference this second Prophet issue needed to prove. If the first issue was about showing that text can route around moving images and still feel editorial, the second issue is about whether the same engine can become softer, more reflective, and more essayistic without collapsing into a generic blog layout. The answer depends on abstraction. Once obstacles become data rather than hard-coded geometry, a page can change its emotional center without changing its rendering model. A portrait can move from the right rail to the left opening. A quote can become less declarative and more meditative. A note block can stop behaving like a headline accessory and begin behaving like a margin annotation. The text engine should not care. It should only know that certain regions are occupied, that certain rows are no longer fully available, and that the paragraph must continue through the remaining slots. This is the real value of building a layout system instead of a one-off effect. The visual language of a printed city supplement is slower than a front page. It is stitched from fragments, recollections, observations, and lightly editorialized details. Yet the same technical need remains: every line must know where it may exist. A digital publication can feel like an urban scrapbook when its typography is allowed to negotiate with artifacts, seals, portraits, and notes in real time. That is what this issue is testing. Not whether the site can look old, but whether it can feel composed.'
+---
+
+import ProphetFigure from '../../components/ProphetFigure.astro';
+import ProphetPullquote from '../../components/ProphetPullquote.astro';
+import ProphetSidebar from '../../components/ProphetSidebar.astro';
+
+## 副刊为什么重要
+
+真正像报纸的站点，不会只有一种头版腔调。它至少要能区分：
+
+- 头版：强调事件、层级和撞击感。
+- 副刊：强调节奏、气味、人物和边角叙事。
+- 栏目页：强调归档、持续更新和稳定识别。
+
+<ProphetPullquote quote="如果头版是锣鼓，副刊就更像街角的慢风和旧橱窗里的灰。" cite="副刊手记" />
+
+## 同一引擎，不同版心
+
+这一期的重点，不是再证明 `pretext` 能做绕排，而是证明**同一个排版引擎可以服务于完全不同的编辑气质**。
+
+上一期里：
+
+- 人物是主要视觉阻挡物。
+- 印章更像头版标记。
+- 引文承担了宣言式语气。
+
+而这一期里：
+
+- 人物被放到左上角，更像一张档案照。
+- 引文更安静，不再是口号，而是编者轻声注脚。
+- 边注区承担“城市观察”的边栏感。
+
+<ProphetFigure src="/prophet-portrait-silhouette.svg" alt="记忆副刊人物剪影" caption="同一张剪影，放在不同版心里会生出完全不同的气质。" />
+
+## 系列化才是关键
+
+如果没有第二篇、第三篇、第四篇，这套系统就仍然只是一次漂亮的技术演示。
+
+真正值得推进的是：
+
+1. 让每一期增刊都能用不同 `stageBlocks` 讲不同故事。
+2. 让首页把这些增刊组织成可识别的系列。
+3. 让读者意识到自己进入的不是一篇篇散文，而是一份持续发行的数字报纸。
+
+<ProphetSidebar
+  title="扩展方向"
+  items={[
+    '做人物通讯版式与旅行专栏版式',
+    '让 stageBlocks 支持更多插画资源而非单一剪影',
+    '把首页 Special Editions 抽成真正的系列目录',
+    '让不同 edition 共享同一引擎但拥有不同节奏',
+  ]}
+/>
+
+## 接下来还要做什么
+
+这一期完成后，系统才算刚刚有了“刊物”的雏形。下一步最值得做的，是把专题目录、栏目层级和 issue 编排继续往前推，而不是回头把它再做成普通博客。

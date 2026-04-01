@@ -1,0 +1,139 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import ProphetEditorial, { type ProphetStageBlock } from '../components/ProphetEditorial';
+import ProphetHeadline from '../components/ProphetHeadline';
+
+type Props = CollectionEntry<'blog'>['data'] & {
+  slug: string;
+  readingTime: number;
+  prevIssue?: CollectionEntry<'blog'> | null;
+  nextIssue?: CollectionEntry<'blog'> | null;
+  seriesPosts?: CollectionEntry<'blog'>[];
+};
+
+const { title, description, pubDate, tags, edition, prophet, readingTime, slug, series, issueNumber, prevIssue, nextIssue, seriesPosts = [] } = Astro.props;
+const editorialText = prophet?.editorialText ?? description;
+const kicker = prophet?.kicker ?? 'THE DAILY FUTURE';
+const deck = prophet?.deck ?? description;
+const stageBlocks: ProphetStageBlock[] = prophet?.stageBlocks?.length
+  ? prophet.stageBlocks
+  : [
+      {
+        type: 'quote',
+        text: prophet?.pullquote ?? '文字不再被锁死在矩形里，而是开始与人物、插画和栏位实时谈判。',
+        desktop: { x: 0.2, y: 0.21, w: 0.29, h: 0.22 },
+        mobile: { x: 0, y: 0.2, w: 1, h: 0.18 },
+      },
+      {
+        type: 'portrait',
+        src: prophet?.portraitSrc ?? `${import.meta.env.BASE_URL}prophet-portrait-silhouette.svg`,
+        caption: prophet?.portraitCaption ?? '动态肖像窗',
+        desktop: { x: 0.79, y: 0.13, w: 0.18, h: 0.26 },
+        mobile: { x: 0.62, y: 0.07, w: 0.28, h: 0.2 },
+        motion: { dx: 14, dy: 10, speed: 1 },
+      },
+      {
+        type: 'note',
+        title: prophet?.sidebarTitle ?? 'Dispatch Box',
+        items: prophet?.sidebarItems ?? [],
+        desktop: { x: 0.6, y: 0.5, w: 0.24, h: 0.2 },
+        mobile: { x: 0, y: 0.58, w: 1, h: 0.18 },
+      },
+      {
+        type: 'seal',
+        title: 'Extra',
+        text: 'Edition',
+        desktop: { x: 0.02, y: 0.11, w: 0.12, h: 0.13 },
+        mobile: { x: 0, y: 0.12, w: 0.18, h: 0.12 },
+      },
+    ];
+---
+
+<BaseLayout title={title} description={description} wide={true}>
+  <article class="prophet-page not-prose animate-fade-in-up">
+    <header class="prophet-front">
+      <div class="prophet-rule"></div>
+      <p class="prophet-edition-line">
+        <span>{edition ?? '特别增刊'}</span>
+        {series && <span>{series}{issueNumber ? ` · No. ${String(issueNumber).padStart(2, '0')}` : ''}</span>}
+        <span>{pubDate.toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+        <span>{readingTime} min read</span>
+      </p>
+      <ProphetHeadline client:load title={title} kicker={kicker} deck={deck} />
+      <div class="prophet-tags">
+        {tags.map(tag => (
+          <span>{tag}</span>
+        ))}
+      </div>
+      <div class="prophet-rule"></div>
+    </header>
+
+      <ProphetEditorial
+        client:load
+        text={editorialText}
+        stageBlocks={stageBlocks}
+        sidebarTitle={prophet?.sidebarTitle}
+        sidebarItems={prophet?.sidebarItems ?? []}
+      />
+
+    {series && (
+      <section class="prophet-series-nav">
+        <div class="prophet-series-nav-head">
+          <div>
+            <p class="prophet-home-kicker">Series Navigation</p>
+            <h2>{series}</h2>
+          </div>
+          <a href={`${import.meta.env.BASE_URL}editions`} class="prophet-series-link">返回增刊目录</a>
+        </div>
+        <div class="prophet-series-grid">
+          <div class="prophet-series-jump">
+            {prevIssue ? (
+              <a href={`${import.meta.env.BASE_URL}blog/${prevIssue.slug}`} class="prophet-series-card">
+                <span>上一期</span>
+                <strong>{prevIssue.data.title}</strong>
+              </a>
+            ) : (
+              <div class="prophet-series-card prophet-series-card--muted">
+                <span>上一期</span>
+                <strong>这是系列起点</strong>
+              </div>
+            )}
+            {nextIssue ? (
+              <a href={`${import.meta.env.BASE_URL}blog/${nextIssue.slug}`} class="prophet-series-card">
+                <span>下一期</span>
+                <strong>{nextIssue.data.title}</strong>
+              </a>
+            ) : (
+              <div class="prophet-series-card prophet-series-card--muted">
+                <span>下一期</span>
+                <strong>当前为最新一期</strong>
+              </div>
+            )}
+          </div>
+          <div class="prophet-series-index">
+            {seriesPosts.map(post => (
+              <a
+                href={`${import.meta.env.BASE_URL}blog/${post.slug}`}
+                class={`prophet-series-index-item ${post.slug === slug ? 'prophet-series-index-item--active' : ''}`}
+              >
+                <span>{post.data.issueNumber ? String(post.data.issueNumber).padStart(2, '0') : '--'}</span>
+                <strong>{post.data.title}</strong>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="prophet-reading-block">
+      <div class="prophet-reading-head">
+        <h2>正文档案</h2>
+        <p>下方保留标准阅读版，确保长文仍然适合稳定阅读与检索。</p>
+      </div>
+      <div class="prophet-prose prose prose-lg max-w-none dark:prose-invert">
+        <slot />
+      </div>
+    </section>
+  </article>
+</BaseLayout>

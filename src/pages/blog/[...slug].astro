@@ -1,22 +1,39 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import ProphetPost from '../../layouts/ProphetPost.astro';
 
 export async function getStaticPaths() {
 	const posts = (await getCollection('blog')).sort(
 		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 	);
 	return posts.map((post, index) => ({
+		props: (() => {
+			const seriesPosts = post.data.series
+				? posts
+					.filter(candidate => candidate.data.series === post.data.series)
+					.sort((a, b) => {
+						const aIssue = a.data.issueNumber ?? 0;
+						const bIssue = b.data.issueNumber ?? 0;
+						if (aIssue !== bIssue) return aIssue - bIssue;
+						return a.data.pubDate.valueOf() - b.data.pubDate.valueOf();
+					})
+				: [];
+			const seriesIndex = seriesPosts.findIndex(candidate => candidate.slug === post.slug);
+			return {
+				post,
+				prevPost: index + 1 < posts.length ? posts[index + 1] : null,
+				nextPost: index > 0 ? posts[index - 1] : null,
+				prevIssue: seriesIndex > 0 ? seriesPosts[seriesIndex - 1] : null,
+				nextIssue: seriesIndex >= 0 && seriesIndex + 1 < seriesPosts.length ? seriesPosts[seriesIndex + 1] : null,
+				seriesPosts,
+			};
+		})(),
 		params: { slug: post.slug },
-		props: { 
-            post,
-            prevPost: index + 1 < posts.length ? posts[index + 1] : null,
-            nextPost: index > 0 ? posts[index - 1] : null,
-        },
 	}));
 }
 
-const { post, prevPost, nextPost } = Astro.props;
+const { post, prevPost, nextPost, prevIssue, nextIssue, seriesPosts } = Astro.props;
 const { Content, headings } = await post.render();
 const readingTime = Math.ceil(post.body.length / 300); // Estimate: 300 chars/min
 
@@ -32,6 +49,12 @@ const relatedPosts = allPosts
     .slice(0, 3);
 ---
 
-<BlogPost {...post.data} readingTime={readingTime} prevPost={prevPost} nextPost={nextPost} headings={headings} relatedPosts={relatedPosts}>
-	<Content />
-</BlogPost>
+{post.data.layoutStyle === 'prophet' ? (
+  <ProphetPost {...post.data} slug={post.slug} readingTime={readingTime} prevIssue={prevIssue} nextIssue={nextIssue} seriesPosts={seriesPosts}>
+    <Content />
+  </ProphetPost>
+) : (
+  <BlogPost {...post.data} readingTime={readingTime} prevPost={prevPost} nextPost={nextPost} headings={headings} relatedPosts={relatedPosts}>
+    <Content />
+  </BlogPost>
+)}

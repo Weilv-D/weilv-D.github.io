@@ -67,7 +67,7 @@
     <circle cx="222" cy="75" r="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
 
     <!-- Labels - use scale(1,-1) to unflip text -->
-    <g transform="scale(1, -1)" font-family="ui-sans-serif, system-ui, sans-serif" font-weight="bold" fill="#cbd5e1">
+    <g transform="scale(1, -1)" font-family="Bodoni Moda, Noto Serif SC, serif" font-weight="bold" fill="#cbd5e1">
         <!-- Axes -->
         <text x="360" y="25" font-size="16" font-style="italic">x</text>
         <text x="-25" y="-280" font-size="16" font-style="italic">y</text>
@@ -93,7 +93,7 @@
     
   </g>
   
-  <text x="30" y="60" font-family="ui-sans-serif, system-ui" font-weight="800" font-size="48" fill="white" letter-spacing="-0.02em">2R Robot</text>
+  <text x="30" y="60" font-family="Bodoni Moda, Noto Serif SC, serif" font-weight="800" font-size="48" fill="white" letter-spacing="-0.02em">2R Robot</text>
   <text x="30" y="100" font-family="ui-monospace, monospace" font-size="18" fill="#94a3b8">LAGRANGIAN DYNAMICS</text>
 
 </svg>

@@ -79,7 +79,7 @@ export default function PostList({ initialPosts }: Props) {
       <div className="flex justify-end mb-8">
         <div className="relative group z-20">
           <button 
-            className="flex items-center gap-2 px-4 py-2 rounded-full glass-liquid text-sm font-medium text-[var(--color-primary)] hover:scale-105 transition-all duration-300"
+            className="flex items-center gap-2 px-4 py-2 rounded-full glass-liquid text-sm font-serif tracking-[0.14em] uppercase text-[var(--color-primary)] hover:scale-105 transition-all duration-300"
             onClick={() => {
               if (!isClientMode) {
                 void loadAllPosts();
@@ -100,7 +100,7 @@ export default function PostList({ initialPosts }: Props) {
               <button
                 key={option}
                 onClick={() => handleSortChange(option)}
-                className={`w-full text-left px-4 py-2 text-sm hover:bg-[var(--color-surface)] transition-colors ${
+                className={`w-full text-left px-4 py-2 text-sm font-serif hover:bg-[var(--color-surface)] transition-colors ${
                   sortOption === option ? 'text-[var(--color-accent)] font-bold' : 'text-[var(--color-secondary)]'
                 }`}
               >
@@ -155,7 +155,7 @@ export default function PostList({ initialPosts }: Props) {
                     {post.description}
                 </p>
                 
-                <a href={`${baseUrl}blog/${post.slug}`} className="inline-flex items-center text-sm font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
+                <a href={`${baseUrl}blog/${post.slug}`} className="inline-flex items-center text-sm font-serif tracking-[0.14em] uppercase text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
                     Read Article 
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -169,7 +169,7 @@ export default function PostList({ initialPosts }: Props) {
       
       {/* Pagination Hint (Only show if not in client mode) */}
       {!isClientMode && (
-          <div className="mt-12 pt-8 border-t border-[var(--color-border)] text-center text-sm text-[var(--color-secondary)]">
+          <div className="mt-12 pt-8 border-t border-[var(--color-border)] text-center text-sm text-[var(--color-secondary)] font-serif">
               <p>切换排序方式以查看所有文章</p>
           </div>
       )}

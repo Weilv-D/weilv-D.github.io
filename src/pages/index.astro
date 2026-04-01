@@ -3,27 +3,106 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCover from '../components/PostCover.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog')).sort(
+const allPosts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-).slice(0, 5);
+);
+const posts = allPosts.slice(0, 5);
+const prophetPosts = allPosts
+	.filter(post => post.data.layoutStyle === 'prophet')
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const prophetPost = prophetPosts[0];
+const leadPost = prophetPost ?? posts[0];
+const leadSecondary = posts.filter(post => post.slug !== leadPost?.slug).slice(0, 2);
+const bulletinPosts = posts.filter(post => post.slug !== leadPost?.slug).slice(2, 5);
+const techPosts = allPosts.filter(post => post.data.category === 'Tech').slice(0, 3);
+const lifePosts = allPosts.filter(post => post.data.category === 'Life').slice(0, 3);
+const specialIssues = prophetPosts.filter(post => post.data.featured).slice(0, 3);
+const visibleIssues = specialIssues.length > 0 ? specialIssues : prophetPosts.slice(0, 3);
 ---
 
 <BaseLayout title="未来回忆录" description="weilv的时空褶皱 - 技术与生活的数字花园">
-	<section class="py-24 md:py-32">
-		<h1 class="text-5xl md:text-7xl font-serif font-bold mb-8 leading-tight tracking-tight">
-			<span class="text-[var(--color-primary)] relative z-10">未来回忆录</span>
-            <span class="block text-2xl md:text-4xl text-[var(--color-secondary)] font-normal mt-4 tracking-normal opacity-80">weilv的时空褶皱</span>
-		</h1>
-		<p class="text-lg md:text-xl text-[var(--color-secondary)] max-w-2xl leading-relaxed font-light">
-			在这里记录技术探索的足迹，也收藏生活中的吉光片羽。<br class="hidden md:block" />
-            试图在时间的长河中，折叠出属于自己的意义。
-		</p>
+	<section class="prophet-frontpage not-prose">
+		<div class="prophet-frontpage-head">
+			<p class="prophet-frontpage-meta">Vol. 01 · Shanghai Bureau · Curated Dispatches</p>
+			<h1>未来回忆录</h1>
+			<p>一份偏向未来、仍然坚持纸张质感的私人报纸。这里不只是记录文章，而是经营一张有主版、有副刊、有社论的数字头版。</p>
+		</div>
+
+		<div class="prophet-frontpage-grid">
+			{leadPost && (
+				<article class="prophet-lead-story">
+					<a href={`${import.meta.env.BASE_URL}blog/${leadPost.slug}`} class="block">
+						<div class="prophet-lead-media">
+							<PostCover 
+								title={leadPost.data.title}
+								image={leadPost.data.heroImage}
+								category={leadPost.data.category}
+								className="aspect-[16/10] w-full h-full object-cover"
+							/>
+						</div>
+						<p class="prophet-home-kicker">{leadPost.data.layoutStyle === 'prophet' ? 'Front Page Experiment' : leadPost.data.category}</p>
+						<h2>{leadPost.data.title}</h2>
+						<p>{leadPost.data.description}</p>
+					</a>
+					<div class="prophet-lead-actions">
+						<a href={`${import.meta.env.BASE_URL}blog/${leadPost.slug}`} class="prophet-home-link">
+							阅读头条
+						</a>
+						{leadPost.data.layoutStyle === 'prophet' && (
+							<span class="prophet-edition-chip">{leadPost.data.edition ?? 'Special Edition'}</span>
+						)}
+					</div>
+				</article>
+			)}
+
+			<section class="prophet-secondary-column">
+				<h3>Second Edition</h3>
+				{leadSecondary.map(post => (
+					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="prophet-secondary-story">
+						<span>{post.data.category}</span>
+						<strong>{post.data.title}</strong>
+						<em>{post.data.description}</em>
+					</a>
+				))}
+			</section>
+
+			<section class="prophet-bulletin-column">
+				<h3>News Briefs</h3>
+				{bulletinPosts.map(post => (
+					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="prophet-bulletin-item">
+						<strong>{post.data.title}</strong>
+						<span>{post.data.pubDate.toLocaleDateString('en-us', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+					</a>
+				))}
+			</section>
+		</div>
 	</section>
+
+	{visibleIssues.length > 0 && (
+		<section class="prophet-issues-strip not-prose">
+			<div class="prophet-home-section-head">
+				<h2>Special Editions</h2>
+				<div class="flex items-center gap-4">
+					<span>Front page experiments and supplements</span>
+					<a href={`${import.meta.env.BASE_URL}editions`} class="text-sm font-serif tracking-[0.14em] uppercase link-underline">进入目录</a>
+				</div>
+			</div>
+			<div class="prophet-issues-grid">
+				{visibleIssues.map(post => (
+					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="prophet-issue-card">
+						<span>{post.data.edition ?? 'Special Edition'}</span>
+						<strong>{post.data.title}</strong>
+						<p>{post.data.prophet?.deck ?? post.data.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
+	)}
 
 	<section class="mt-8 md:mt-16">
 		<div class="flex justify-between items-baseline mb-12 border-b border-[var(--color-border)] pb-4">
 			<h2 class="text-2xl font-serif font-bold tracking-tight">最新篇章</h2>
-			<a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline opacity-60 hover:opacity-100 transition-opacity">查看全部</a>
+			<a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-serif tracking-[0.18em] uppercase link-underline opacity-60 hover:opacity-100 transition-opacity">查看全部</a>
 		</div>
 
 		<div class="space-y-8 md:space-y-12">
@@ -61,7 +140,7 @@ const posts = (await getCollection('blog')).sort(
                             {post.data.description}
                         </p>
                         
-                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="inline-flex items-center text-sm font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
+                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="inline-flex items-center text-sm font-serif tracking-[0.14em] uppercase text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
                             Read Article 
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -76,5 +155,36 @@ const posts = (await getCollection('blog')).sort(
                 </div>
             )}
 		</div>
+	</section>
+
+	<section class="prophet-section-grid not-prose">
+		<section class="prophet-home-section">
+			<div class="prophet-home-section-head">
+				<h2>Tech Desk</h2>
+				<span>Engineering, systems, layout</span>
+			</div>
+			<div class="space-y-5">
+				{techPosts.map(post => (
+					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="prophet-desk-story">
+						<strong>{post.data.title}</strong>
+						<p>{post.data.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
+		<section class="prophet-home-section">
+			<div class="prophet-home-section-head">
+				<h2>Life Desk</h2>
+				<span>Essays, notes, memoirs</span>
+			</div>
+			<div class="space-y-5">
+				{lifePosts.map(post => (
+					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="prophet-desk-story">
+						<strong>{post.data.title}</strong>
+						<p>{post.data.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
 	</section>
 </BaseLayout>

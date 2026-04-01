@@ -1,0 +1,13 @@
+---
+interface Props {
+  quote: string;
+  cite?: string;
+}
+
+const { quote, cite } = Astro.props;
+---
+
+<blockquote class="prophet-inline-quote not-prose">
+  <p>{quote}</p>
+  {cite && <footer>{cite}</footer>}
+</blockquote>

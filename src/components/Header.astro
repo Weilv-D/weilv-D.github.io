@@ -8,19 +8,23 @@ const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).
 const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
 ---
 
-<header class="sticky top-4 md:top-6 z-50 w-full max-w-5xl mx-auto px-4 md:px-8 mb-8 md:mb-12">
-  <div class="glass-liquid flex justify-between items-center py-3 px-5 md:py-4 md:px-8 rounded-full transition-all duration-500 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-slate-900/80 hover:scale-[1.005]">
+<header class="sticky top-4 md:top-6 z-50 w-full max-w-6xl mx-auto px-4 md:px-8 mb-8 md:mb-12">
+  <div class="glass-liquid flex justify-between items-center py-3 px-5 md:py-4 md:px-8 rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:scale-[1.005]">
     <a href={import.meta.env.BASE_URL} class="flex items-center gap-3 group">
         <div class="w-9 h-9 text-[var(--color-primary)] group-hover:rotate-180 transition-transform duration-700 ease-in-out">
         <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Logo" class="w-full h-full dark:invert" />
         </div>
-        <span class="text-xl font-serif font-bold tracking-tight group-hover:opacity-70 transition-opacity hidden md:block whitespace-nowrap">未来回忆录</span>
+        <div class="hidden md:block whitespace-nowrap">
+          <span class="block text-xl font-serif font-bold tracking-tight group-hover:opacity-70 transition-opacity">未来回忆录</span>
+          <span class="block text-[10px] uppercase tracking-[0.35em] text-[var(--color-secondary)]">Future Memoirs Gazette</span>
+        </div>
     </a>
     
-    <nav class="flex items-center gap-4 md:gap-8">
+    <nav class="flex items-center gap-4 md:gap-7 font-serif">
         <Search client:load />
-        <a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline opacity-80 hover:opacity-100 transition-opacity">Blog</a>
-        <a href={`${import.meta.env.BASE_URL}about`} class="text-sm font-medium link-underline opacity-80 hover:opacity-100 transition-opacity">About</a>
+        <a href={`${import.meta.env.BASE_URL}editions`} class="text-sm tracking-[0.22em] uppercase link-underline opacity-80 hover:opacity-100 transition-opacity">Editions</a>
+        <a href={`${import.meta.env.BASE_URL}blog`} class="text-sm tracking-[0.22em] uppercase link-underline opacity-80 hover:opacity-100 transition-opacity">Archive</a>
+        <a href={`${import.meta.env.BASE_URL}about`} class="text-sm tracking-[0.22em] uppercase link-underline opacity-80 hover:opacity-100 transition-opacity">Bureau</a>
         <a href={`${import.meta.env.BASE_URL}about`} class="w-9 h-9 squircle overflow-hidden border border-[var(--color-border)] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 ease-out ml-2">
             <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
         </a>
