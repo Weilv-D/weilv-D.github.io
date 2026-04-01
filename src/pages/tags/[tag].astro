@@ -26,7 +26,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
         <div class="mb-12 flex items-baseline gap-4">
             <h1 class="text-4xl font-serif font-bold">#{tag}</h1>
             <span class="text-[var(--color-secondary)]">{posts.length} 篇文章</span>
-            <a href={`${import.meta.env.BASE_URL}tags`} class="ml-auto text-sm font-serif tracking-[0.14em] uppercase link-underline">查看所有标签</a>
+            <a href={`${import.meta.env.BASE_URL}tags`} class="ml-auto text-sm link-underline">查看所有标签</a>
         </div>
         
         <div class="space-y-12">
@@ -56,10 +56,10 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
                             <h2 class="text-2xl md:text-3xl font-serif font-bold mb-3 leading-tight group-hover/title:text-[var(--color-accent)] transition-colors">
                                 {post.data.title}
                             </h2>
-                            <p class="text-[var(--color-secondary)] line-clamp-2 mb-6 leading-relaxed opacity-90">
+                            <p class="text-[var(--color-secondary)] line-clamp-2 mb-6 leading-relaxed opacity-90 font-sans font-normal">
                                 {post.data.description}
                             </p>
-                            <span class="inline-flex items-center text-sm font-serif tracking-[0.14em] uppercase text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
+                            <span class="inline-flex items-center text-sm font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
                                 Read Article
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />

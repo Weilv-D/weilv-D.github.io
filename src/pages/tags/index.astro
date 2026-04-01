@@ -13,7 +13,7 @@ const pageTitle = "标签索引";
         <div class="flex flex-wrap justify-center gap-4">
             {tags.map((tag) => (
                 <a href={`${import.meta.env.BASE_URL}tags/${tag}`} class="group relative px-6 py-3 rounded-full border border-[var(--color-border)] hover:border-[var(--color-primary)] bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                    <span class="text-sm font-serif tracking-[0.14em] uppercase text-[var(--color-secondary)] group-hover:text-[var(--color-primary)] transition-colors">#{tag}</span>
+                    <span class="text-sm font-medium text-[var(--color-secondary)] group-hover:text-[var(--color-primary)] transition-colors">#{tag}</span>
                 </a>
             ))}
         </div>
