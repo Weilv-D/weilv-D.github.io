@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { computeTitleLines, measureTextWidth } from '../utils/textMeasure';
+import { getCoverColors, resolveImagePath } from '../utils/cover';
 
 interface Props {
   title: string;
@@ -8,35 +9,13 @@ interface Props {
   className?: string;
 }
 
-// 基于群青/烟栗/冷金的优雅色系
-const ELEGANT_COLORS = [
-  ['#2E5090', '#3d62a8'], // 群青渐变
-  ['#6B5B4F', '#7d6d60'], // 烟栗渐变
-  ['#B89B6C', '#c9ac7d'], // 冷金渐变
-];
-
-function hashCode(str: string) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return Math.abs(hash);
-}
-
 export default function PostCover({ title, image, category, className = "" }: Props) {
   const baseUrl = import.meta.env.BASE_URL;
-  const finalImage = image && (image.startsWith('/') ? baseUrl + image.slice(1) : image);
+  const finalImage = resolveImagePath(image, baseUrl);
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(400);
 
-  const { colorPair, hash } = useMemo(() => {
-    const h = hashCode(title);
-    const pairIndex = h % ELEGANT_COLORS.length;
-    return {
-      hash: h,
-      colorPair: ELEGANT_COLORS[pairIndex]
-    };
-  }, [title]);
+  const { colorPair, hash } = useMemo(() => getCoverColors(title), [title]);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -84,6 +63,7 @@ export default function PostCover({ title, image, category, className = "" }: Pr
         <img 
           src={finalImage} 
           alt={title} 
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
         />
       ) : (
