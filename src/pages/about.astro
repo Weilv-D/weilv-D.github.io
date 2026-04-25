@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PretextMagazineTitle from '../components/PretextMagazineTitle';
 import PretextCascadeBody from '../components/PretextCascadeBody';
 import PretextPullQuote from '../components/PretextPullQuote';
+import KochSnowflake from '../components/KochSnowflake.astro';
 import { GRAVATAR_EMAIL } from '../consts';
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -15,7 +16,7 @@ const baseUrl = import.meta.env.BASE_URL;
             <div class="w-full lg:w-[38%] flex flex-col items-center lg:items-start lg:sticky lg:top-36">
                 <div class="relative mb-10">
                     <div class="w-52 h-64 md:w-60 md:h-72 overflow-hidden border border-[var(--color-accent)] img-magazine-frame">
-                        <img src={`${baseUrl}space-station.svg`} alt="Space Station" loading="lazy" class="w-full h-full object-cover opacity-90" />
+                        <KochSnowflake class="w-full h-full object-cover opacity-90" />
                     </div>
                     <div class="absolute -bottom-2 -right-2 px-3 py-1 bg-[var(--color-surface)] border border-[var(--color-accent)] text-[10px] font-sans uppercase tracking-widest text-[var(--color-primary)]">
                         Editor
