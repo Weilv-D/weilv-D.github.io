@@ -1,0 +1,28 @@
+---
+interface Props {
+	threshold?: number;
+}
+
+const { threshold = 0.1 } = Astro.props;
+---
+
+<script define:vars={{ threshold }}>
+	const revealObserver = new IntersectionObserver((entries) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('revealed');
+				revealObserver.unobserve(entry.target);
+			}
+		});
+	}, { threshold });
+
+	document.querySelectorAll('[data-reveal]').forEach((el) => {
+		revealObserver.observe(el);
+	});
+
+	document.addEventListener('astro:after-swap', () => {
+		document.querySelectorAll('[data-reveal]').forEach((el) => {
+			revealObserver.observe(el);
+		});
+	});
+</script>
