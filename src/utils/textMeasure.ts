@@ -1,6 +1,5 @@
-import { prepare, layout, prepareWithSegments, layoutWithLines, measureNaturalWidth, measureLineStats } from '@chenglou/pretext';
-import { prepareRichInline, measureRichInlineStats } from '@chenglou/pretext/rich-inline';
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { prepare, layout, prepareWithSegments, layoutWithLines, measureNaturalWidth } from '@chenglou/pretext';
+import { useState, useEffect } from 'react';
 
 // ============================================
 // Pretext Text Measurement Utilities
@@ -55,24 +54,6 @@ export function measureTextWidth(text: string, font: string) {
 }
 
 /**
- * 测量文本行统计信息
- */
-export function getLineStats(text: string, font: string, maxWidth: number) {
-  if (!isBrowser()) return { lineCount: Math.ceil(text.length * 16 / maxWidth), maxLineWidth: maxWidth };
-  const prepared = prepareWithSegments(text, font);
-  return measureLineStats(prepared, maxWidth);
-}
-
-/**
- * 测量富文本内联统计
- */
-export function getRichInlineStats(items: Parameters<typeof prepareRichInline>[0], maxWidth: number) {
-  if (!isBrowser()) return { lineCount: 1, maxLineWidth: maxWidth };
-  const prepared = prepareRichInline(items);
-  return measureRichInlineStats(prepared, maxWidth);
-}
-
-/**
  * 智能截断文本到指定行数
  */
 export function smartTruncate(text: string, font: string, maxWidth: number, lineHeight: number, maxLines: number = 2): { text: string; height: number; lineCount: number } {
@@ -122,22 +103,6 @@ export function smartTruncate(text: string, font: string, maxWidth: number, line
 // React Hooks
 // ============================================
 
-export function useTextHeight(text: string, font: string, maxWidth: number, lineHeight: number) {
-  return useMemo(() => measureTextHeight(text, font, maxWidth, lineHeight), [text, font, maxWidth, lineHeight]);
-}
-
-export function useTitleLines(text: string, font: string, maxWidth: number, lineHeight: number) {
-  return useMemo(() => computeTitleLines(text, font, maxWidth, lineHeight), [text, font, maxWidth, lineHeight]);
-}
-
-export function useTextWidth(text: string, font: string) {
-  return useMemo(() => measureTextWidth(text, font), [text, font]);
-}
-
-export function useLineStats(text: string, font: string, maxWidth: number) {
-  return useMemo(() => getLineStats(text, font, maxWidth), [text, font, maxWidth]);
-}
-
 export function useSmartTruncate(text: string, font: string, maxWidth: number, lineHeight: number, maxLines: number = 2) {
   const [result, setResult] = useState(() => smartTruncate(text, font, maxWidth, lineHeight, maxLines));
   
@@ -148,34 +113,4 @@ export function useSmartTruncate(text: string, font: string, maxWidth: number, l
   return result;
 }
 
-/**
- * Hook for responsive text measurement with ResizeObserver
- */
-export function useMeasuredTextHeight(
-  text: string,
-  font: string,
-  lineHeight: number,
-  ref: React.RefObject<HTMLElement | null>
-) {
-  const [dimensions, setDimensions] = useState({ width: 400, height: lineHeight * 2, lineCount: 2 });
 
-  const measure = useCallback(() => {
-    if (!ref.current || !isBrowser()) return;
-    const width = ref.current.clientWidth;
-    const result = measureTextHeight(text, font, width, lineHeight);
-    setDimensions({ width, height: result.height, lineCount: result.lineCount });
-  }, [text, font, lineHeight, ref]);
-
-  useEffect(() => {
-    measure();
-    if (!ref.current || !isBrowser()) return;
-    
-    const observer = new ResizeObserver(() => {
-      measure();
-    });
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [measure, ref]);
-
-  return dimensions;
-}
