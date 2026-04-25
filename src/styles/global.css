@@ -311,9 +311,24 @@ figcaption {
   border-radius: 0.25rem;
   border: 1px solid rgba(184, 155, 108, 0.15);
   border-left: 3px solid var(--color-accent);
-  background-color: rgba(38, 44, 56, 0.96) !important;
   padding: 1.5rem !important;
   box-shadow: 0 10px 30px -10px rgba(46, 80, 144, 0.2);
+}
+
+/* Prevent inline-code styles from leaking into code blocks */
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* Shiki dual-theme: light colors inline by default, switch to dark in .dark mode */
+html.dark .astro-code,
+html.dark .astro-code span {
+  color: var(--shiki-dark, inherit) !important;
+  background-color: var(--shiki-dark-bg, inherit) !important;
 }
 
 .copy-code-btn {
