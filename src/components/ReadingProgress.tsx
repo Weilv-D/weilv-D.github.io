@@ -36,11 +36,26 @@ export default function ReadingProgress() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-1 z-[60] bg-transparent pointer-events-none">
+    <div className="fixed top-0 left-0 w-full h-[3px] z-[60] bg-transparent pointer-events-none">
       <div
-        className="h-full bg-[var(--color-accent)] transition-all duration-100 ease-out"
-        style={{ width: `${progress}%` }}
-      />
+        className="h-full relative"
+        style={{ 
+          width: `${progress}%`,
+          backgroundColor: 'var(--color-accent)',
+          opacity: 0.6,
+          transition: 'width 0.15s ease-out',
+        }}
+      >
+        {/* Leading diamond */}
+        <div 
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-[5px] h-[5px] rotate-45"
+          style={{
+            backgroundColor: 'var(--color-accent)',
+            opacity: progress > 2 ? 0.8 : 0,
+            transition: 'opacity 0.3s ease',
+          }}
+        />
+      </div>
     </div>
   );
 }

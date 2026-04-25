@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostList from '../../components/PostList';
+import PretextMagazineTitle from '../../components/PretextMagazineTitle';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths({ paginate }: { paginate: (data: unknown[], options: { pageSize: number }) => unknown }) {
@@ -19,7 +20,6 @@ const { page } = Astro.props as {
   };
 };
 
-// Transform Astro data to match React component props
 const initialPosts = page.data.map((post) => ({
   title: post.data.title,
   description: post.data.description,
@@ -29,29 +29,70 @@ const initialPosts = page.data.map((post) => ({
   heroImage: post.data.heroImage,
   tags: post.data.tags,
 }));
+
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="文章 | 未来回忆录" description="weilv的所有文章">
 	<section>
-		<h1 class="text-4xl font-serif font-bold mb-12">所有文章</h1>
+		<div class="mb-16 md:mb-20">
+			<div class="flex items-center gap-4 mb-8">
+				<div class="golden-line golden-line-animated"></div>
+				<span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">Index</span>
+			</div>
+			<PretextMagazineTitle
+				client:load
+				text="所有文章"
+				as="h1"
+				className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-[var(--color-primary)]"
+				reveal={true}
+				revealDelay={100}
+				charStagger={60}
+			/>
+			<div class="flex items-center gap-4 mt-6 text-sm font-sans text-[var(--color-secondary)] opacity-60">
+				<span class="uppercase tracking-widest text-[10px]">Vol. {page.currentPage}</span>
+				<span class="w-1 h-1 bg-[var(--color-accent)] opacity-40 rotate-45"></span>
+				<span>{page.data.length} of {page.lastPage * 5} articles</span>
+			</div>
+		</div>
 		
         <PostList client:load initialPosts={initialPosts} />
 
-        {/* Static Pagination Controls (Hidden when client mode is active, handled by React component logic visually) */}
-        <div class="flex justify-between mt-12 pt-8 border-t border-[var(--color-border)]">
+        <div class="flex justify-between items-center mt-20 pt-8 border-t border-[var(--color-border)]">
             {page.url.prev ? (
-                <a href={`${import.meta.env.BASE_URL}${page.url.prev.slice(1)}`} class="text-sm font-medium link-underline">
-                    &larr; 上一页
+                <a href={`${baseUrl}${page.url.prev.slice(1)}`} class="group flex items-center gap-2 text-sm font-sans font-semibold tracking-wide link-underline text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors uppercase">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7 7l-7-7 7-7" />
+                    </svg>
+                    上一页
                 </a>
             ) : <div></div>}
             
-            <span class="text-sm text-[var(--color-secondary)]">
-                第 {page.currentPage} 页 / 共 {page.lastPage} 页
-            </span>
+            <div class="flex items-center gap-1">
+                {Array.from({ length: page.lastPage }, (_, i) => {
+                    const pageNum = i + 1;
+                    const isActive = pageNum === page.currentPage;
+                    return (
+                        <a
+                            href={pageNum === 1 ? `${baseUrl}blog` : `${baseUrl}blog/${pageNum}`}
+                            class={`w-8 h-10 flex items-center justify-center text-xs font-sans font-semibold transition-all duration-300 ${
+                                isActive 
+                                    ? 'bg-[var(--color-primary)] text-[var(--color-background)]' 
+                                    : 'text-[var(--color-secondary)] hover:bg-[var(--color-surface)] hover:text-[var(--color-primary)]'
+                            }`}
+                        >
+                            {pageNum}
+                        </a>
+                    );
+                })}
+            </div>
 
             {page.url.next ? (
-                <a href={`${import.meta.env.BASE_URL}${page.url.next.slice(1)}`} class="text-sm font-medium link-underline">
-                    下一页 &rarr;
+                <a href={`${baseUrl}${page.url.next.slice(1)}`} class="group flex items-center gap-2 text-sm font-sans font-semibold tracking-wide link-underline text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors uppercase">
+                    下一页
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7l7 7-7 7" />
+                    </svg>
                 </a>
             ) : <div></div>}
         </div>

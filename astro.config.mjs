@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
@@ -10,7 +10,6 @@ import rehypeKatex from 'rehype-katex';
 export default defineConfig({
   site: 'https://weilv.space',
   integrations: [
-    tailwind(),
     react(),
     mdx({
         remarkPlugins: [remarkMath],
@@ -18,6 +17,9 @@ export default defineConfig({
     }),
     sitemap()
   ],
+  vite: {
+    plugins: [tailwindcss()]
+  },
   markdown: {
     shikiConfig: {
       theme: 'dracula',

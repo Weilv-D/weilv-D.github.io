@@ -4,6 +4,8 @@ import type { MarkdownHeading } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import ReadingProgress from '../components/ReadingProgress';
 import PostCover from '../components/PostCover.astro';
+import PretextMagazineTitle from '../components/PretextMagazineTitle';
+import PretextPullQuote from '../components/PretextPullQuote';
 import TableOfContents from '../components/TableOfContents.astro';
 import { GRAVATAR_EMAIL } from '../consts';
 import { createHash } from 'node:crypto';
@@ -22,18 +24,21 @@ const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).
 const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
 
 const hasHeadings = headings && headings.length > 0;
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={title} description={description} image={heroImage} wide={hasHeadings}>
     <ReadingProgress client:idle />
     
     <div class={`relative ${hasHeadings ? 'xl:flex xl:gap-16 items-start' : ''}`}>
-        <article class={`prose dark:prose-invert prose-lg max-w-none animate-fade-in-up ${hasHeadings ? 'flex-1 min-w-0' : ''}`}>
-            <header class="mb-12 md:mb-16 not-prose text-center md:text-left">
-                <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6 md:mb-8 text-xs font-semibold tracking-widest uppercase text-[var(--color-secondary)]">
-                    <span class="px-3 py-1 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-primary)]">
+        <article class={`prose dark:prose-invert prose-lg max-w-none ${hasHeadings ? 'flex-1 min-w-0' : ''}`}>
+            <header class="mb-16 md:mb-24 not-prose">
+                <!-- Top meta bar -->
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-10 text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-[var(--color-secondary)] opacity-60">
+                    <span class="tag-elegant text-[var(--color-primary)]">
                         {category}
                     </span>
+                    <span class="w-2 h-px bg-[var(--color-border)]"></span>
                     <time datetime={pubDate.toISOString()}>
                         {pubDate.toLocaleDateString('en-us', {
                             year: 'numeric',
@@ -41,42 +46,62 @@ const hasHeadings = headings && headings.length > 0;
                             day: 'numeric',
                         })}
                     </time>
-                    <span class="text-[var(--color-border)]">|</span>
+                    {updatedDate && (
+                        <>
+                            <span class="w-2 h-px bg-[var(--color-border)]"></span>
+                            <span>Updated {updatedDate.toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                        </>
+                    )}
+                    <span class="w-2 h-px bg-[var(--color-border)]"></span>
                     <span>{readingTime} min read</span>
                 </div>
                 
-                <h1 class="text-4xl md:text-5xl lg:text-7xl font-serif font-bold mb-8 md:mb-10 leading-[1.1] tracking-tight text-[var(--color-primary)]">{title}</h1>
+                <!-- Animated title -->
+                <PretextMagazineTitle
+                    client:load
+                    text={title}
+                    as="h1"
+                    className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-[1.05] tracking-tight text-[var(--color-primary)]"
+                    reveal={true}
+                    revealDelay={150}
+                    charStagger={50}
+                />
                 
-                <div class="flex items-center justify-center md:justify-start gap-4 mb-8 md:mb-12 border-b border-[var(--color-border)] pb-8 md:pb-12">
-                    <div class="w-12 h-12 squircle overflow-hidden border border-[var(--color-border)] shadow-sm">
+                <!-- Animated golden line under title -->
+                <div class="h-px bg-[var(--color-accent)] mb-10 origin-left" style="animation: goldenLineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; transform: scaleX(0);"></div>
+                
+                <!-- Author bar -->
+                <div class="flex items-center gap-4 mb-10 pb-10 border-b border-[var(--color-border)]">
+                    <div class="w-11 h-11 rounded overflow-hidden border border-[var(--color-accent)]">
                         <img src={avatarUrl} alt="weilv" class="w-full h-full object-cover" />
                     </div>
+                    <div class="h-8 w-px bg-[var(--color-border)]"></div>
                     <div class="text-left">
-                        <p class="font-bold text-[var(--color-primary)] text-sm">weilv</p>
-                        <p class="text-[var(--color-secondary)] text-xs uppercase tracking-wider">Author</p>
+                        <p class="font-display font-bold text-[var(--color-primary)] text-sm">weilv</p>
+                        <p class="text-[var(--color-secondary)] text-[10px] uppercase tracking-wider font-sans opacity-60">Author</p>
                     </div>
                 </div>
 
                 {tags && tags.length > 0 && (
-                    <div class="flex flex-wrap gap-2 mb-8 md:mb-12 justify-center md:justify-start">
+                    <div class="flex flex-wrap gap-2 mb-12">
                         {tags.map(tag => (
-                            <a href={`${import.meta.env.BASE_URL}tags/${tag}`} class="px-3 py-1 rounded-full border border-[var(--color-border)] text-xs font-medium text-[var(--color-secondary)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-all">
-                                #{tag}
+                            <a href={`${baseUrl}tags/${tag}`} class="tag-elegant hover:text-[var(--color-primary)]">
+                                {tag}
                             </a>
                         ))}
                     </div>
                 )}
 
                 {heroImage ? (
-                    <div class="relative mb-10 md:mb-16">
+                    <div class="relative mb-12 md:mb-16 overflow-hidden img-magazine-frame">
                         <img 
-                            src={heroImage.startsWith('/') ? import.meta.env.BASE_URL + heroImage.slice(1) : heroImage} 
+                            src={heroImage.startsWith('/') ? baseUrl + heroImage.slice(1) : heroImage} 
                             alt={title} 
-                            class="w-full h-auto rounded-[2rem] shadow-2xl"
+                            class="w-full h-auto"
                         />
                     </div>
                 ) : (
-                    <div class="relative mb-10 md:mb-16 rounded-[2rem] overflow-hidden shadow-2xl">
+                    <div class="relative mb-12 md:mb-16 img-magazine-frame">
                         <PostCover 
                             title={title} 
                             image={heroImage} 
@@ -85,30 +110,35 @@ const hasHeadings = headings && headings.length > 0;
                     </div>
                 )}
             </header>
-            <div class="prose-content">
+            
+            <!-- Drop cap first paragraph -->
+            <div class="prose-content drop-cap">
                 <slot />
             </div>
 
-            <hr class="border-[var(--color-border)] my-12" />
+            <hr class="border-[var(--color-border)] my-20" />
             
             {/* Related Posts */}
             {relatedPosts && relatedPosts.length > 0 && (
-                <div class="not-prose mb-12">
-                    <h3 class="text-2xl font-serif font-bold mb-6">相关推荐</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="not-prose mb-20">
+                    <div class="flex items-center gap-4 mb-10">
+                        <div class="golden-line"></div>
+                        <h3 class="text-xl font-display font-bold text-[var(--color-primary)]">Related</h3>
+                    </div>
+                    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory" style="scrollbar-width: none; -ms-overflow-style: none;">
                         {relatedPosts.map(post => (
-                            <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="group block">
-                                <div class="aspect-video rounded-xl overflow-hidden mb-3 border border-[var(--color-border)]">
+                            <a href={`${baseUrl}blog/${post.slug}`} class="group block flex-shrink-0 w-[260px] md:w-[300px] snap-start">
+                                <div class="aspect-video overflow-hidden border border-[var(--color-border)] mb-4 group-hover:border-[var(--color-accent)] transition-colors">
                                     <PostCover 
                                         title={post.data.title} 
                                         image={post.data.heroImage} 
                                         className="w-full h-full"
                                     />
                                 </div>
-                                <h4 class="font-bold text-sm group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">
+                                <h4 class="font-display font-bold text-sm group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 text-[var(--color-primary)] leading-snug">
                                     {post.data.title}
                                 </h4>
-                                <time class="text-xs text-[var(--color-secondary)] mt-1 block">
+                                <time class="text-[10px] text-[var(--color-secondary)] mt-2 block font-sans uppercase tracking-wide">
                                     {post.data.pubDate.toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' })}
                                 </time>
                             </a>
@@ -117,24 +147,35 @@ const hasHeadings = headings && headings.length > 0;
                 </div>
             )}
 
-            <div class="flex flex-col md:flex-row justify-between gap-8 not-prose">
+            <!-- Prev / Next Navigation -->
+            <div class="flex flex-col md:flex-row justify-between gap-6 not-prose">
                 {prevPost ? (
-                    <a href={`${import.meta.env.BASE_URL}blog/${prevPost.slug}`} class="flex-1 group text-left p-4 rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors">
-                        <span class="text-sm text-[var(--color-secondary)] mb-2 block group-hover:text-[var(--color-primary)] transition-colors">&larr; 上一篇</span>
-                        <span class="text-lg font-serif font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">{prevPost.data.title}</span>
+                    <a href={`${baseUrl}blog/${prevPost.slug}`} class="flex-1 group p-6 border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all duration-300">
+                        <span class="text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-3 block uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">&larr; Prev</span>
+                        <div class="flex gap-4 items-start">
+                            <div class="w-14 h-14 overflow-hidden flex-shrink-0 border border-[var(--color-border)]">
+                                <PostCover title={prevPost.data.title} image={prevPost.data.heroImage} className="w-full h-full" />
+                            </div>
+                            <span class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 leading-snug">{prevPost.data.title}</span>
+                        </div>
                     </a>
                 ) : <div class="flex-1"></div>}
                 
                 {nextPost ? (
-                    <a href={`${import.meta.env.BASE_URL}blog/${nextPost.slug}`} class="flex-1 group text-right p-4 rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors">
-                        <span class="text-sm text-[var(--color-secondary)] mb-2 block group-hover:text-[var(--color-primary)] transition-colors">下一篇 &rarr;</span>
-                        <span class="text-lg font-serif font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2">{nextPost.data.title}</span>
+                    <a href={`${baseUrl}blog/${nextPost.slug}`} class="flex-1 group p-6 border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all duration-300 text-right">
+                        <span class="text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-3 block uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">Next &rarr;</span>
+                        <div class="flex gap-4 items-start flex-row-reverse">
+                            <div class="w-14 h-14 overflow-hidden flex-shrink-0 border border-[var(--color-border)]">
+                                <PostCover title={nextPost.data.title} image={nextPost.data.heroImage} className="w-full h-full" />
+                            </div>
+                            <span class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 leading-snug">{nextPost.data.title}</span>
+                        </div>
                     </a>
                 ) : <div class="flex-1"></div>}
             </div>
         </article>
 
-        {/* Table of Contents Sidebar */}
+        <!-- Table of Contents Sidebar -->
         {headings && headings.length > 0 && (
             <TableOfContents headings={headings} />
         )}
@@ -143,8 +184,8 @@ const hasHeadings = headings && headings.length > 0;
 
 <script>
   // Copy Code Functionality
-  const copyButtonLabel = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
-  const copiedButtonLabel = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const copyButtonLabel = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+  const copiedButtonLabel = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 
   document.querySelectorAll('pre').forEach((pre) => {
     const button = document.createElement('button');

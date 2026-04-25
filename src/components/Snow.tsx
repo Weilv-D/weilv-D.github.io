@@ -105,8 +105,8 @@ export default function Snow() {
         }
 
         ctx.fillStyle = isDark
-          ? `rgba(255, 255, 255, ${flake.opacity})`
-          : `rgba(148, 163, 184, ${flake.opacity})`;
+          ? `rgba(184, 155, 108, ${flake.opacity * 0.7})`
+          : `rgba(184, 155, 108, ${flake.opacity * 0.5})`;
 
         if (flake.type === 'hexagon') {
           drawHexagon(flake.x, flake.y, flake.radius, flake.rotation);

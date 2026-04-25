@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCover from '../../components/PostCover.astro';
+import PretextMagazineTitle from '../../components/PretextMagazineTitle';
+import PretextCascadeBody from '../../components/PretextCascadeBody';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -19,56 +21,103 @@ export async function getStaticPaths() {
 const { tag } = Astro.params;
 const { posts } = Astro.props;
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={`标签: ${tag} | 未来回忆录`} description={`关于 ${tag} 的文章`}>
     <section>
-        <div class="mb-12 flex items-baseline gap-4">
-            <h1 class="text-4xl font-serif font-bold">#{tag}</h1>
-            <span class="text-[var(--color-secondary)]">{posts.length} 篇文章</span>
-            <a href={`${import.meta.env.BASE_URL}tags`} class="ml-auto text-sm link-underline">查看所有标签</a>
+        <div class="mb-16 md:mb-20">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="golden-line golden-line-animated"></div>
+                <span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">Column</span>
+            </div>
+            <div class="flex items-baseline gap-4 flex-wrap">
+                <PretextMagazineTitle
+                    client:load
+                    text={`#${tag}`}
+                    as="h1"
+                    className="text-4xl md:text-5xl font-display font-bold text-[var(--color-primary)] tracking-tight"
+                    reveal={true}
+                    revealDelay={100}
+                    charStagger={50}
+                />
+                <span class="text-[var(--color-secondary)] text-sm font-sans uppercase tracking-wide opacity-60">{posts.length} 篇文章</span>
+            </div>
+            <div class="mt-6 max-w-lg">
+                <PretextCascadeBody
+                    client:load
+                    text={`探索与 ${tag} 相关的所有文章。这里是关于这一主题的完整档案。`}
+                    className="text-base text-[var(--color-secondary)] leading-[1.9] opacity-70 font-serif"
+                    wordStagger={40}
+                />
+            </div>
+            <a href={`${baseUrl}tags`} class="inline-block mt-6 text-sm font-sans font-semibold tracking-wide link-underline text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors uppercase">查看所有标签</a>
         </div>
         
-        <div class="space-y-12">
-            {sortedPosts.map((post, index) => (
-                <article class={`group relative flex flex-col md:flex-row gap-6 md:gap-10 items-start p-6 -mx-6 rounded-[2rem] hover:bg-[var(--color-surface)] transition-all duration-500 animate-fade-in-up`} style={`animation-delay: ${index * 100}ms`}>
-					<a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="block md:w-[35%] shrink-0 overflow-hidden rounded-2xl">
-                        <PostCover 
-                            title={post.data.title} 
-                            image={post.data.heroImage} 
-                            category={post.data.category}
-                            className="aspect-[4/3] w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                    </a>
-                    <div class="flex-1 flex flex-col justify-center py-2">
-                        <div class="flex items-center gap-3 text-xs font-semibold text-[var(--color-secondary)] mb-4 uppercase tracking-widest">
-                            <time datetime={post.data.pubDate.toISOString()}>
-                                {post.data.pubDate.toLocaleDateString('en-us', {
-                                    year: 'numeric',
-                                    month: 'short',
-                                    day: 'numeric',
-                                })}
-                            </time>
-                            <span class="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
-                            <span class="text-[var(--color-primary)]">{post.data.category}</span>
-                        </div>
-                        <a href={`${import.meta.env.BASE_URL}blog/${post.slug}`} class="group/title block">
-                            <h2 class="text-2xl md:text-3xl font-serif font-bold mb-3 leading-tight group-hover/title:text-[var(--color-accent)] transition-colors">
-                                {post.data.title}
-                            </h2>
-                            <p class="text-[var(--color-secondary)] line-clamp-2 mb-6 leading-relaxed opacity-90 font-sans font-normal">
+        <div class="space-y-16 md:space-y-20">
+            {sortedPosts.map((post, index) => {
+                const isEven = index % 2 === 1;
+                return (
+                    <article class={`group relative flex flex-col ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 md:gap-12 items-start reveal`} data-reveal>
+                        <a href={`${baseUrl}blog/${post.slug}`} class={`block ${isEven ? 'md:w-[45%]' : 'md:w-[48%]'} shrink-0 w-full overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors`}>
+                            <PostCover 
+                                title={post.data.title} 
+                                image={post.data.heroImage} 
+                                category={post.data.category}
+                                className="aspect-[4/3] w-full h-full object-cover img-magazine"
+                            />
+                        </a>
+                        <div class="flex-1 flex flex-col justify-center py-1">
+                            <div class="flex items-center gap-3 text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-5 uppercase tracking-[0.15em]">
+                                <time datetime={post.data.pubDate.toISOString()}>
+                                    {post.data.pubDate.toLocaleDateString('en-us', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                    })}
+                                </time>
+                                <span class="w-1 h-1 bg-[var(--color-accent)] opacity-50"></span>
+                                <span class="text-[var(--color-primary)]">{post.data.category}</span>
+                            </div>
+                            <a href={`${baseUrl}blog/${post.slug}`} class="group/title block mb-4">
+                                <h2 class="text-2xl md:text-[1.75rem] leading-snug font-display font-bold text-[var(--color-primary)] group-hover/title:text-[var(--color-accent)] transition-colors duration-300">
+                                    {post.data.title}
+                                </h2>
+                            </a>
+                            <p class="text-[var(--color-secondary)] line-clamp-2 mb-6 leading-relaxed opacity-80 text-base">
                                 {post.data.description}
                             </p>
-                            <span class="inline-flex items-center text-sm font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
-                                Read Article
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            <a href={`${baseUrl}blog/${post.slug}`} class="inline-flex items-center text-sm font-sans font-semibold tracking-wide text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors group/link uppercase">
+                                <span class="link-underline">Read Article</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                 </svg>
-                            </span>
-                        </a>
-                    </div>
-                </article>
-            ))}
+                            </a>
+                        </div>
+                    </article>
+                );
+            })}
         </div>
     </section>
 </BaseLayout>
+
+<script>
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('[data-reveal]').forEach((el) => {
+    revealObserver.observe(el);
+  });
+
+  document.addEventListener('astro:after-swap', () => {
+    document.querySelectorAll('[data-reveal]').forEach((el) => {
+      revealObserver.observe(el);
+    });
+  });
+</script>

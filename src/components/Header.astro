@@ -8,23 +8,94 @@ const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).
 const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
 ---
 
-<header class="sticky top-4 md:top-6 z-50 w-full max-w-5xl mx-auto px-4 md:px-8 mb-8 md:mb-12">
-  <div class="glass-liquid flex justify-between items-center py-3 px-5 md:py-4 md:px-8 rounded-full transition-all duration-500 hover:shadow-2xl hover:bg-white/80 dark:hover:bg-slate-900/80 hover:scale-[1.005]">
-    <a href={import.meta.env.BASE_URL} class="flex items-center gap-3 group">
-        <div class="w-9 h-9 text-[var(--color-primary)] group-hover:rotate-180 transition-transform duration-700 ease-in-out">
-        <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Logo" class="w-full h-full dark:invert" />
+<header id="site-header" class="sticky top-0 z-50 w-full transition-all duration-500 border-b border-transparent">
+  <div class="max-w-6xl mx-auto px-5 md:px-10">
+    <div id="header-inner" class="flex justify-between items-center h-20 md:h-24 transition-all duration-500">
+      <!-- Logo -->
+      <a href={import.meta.env.BASE_URL} class="flex items-center gap-3 group">
+        <div class="relative w-9 h-9">
+          <div class="absolute inset-0 rounded-full border border-[var(--color-accent)] opacity-0 scale-75 group-hover:opacity-40 group-hover:scale-125 transition-all duration-500 ease-out" />
+          <div class="absolute inset-0 flex items-center justify-center text-[var(--color-primary)] transition-transform duration-700 group-hover:rotate-12 group-hover:scale-105">
+            <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Logo" class="w-full h-full dark:invert" />
+          </div>
         </div>
-        <span class="text-xl font-serif font-bold tracking-tight group-hover:opacity-70 transition-opacity hidden md:block whitespace-nowrap">未来回忆录</span>
-    </a>
-    
-    <nav class="flex items-center gap-4 md:gap-8">
+        <span class="text-xl font-display font-bold tracking-tight text-[var(--color-primary)] group-hover:opacity-70 transition-opacity hidden md:block whitespace-nowrap">
+          未来回忆录
+        </span>
+      </a>
+      
+      <!-- Navigation -->
+      <nav class="flex items-center gap-5 md:gap-8">
         <Search client:load />
-        <a href={`${import.meta.env.BASE_URL}blog`} class="text-sm font-medium link-underline opacity-80 hover:opacity-100 transition-opacity">Blog</a>
-        <a href={`${import.meta.env.BASE_URL}about`} class="text-sm font-medium link-underline opacity-80 hover:opacity-100 transition-opacity">About</a>
-        <a href={`${import.meta.env.BASE_URL}about`} class="w-9 h-9 squircle overflow-hidden border border-[var(--color-border)] shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300 ease-out ml-2">
-            <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
+        
+        <a 
+          href={`${import.meta.env.BASE_URL}blog`} 
+          id="nav-blog"
+          class="relative text-sm font-sans font-semibold tracking-wide text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors uppercase py-2"
+        >
+          Blog
+          <span class="nav-indicator absolute bottom-0 left-0 w-full h-[2px] bg-[var(--color-accent)] scale-x-0 transition-transform duration-300 origin-left" />
         </a>
+        <a 
+          href={`${import.meta.env.BASE_URL}about`} 
+          id="nav-about"
+          class="relative text-sm font-sans font-semibold tracking-wide text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors uppercase py-2"
+        >
+          About
+          <span class="nav-indicator absolute bottom-0 left-0 w-full h-[2px] bg-[var(--color-accent)] scale-x-0 transition-transform duration-300 origin-left" />
+        </a>
+        
+        <a href={`${import.meta.env.BASE_URL}about`} class="w-9 h-9 rounded overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] hover:scale-105 transition-all duration-400 ml-1">
+          <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
+        </a>
+        
         <ThemeToggle client:load />
-    </nav>
+      </nav>
+    </div>
   </div>
 </header>
+
+<script>
+  // Header scroll behavior
+  const header = document.getElementById('site-header');
+  const headerInner = document.getElementById('header-inner');
+  let lastScroll = 0;
+
+  function updateHeader() {
+    const scrollY = window.scrollY;
+    if (scrollY > 60) {
+      header?.classList.add('header-glass');
+      header?.classList.remove('border-transparent');
+      headerInner?.classList.add('h-16', 'md:h-18');
+      headerInner?.classList.remove('h-20', 'md:h-24');
+    } else {
+      header?.classList.remove('header-glass');
+      header?.classList.add('border-transparent');
+      headerInner?.classList.remove('h-16', 'md:h-18');
+      headerInner?.classList.add('h-20', 'md:h-24');
+    }
+    lastScroll = scrollY;
+  }
+
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
+
+  // Active nav indicator
+  const path = window.location.pathname;
+  const base = import.meta.env.BASE_URL || '/';
+  if (path.includes('/blog') || path.includes('/tags')) {
+    document.querySelector('#nav-blog .nav-indicator')?.classList.add('scale-x-100');
+  } else if (path.includes('/about')) {
+    document.querySelector('#nav-about .nav-indicator')?.classList.add('scale-x-100');
+  }
+
+  document.addEventListener('astro:after-swap', () => {
+    const newPath = window.location.pathname;
+    document.querySelectorAll('.nav-indicator').forEach(el => el.classList.remove('scale-x-100'));
+    if (newPath.includes('/blog') || newPath.includes('/tags')) {
+      document.querySelector('#nav-blog .nav-indicator')?.classList.add('scale-x-100');
+    } else if (newPath.includes('/about')) {
+      document.querySelector('#nav-about .nav-indicator')?.classList.add('scale-x-100');
+    }
+  });
+</script>

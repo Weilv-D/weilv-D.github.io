@@ -1,4 +1,37 @@
-<svg width="800" height="450" xmlns="http://www.w3.org/2000/svg">
- <rect width="100%" height="100%" fill="#2d3748"/>
- <text x="50%" y="50%" font-family="serif" font-size="48" fill="#a0aec0" text-anchor="middle" dy=".3em">Future Memoirs</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0EBE1"/>
+      <stop offset="100%" stop-color="#E8E2D6"/>
+    </linearGradient>
+    <pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse">
+      <circle cx="25" cy="25" r="0.5" fill="#6B5B4F" opacity="0.08"/>
+      <circle cx="75" cy="75" r="0.5" fill="#6B5B4F" opacity="0.06"/>
+      <circle cx="50" cy="10" r="0.3" fill="#B89B6C" opacity="0.05"/>
+      <circle cx="10" cy="60" r="0.4" fill="#2E5090" opacity="0.04"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <rect width="100%" height="100%" fill="url(#grain)"/>
+  
+  <!-- Decorative frame -->
+  <rect x="40" y="40" width="720" height="370" fill="none" stroke="#B89B6C" stroke-width="0.75" opacity="0.25" rx="2"/>
+  <rect x="50" y="50" width="700" height="350" fill="none" stroke="#B89B6C" stroke-width="0.5" opacity="0.15" rx="1"/>
+  
+  <!-- Corner ornaments -->
+  <path d="M40 70 L40 40 L70 40" fill="none" stroke="#2E5090" stroke-width="1.5" opacity="0.3"/>
+  <path d="M730 40 L760 40 L760 70" fill="none" stroke="#2E5090" stroke-width="1.5" opacity="0.3"/>
+  <path d="M40 380 L40 410 L70 410" fill="none" stroke="#2E5090" stroke-width="1.5" opacity="0.3"/>
+  <path d="M730 410 L760 410 L760 380" fill="none" stroke="#2E5090" stroke-width="1.5" opacity="0.3"/>
+  
+  <!-- Central typography -->
+  <text x="400" y="210" text-anchor="middle" font-family="'Bodoni Moda', 'Noto Serif SC', serif" font-size="42" font-weight="700" fill="#2E5090" letter-spacing="0.15em">未来回忆录</text>
+  <line x1="340" y1="235" x2="460" y2="235" stroke="#B89B6C" stroke-width="1" opacity="0.5"/>
+  <text x="400" y="275" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="13" font-weight="500" fill="#6B5B4F" letter-spacing="0.25em" text-transform="uppercase">MEMOIRS OF THE FUTURE</text>
+  
+  <!-- Decorative circles -->
+  <circle cx="200" cy="150" r="30" fill="none" stroke="#2E5090" stroke-width="0.5" opacity="0.1"/>
+  <circle cx="600" cy="300" r="40" fill="none" stroke="#B89B6C" stroke-width="0.5" opacity="0.12"/>
+  <circle cx="680" cy="120" r="15" fill="#2E5090" opacity="0.04"/>
+  <circle cx="140" cy="340" r="20" fill="#B89B6C" opacity="0.05"/>
 </svg>

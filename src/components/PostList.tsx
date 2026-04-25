@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import PostCover from './PostCover';
+import { useSmartTruncate } from '../utils/textMeasure';
 
 interface Post {
   title: string;
@@ -17,16 +18,117 @@ interface Props {
 
 type SortOption = 'date-desc' | 'date-asc' | 'title-asc' | 'title-desc';
 
+// Individual post card with Pretext-powered excerpt
+function PostCard({ post, index, baseUrl }: { post: Post; index: number; baseUrl: string }) {
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const [descWidth, setDescWidth] = useState(400);
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  useEffect(() => {
+    if (descRef.current) {
+      setDescWidth(descRef.current.clientWidth);
+    }
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setDescWidth(entry.contentRect.width);
+      }
+    });
+    if (descRef.current) {
+      observer.observe(descRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  // IntersectionObserver for reveal
+  useEffect(() => {
+    const card = descRef.current?.closest('article');
+    if (!card) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsRevealed(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, []);
+
+  const font = '400 16px "Source Serif 4", "LXGW WenKai", "Noto Serif SC", serif';
+  const lineHeight = 28;
+  const truncated = useSmartTruncate(post.description, font, descWidth, lineHeight, 2);
+
+  const isEven = index % 2 === 1;
+
+  return (
+    <article 
+      key={post.slug}
+      className={`group relative flex flex-col ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} gap-6 md:gap-10 items-start py-12 md:py-14 border-b border-[var(--color-border)] last:border-0 transition-all duration-700`}
+      style={{
+        opacity: isRevealed ? 1 : 0,
+        transform: isRevealed ? 'translateY(0)' : 'translateY(30px)',
+        transitionDelay: `${(index % 3) * 100}ms`,
+      }}
+    >
+      <a href={`${baseUrl}blog/${post.slug}`} className={`block ${isEven ? 'md:w-[45%]' : 'md:w-[48%]'} shrink-0 w-full overflow-hidden border border-[var(--color-border)] group-hover:border-[var(--color-accent)] transition-colors duration-500`}>
+        <PostCover 
+          title={post.title} 
+          image={post.heroImage} 
+          category={post.category}
+          className="aspect-[4/3] w-full h-full object-cover img-magazine"
+        />
+      </a>
+      
+      <div className="flex-1 flex flex-col justify-center py-1 w-full">
+        <div className="flex items-center gap-3 text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-5 uppercase tracking-[0.15em]">
+          <span className="text-[var(--color-accent)] font-display text-base opacity-40">{String(index + 1).padStart(2, '0')}</span>
+          <span className="w-3 h-px bg-[var(--color-border)]"></span>
+          <time dateTime={post.pubDate}>
+            {new Date(post.pubDate).toLocaleDateString('en-us', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </time>
+          <span className="w-1 h-1 bg-[var(--color-accent)] opacity-50"></span>
+          <span className="text-[var(--color-primary)]">{post.category}</span>
+        </div>
+        
+        <a href={`${baseUrl}blog/${post.slug}`} className="group/title block mb-4">
+          <h2 className="text-2xl md:text-[1.75rem] leading-snug font-display font-bold text-[var(--color-primary)] group-hover/title:text-[var(--color-accent)] transition-colors duration-300">
+            {post.title}
+          </h2>
+        </a>
+        
+        <p ref={descRef} className="text-[var(--color-secondary)] leading-relaxed mb-6 opacity-80 text-base">
+          {truncated.text}
+        </p>
+        
+        <a href={`${baseUrl}blog/${post.slug}`} className="inline-flex items-center text-sm font-sans font-semibold tracking-wide text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors group/link uppercase">
+          <span className="link-underline">Read Article</span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </article>
+  );
+}
+
 export default function PostList({ initialPosts }: Props) {
   const [posts] = useState<Post[]>(initialPosts);
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [sortOption, setSortOption] = useState<SortOption>('date-desc');
   const [isClientMode, setIsClientMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showSortPanel, setShowSortPanel] = useState(false);
 
   const baseUrl = import.meta.env.BASE_URL;
 
-  // Load all posts when user interacts with sort
   const loadAllPosts = async () => {
     if (allPosts.length > 0) return;
     setIsLoading(true);
@@ -43,6 +145,7 @@ export default function PostList({ initialPosts }: Props) {
 
   const handleSortChange = async (option: SortOption) => {
     setSortOption(option);
+    setShowSortPanel(false);
     if (!isClientMode) {
       await loadAllPosts();
       setIsClientMode(true);
@@ -76,102 +179,63 @@ export default function PostList({ initialPosts }: Props) {
 
   return (
     <div>
-      <div className="flex justify-end mb-8">
-        <div className="relative group z-20">
+      <div className="flex justify-end mb-10">
+        <div className="relative">
           <button 
-            className="flex items-center gap-2 px-4 py-2 rounded-full glass-liquid text-sm font-medium text-[var(--color-primary)] hover:scale-105 transition-all duration-300"
+            className="flex items-center gap-2 px-4 py-2 border border-[var(--color-border)] bg-[var(--color-surface)] text-sm font-sans font-semibold tracking-wide text-[var(--color-primary)] hover:border-[var(--color-accent)] transition-all duration-300 uppercase"
             onClick={() => {
+              setShowSortPanel(!showSortPanel);
               if (!isClientMode) {
                 void loadAllPosts();
               }
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[var(--color-secondary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
             </svg>
             <span>{sortLabels[sortOption]}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 text-[var(--color-secondary)] transition-transform duration-300 ${showSortPanel ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
           
-          <div className="absolute right-0 mt-2 w-40 py-2 rounded-2xl glass-liquid opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right">
-            {(Object.keys(sortLabels) as SortOption[]).map((option) => (
-              <button
-                key={option}
-                onClick={() => handleSortChange(option)}
-                className={`w-full text-left px-4 py-2 text-sm hover:bg-[var(--color-surface)] transition-colors ${
-                  sortOption === option ? 'text-[var(--color-accent)] font-bold' : 'text-[var(--color-secondary)]'
-                }`}
-              >
-                {sortLabels[option]}
-              </button>
-            ))}
-          </div>
+          {showSortPanel && (
+            <>
+              <div className="fixed inset-0 z-10" onClick={() => setShowSortPanel(false)} />
+              <div className="absolute right-0 mt-2 w-44 py-2 border border-[var(--color-border)] bg-[var(--color-background)] shadow-xl z-20 animate-scale-in origin-top-right">
+                {(Object.keys(sortLabels) as SortOption[]).map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => handleSortChange(option)}
+                    className={`w-full text-left px-4 py-2.5 text-sm font-sans transition-colors ${
+                      sortOption === option ? 'text-[var(--color-accent)] font-bold' : 'text-[var(--color-secondary)] hover:text-[var(--color-primary)]'
+                    }`}
+                  >
+                    {sortLabels[option]}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
 
-      <div className="space-y-12">
+      <div>
         {isLoading ? (
-            <div className="py-20 text-center text-[var(--color-secondary)] animate-pulse">
-                Loading...
-            </div>
+          <div className="py-20 text-center text-[var(--color-secondary)] animate-pulse font-sans">
+            加载文章中...
+          </div>
         ) : (
-            sortedPosts.map((post, index) => (
-            <article 
-                key={post.slug}
-                className="group relative flex flex-col md:flex-row gap-6 md:gap-10 items-start p-6 -mx-6 rounded-[2rem] hover:bg-[var(--color-surface)] transition-all duration-500 animate-fade-in-up"
-                style={{ animationDelay: `${index * 50}ms` }}
-            >
-                <a href={`${baseUrl}blog/${post.slug}`} className="block md:w-[35%] shrink-0 w-full overflow-hidden rounded-2xl">
-                <PostCover 
-                    title={post.title} 
-                    image={post.heroImage} 
-                    category={post.category}
-                    className="aspect-[4/3] w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                </a>
-                
-                <div className="flex-1 flex flex-col justify-center py-2 w-full">
-                <div className="flex items-center gap-3 text-xs font-semibold text-[var(--color-secondary)] mb-4 uppercase tracking-widest">
-                    <time dateTime={post.pubDate}>
-                    {new Date(post.pubDate).toLocaleDateString('en-us', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                    })}
-                    </time>
-                    <span className="w-1 h-1 rounded-full bg-[var(--color-border)]"></span>
-                    <span className="text-[var(--color-primary)]">{post.category}</span>
-                </div>
-                
-                <a href={`${baseUrl}blog/${post.slug}`} className="group/title block">
-                    <h2 className="text-2xl md:text-3xl font-serif font-bold mb-3 leading-tight group-hover/title:text-[var(--color-accent)] transition-colors">
-                    {post.title}
-                    </h2>
-                </a>
-                
-                <p className="text-[var(--color-secondary)] line-clamp-2 mb-6 leading-relaxed opacity-90">
-                    {post.description}
-                </p>
-                
-                <a href={`${baseUrl}blog/${post.slug}`} className="inline-flex items-center text-sm font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">
-                    Read Article 
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                </a>
-                </div>
-            </article>
-            ))
+          sortedPosts.map((post, index) => (
+            <PostCard key={post.slug} post={post} index={index} baseUrl={baseUrl} />
+          ))
         )}
       </div>
       
-      {/* Pagination Hint (Only show if not in client mode) */}
       {!isClientMode && (
-          <div className="mt-12 pt-8 border-t border-[var(--color-border)] text-center text-sm text-[var(--color-secondary)]">
-              <p>切换排序方式以查看所有文章</p>
-          </div>
+        <div className="mt-12 pt-8 border-t border-[var(--color-border)] text-center text-sm text-[var(--color-secondary)] font-sans opacity-60">
+          <p>切换排序方式以查看所有文章</p>
+        </div>
       )}
     </div>
   );

@@ -1,23 +1,47 @@
 ---
 const today = new Date();
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<footer class="py-12 mt-20 border-t border-[var(--color-border)]">
-    <div class="max-w-5xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-[var(--color-secondary)]">
-        <div class="flex flex-col items-center md:items-start gap-1">
-            <span class="font-serif font-bold text-lg text-[var(--color-primary)] tracking-tight">未来回忆录</span>
-            <span class="opacity-80 font-light">&copy; {today.getFullYear()} weilv. All rights reserved.</span>
+<footer class="relative py-20 md:py-28 mt-32 md:mt-40 border-t border-[var(--color-border)] overflow-hidden">
+  <!-- Giant decorative text -->
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+    <span class="text-[12rem] md:text-[18rem] font-display font-bold text-[var(--color-primary)] opacity-[0.025] whitespace-nowrap tracking-tighter">
+      未来回忆录
+    </span>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-5 md:px-10 relative z-10">
+    <div class="flex items-center gap-6 mb-12">
+      <div class="golden-line golden-line-animated"></div>
+      <span class="text-xs font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">End</span>
+    </div>
+    
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
+      <div class="flex flex-col items-start gap-3">
+        <span class="font-display font-bold text-2xl md:text-3xl text-[var(--color-primary)] tracking-tight">未来回忆录</span>
+        <span class="opacity-50 font-light tracking-wide text-sm font-sans">&copy; {today.getFullYear()} weilv. All rights reserved.</span>
+      </div>
+      
+      <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-start md:items-center">
+        <div class="flex gap-8 font-sans font-medium text-sm">
+          <a href={`${baseUrl}rss.xml`} class="text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors link-underline uppercase tracking-wider">
+            RSS
+          </a>
+          <a href="https://github.com/Weilv-D" target="_blank" class="text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors link-underline uppercase tracking-wider">
+            GitHub
+          </a>
         </div>
         
-        <div class="flex gap-8 font-medium">
-            <a href={`${import.meta.env.BASE_URL}rss.xml`} class="hover:text-[var(--color-primary)] transition-colors relative group">
-                RSS
-                <span class="absolute -bottom-1 left-0 w-0 h-px bg-[var(--color-primary)] transition-all group-hover:w-full"></span>
-            </a>
-            <a href="https://github.com/Weilv-D" target="_blank" class="hover:text-[var(--color-primary)] transition-colors relative group">
-                GitHub
-                <span class="absolute -bottom-1 left-0 w-0 h-px bg-[var(--color-primary)] transition-all group-hover:w-full"></span>
-            </a>
+        <div class="flex gap-3">
+          <a href={`${baseUrl}rss.xml`} class="p-2.5 border border-[var(--color-border)] text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:border-[var(--color-accent)] transition-all duration-300 hover:scale-105" aria-label="RSS">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+          </a>
+          <a href="https://github.com/Weilv-D" target="_blank" class="p-2.5 border border-[var(--color-border)] text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:border-[var(--color-accent)] transition-all duration-300 hover:scale-105" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
         </div>
+      </div>
     </div>
+  </div>
 </footer>

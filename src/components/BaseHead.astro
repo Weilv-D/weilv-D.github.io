@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import 'katex/dist/katex.min.css';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
 	title: string;
@@ -44,7 +44,7 @@ const imageURL = new URL(image.startsWith('/') ? import.meta.env.BASE_URL + imag
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={imageURL} />
 
-<ViewTransitions />
+<ClientRouter />
 
 <!-- Theme Initialization -->
 <script is:inline>

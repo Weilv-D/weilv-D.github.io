@@ -1,20 +1,64 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PretextMagazineTitle from '../../components/PretextMagazineTitle';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog');
-const tags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))];
+const tags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].sort();
+
+// Group by first letter
+const grouped = new Map<string, string[]>();
+tags.forEach(tag => {
+    const letter = tag[0].toUpperCase();
+    if (!grouped.has(letter)) grouped.set(letter, []);
+    grouped.get(letter)!.push(tag);
+});
+
 const pageTitle = "标签索引";
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title={`${pageTitle} | 未来回忆录`} description="按标签浏览文章">
-    <section class="max-w-4xl mx-auto text-center py-16">
-        <h1 class="text-5xl font-serif font-bold mb-16 tracking-tight">标签索引</h1>
-        <div class="flex flex-wrap justify-center gap-4">
-            {tags.map((tag) => (
-                <a href={`${import.meta.env.BASE_URL}tags/${tag}`} class="group relative px-6 py-3 rounded-full border border-[var(--color-border)] hover:border-[var(--color-primary)] bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                    <span class="text-sm font-medium text-[var(--color-secondary)] group-hover:text-[var(--color-primary)] transition-colors">#{tag}</span>
-                </a>
+    <section class="max-w-4xl mx-auto py-16 md:py-24">
+        <div class="text-center mb-16 md:mb-20">
+            <div class="golden-line mx-auto mb-10 golden-line-animated"></div>
+            <PretextMagazineTitle
+                client:load
+                text="Index"
+                as="h1"
+                className="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tight text-[var(--color-primary)]"
+                reveal={true}
+                revealDelay={100}
+                charStagger={70}
+            />
+            <p class="text-sm font-sans text-[var(--color-secondary)] opacity-50 uppercase tracking-[0.2em]">
+                {tags.length} tags across {allPosts.length} articles
+            </p>
+        </div>
+
+        <!-- Alphabetical Index -->
+        <div class="space-y-12">
+            {Array.from(grouped.entries()).map(([letter, letterTags]) => (
+                <div class="flex flex-col sm:flex-row gap-6 sm:gap-10">
+                    <div class="shrink-0 w-12">
+                        <span class="section-number text-5xl">{letter}</span>
+                    </div>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        {letterTags.map((tag) => (
+                            <a 
+                                href={`${baseUrl}tags/${tag}`} 
+                                class="group px-4 py-2 border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] hover:bg-[var(--color-background)] transition-all duration-300"
+                            >
+                                <span class="text-sm font-sans font-semibold tracking-wide text-[var(--color-secondary)] group-hover:text-[var(--color-primary)] transition-colors">
+                                    {tag}
+                                </span>
+                                <span class="text-xs text-[var(--color-accent)] ml-2 opacity-50 group-hover:opacity-100 transition-opacity font-sans">
+                                    {allPosts.filter(p => p.data.tags?.includes(tag)).length}
+                                </span>
+                            </a>
+                        ))}
+                    </div>
+                </div>
             ))}
         </div>
     </section>

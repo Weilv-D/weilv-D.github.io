@@ -2,25 +2,40 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import PretextScrambleReveal from '../components/PretextScrambleReveal';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={`404 - Page Not Found | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 	</head>
-	<body class="flex flex-col min-h-screen">
+	<body class="flex flex-col min-h-screen xuanzhi-texture">
 		<Header />
-		<main class="flex-grow flex flex-col items-center justify-center text-center px-4">
-            <div class="space-y-6">
-                <h1 class="text-9xl font-serif font-bold text-[var(--color-accent)] opacity-20">404</h1>
-                <h2 class="text-3xl font-bold">迷失在时空褶皱中</h2>
-                <p class="text-[var(--color-secondary)] max-w-md mx-auto">
+		<main class="flex-grow flex flex-col items-center justify-center text-center px-4 relative z-10">
+            <div class="space-y-8">
+                <div class="relative">
+                    <PretextScrambleReveal
+                        client:load
+                        text="404"
+                        as="h1"
+                        className="text-[8rem] md:text-[12rem] font-display font-bold text-[var(--color-accent)] opacity-[0.15] leading-none select-none"
+                        reveal={true}
+                        revealDelay={200}
+                        charStagger={120}
+                    />
+                </div>
+                <div class="golden-line mx-auto"></div>
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-[var(--color-primary)] tracking-tight">迷失在时空褶皱中</h2>
+                <p class="text-[var(--color-secondary)] max-w-md mx-auto text-lg leading-relaxed font-serif opacity-80">
                     你寻找的页面似乎已经消失在时间的长河里，或者从未存在过。
                 </p>
-                <div class="pt-6">
-                    <a href={import.meta.env.BASE_URL} class="inline-block px-6 py-3 rounded-full bg-[var(--color-text)] text-[var(--color-bg)] font-medium hover:opacity-90 transition-opacity">
+                <div class="pt-8">
+                    <a href={import.meta.env.BASE_URL} class="inline-flex items-center gap-2 px-8 py-3.5 border border-[var(--color-primary)] text-[var(--color-primary)] font-sans font-semibold tracking-wide text-sm hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition-all duration-400 uppercase">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
                         返回现在
                     </a>
                 </div>

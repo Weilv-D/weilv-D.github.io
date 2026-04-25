@@ -2,9 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Snow from '../components/Snow';
 import BackToTop from '../components/BackToTop';
-
 interface Props {
 	title: string;
 	description: string;
@@ -16,23 +14,14 @@ const { title, description, image, wide = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={title} description={description} image={image} />
-	</head>
-	<body class="flex flex-col min-h-screen relative overflow-x-hidden">
-        {/* SVG Definition for Squircle Clip Path */}
-        <svg width="0" height="0" class="absolute">
-            <defs>
-                <clipPath id="squircle-clip" clipPathUnits="objectBoundingBox">
-                    <path d="M .5,0 C .1,0 0,.1 0,.5 0,.9 .1,1 .5,1 .9,1 1,.9 1,.5 1,.1 .9,0 .5,0 Z" />
-                </clipPath>
-            </defs>
-        </svg>
 
-        <Snow client:only="react" />
+	</head>
+	<body class="flex flex-col min-h-screen relative overflow-x-hidden xuanzhi-texture">
 		<Header />
-		<main class={`flex-grow w-full mx-auto px-4 md:px-8 py-8 md:py-12 relative z-10 ${wide ? 'max-w-6xl' : 'max-w-5xl'}`}>
+		<main class={`flex-grow w-full mx-auto px-5 md:px-10 py-14 md:py-20 relative z-10 ${wide ? 'max-w-6xl' : 'max-w-5xl'}`}>
 			<slot />
 		</main>
 		<Footer />
@@ -54,3 +43,28 @@ const { title, description, image, wide = false } = Astro.props;
         </script>
 	</body>
 </html>
+
+<style is:global>
+  /* Astro ViewTransitions — magazine-style cross-fade */
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root) {
+    animation: magazineFadeOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  ::view-transition-new(root) {
+    animation: magazineFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes magazineFadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-8px); }
+  }
+
+  @keyframes magazineFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
