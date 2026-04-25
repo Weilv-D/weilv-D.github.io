@@ -11,7 +11,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth <= 3);
 ---
 
 {filteredHeadings.length > 0 && (
-  <nav class="toc hidden xl:block sticky top-36 w-60 max-h-[calc(100vh-10rem)] overflow-y-auto">
+  <nav class="toc hidden xl:block sticky top-36 w-60 max-h-[calc(100vh-10rem)] overflow-y-auto" aria-label="文章目录">
     <div class="mb-6">
       <span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">In This Issue</span>
       <div class="golden-line mt-3"></div>

@@ -8,39 +8,32 @@ interface Props {
 	description: string;
     image?: string;
     wide?: boolean;
+    article?: {
+        pubDate: Date;
+        updatedDate?: Date;
+        category: string;
+        tags: string[];
+    };
 }
 
-const { title, description, image, wide = false } = Astro.props;
+const { title, description, image, wide = false, article } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<BaseHead title={title} description={description} image={image} />
+		<BaseHead title={title} description={description} image={image} article={article} />
 
 	</head>
 	<body class="flex flex-col min-h-screen relative overflow-x-hidden xuanzhi-texture">
+		<a href="#main-content" class="skip-link">跳转到主要内容</a>
 		<Header />
-		<main class={`flex-grow w-full mx-auto px-5 md:px-10 py-14 md:py-20 relative z-10 ${wide ? 'max-w-6xl' : 'max-w-5xl'}`}>
+		<main id="main-content" class={`flex-grow w-full mx-auto px-5 md:px-10 py-14 md:py-20 relative z-10 ${wide ? 'max-w-6xl' : 'max-w-5xl'}`}>
 			<slot />
 		</main>
 		<Footer />
         <BackToTop client:idle />
-        <script>
-            import renderMathInElement from 'katex/dist/contrib/auto-render.mjs';
 
-            document.addEventListener("astro:page-load", function() {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false},
-                        {left: '\\(', right: '\\)', display: false},
-                        {left: '\\[', right: '\\]', display: true}
-                    ],
-                    throwOnError: false
-                });
-            });
-        </script>
 	</body>
 </html>
 

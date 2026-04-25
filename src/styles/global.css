@@ -32,21 +32,7 @@
   /* Mono: 等宽，用于代码 */
   --font-mono: "JetBrains Mono", "LXGW WenKai", "Noto Sans Mono", monospace;
 
-  --color-xuan-bg: #F7F3EB;
-  --color-xuan-surface: #F0EBE1;
-  --color-xuan-text: #4A403A;
-  --color-xuan-primary: #2E5090;
-  --color-xuan-secondary: #6B5B4F;
-  --color-xuan-accent: #B89B6C;
-  --color-xuan-border: rgba(107, 91, 79, 0.15);
 
-  --color-ink-bg: #1C1C1E;
-  --color-ink-surface: #2A2A2C;
-  --color-ink-text: #D4CFC9;
-  --color-ink-primary: #4A7EC7;
-  --color-ink-secondary: #A89888;
-  --color-ink-accent: #9A8660;
-  --color-ink-border: rgba(168, 152, 136, 0.15);
 }
 
 @variant dark (&:where(.dark, .dark *));
@@ -56,6 +42,8 @@
    ============================================ */
 
 :root {
+  --ease-magazine: var(--ease-magazine);
+
   --color-background: #F7F3EB;
   --color-surface: #F0EBE1;
   --color-text: #4A403A;
@@ -117,6 +105,26 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-primary);
   letter-spacing: -0.03em;
   line-height: 1.1;
+}
+
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  z-index: 100;
+  padding: 8px 16px;
+  background: var(--color-primary);
+  color: var(--color-background);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 /* ============================================
@@ -192,7 +200,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   background-color: var(--color-accent);
   transform-origin: bottom right;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s var(--ease-magazine);
 }
 
 .link-underline:hover::after {
@@ -209,7 +217,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--color-border);
   border-radius: 1.25rem;
   box-shadow: 0 1px 3px rgba(107, 91, 79, 0.05), 0 1px 2px rgba(107, 91, 79, 0.03);
-  transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: box-shadow 0.4s var(--ease-magazine), transform 0.4s var(--ease-magazine);
 }
 
 .paper-panel:hover {
@@ -223,7 +231,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .img-magazine {
   border-radius: 0.25rem;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.8s var(--ease-magazine), filter 0.8s var(--ease-magazine);
   filter: sepia(8%) drop-shadow(0 8px 24px rgba(107, 91, 79, 0.1));
 }
 
@@ -287,21 +295,6 @@ figcaption {
   opacity: 0.75;
 }
 
-/* Float images for editorial layout */
-.float-left-img {
-  float: left;
-  margin: 0.5rem 1.5rem 1rem 0;
-  max-width: 45%;
-  border-radius: 0.25rem;
-}
-
-.float-right-img {
-  float: right;
-  margin: 0.5rem 0 1rem 1.5rem;
-  max-width: 45%;
-  border-radius: 0.25rem;
-}
-
 /* ============================================
    CODE BLOCK STYLING
    ============================================ */
@@ -356,19 +349,19 @@ html.dark .astro-code span {
    ============================================ */
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInUp 0.9s var(--ease-magazine) forwards;
   opacity: 0;
   transform: translateY(24px);
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: scaleIn 0.8s var(--ease-magazine) forwards;
   opacity: 0;
   transform: scale(0.96);
 }
 
 .animate-slide-from-left {
-  animation: slideFromLeft 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideFromLeft 0.9s var(--ease-magazine) forwards;
   opacity: 0;
   transform: translateX(-30px);
 }
@@ -485,7 +478,7 @@ html.dark .astro-code span {
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.8s var(--ease-magazine), transform 0.8s var(--ease-magazine);
 }
 
 .reveal.revealed {
@@ -496,7 +489,7 @@ html.dark .astro-code span {
 .reveal-scale {
   opacity: 0;
   transform: scale(0.97);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine);
 }
 
 .reveal-scale.revealed {
@@ -517,7 +510,7 @@ html.dark .astro-code span {
 }
 
 .golden-line-animated {
-  animation: goldenLineExpand 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: goldenLineExpand 1s var(--ease-magazine) forwards;
   transform: scaleX(0);
 }
 
@@ -643,32 +636,11 @@ html.dark .astro-code span {
   letter-spacing: -0.04em;
 }
 
-/* Side Note — 杂志旁注 */
-.side-note {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  line-height: 1.6;
-  color: var(--color-secondary);
-  border-top: 1px solid var(--color-accent);
-  padding-top: 0.5rem;
-  margin-top: 0.25rem;
-}
-
-/* Running Header */
-.running-header {
-  font-family: var(--font-sans);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-secondary);
-  opacity: 0.5;
-}
-
 /* Reveal variants */
 .reveal-slide-left {
   opacity: 0;
   transform: translateX(-40px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine);
 }
 
 .reveal-slide-left.revealed {
@@ -679,7 +651,7 @@ html.dark .astro-code span {
 .reveal-slide-right {
   opacity: 0;
   transform: translateX(40px);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine);
 }
 
 .reveal-slide-right.revealed {
@@ -690,7 +662,7 @@ html.dark .astro-code span {
 .reveal-rotate {
   opacity: 0;
   transform: translateY(20px) rotate(-1.5deg);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine);
 }
 
 .reveal-rotate.revealed {
@@ -702,7 +674,7 @@ html.dark .astro-code span {
   opacity: 0;
   filter: blur(6px);
   transform: translateY(20px);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 1s var(--ease-magazine), transform 1s var(--ease-magazine), filter 1s var(--ease-magazine);
 }
 
 .reveal-blur.revealed {
@@ -819,114 +791,6 @@ html.dark .astro-code span {
 }
 
 /* ============================================
-   CURSOR BLINK - 冷金光标
-   ============================================ */
-
-.cursor-golden {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background-color: var(--color-accent);
-  margin-left: 2px;
-  vertical-align: text-bottom;
-  animation: cursorBlink 1s step-end infinite;
-}
-
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* ============================================
-   SEARCH CURTAIN - clip-path 幕布
-   ============================================ */
-
-.search-curtain-enter {
-  clip-path: circle(0% at calc(100% - 48px) 48px);
-  animation: searchCurtainExpand 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes searchCurtainExpand {
-  from {
-    clip-path: circle(0% at calc(100% - 48px) 48px);
-  }
-  to {
-    clip-path: circle(150% at 50% 50%);
-  }
-}
-
-/* ============================================
-   MAGAZINE FRAME - 冷金边框四角展开
-   ============================================ */
-
-.mag-frame {
-  position: relative;
-  padding: 4px;
-  background: var(--color-surface);
-}
-
-.mag-frame::before,
-.mag-frame::after,
-.mag-frame > .corner-tl::before,
-.mag-frame > .corner-tl::after {
-  content: '';
-  position: absolute;
-  background: var(--color-accent);
-  opacity: 0.35;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.mag-frame::before {
-  top: 0; left: 0; width: 20%; height: 1px;
-  transform: scaleX(0); transform-origin: left;
-}
-.mag-frame::after {
-  top: 0; left: 0; width: 1px; height: 20%;
-  transform: scaleY(0); transform-origin: top;
-}
-.mag-frame > .corner-tl::before {
-  bottom: 0; right: 0; width: 20%; height: 1px;
-  transform: scaleX(0); transform-origin: right;
-}
-.mag-frame > .corner-tl::after {
-  bottom: 0; right: 0; width: 1px; height: 20%;
-  transform: scaleY(0); transform-origin: bottom;
-}
-
-.mag-frame:hover::before { transform: scaleX(1); }
-.mag-frame:hover::after { transform: scaleY(1); }
-.mag-frame:hover > .corner-tl::before { transform: scaleX(1); }
-.mag-frame:hover > .corner-tl::after { transform: scaleY(1); }
-
-/* ============================================
-   RIPPLE - 涟漪扩散
-   ============================================ */
-
-.ripple-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple-effect::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  border: 2px solid var(--color-accent);
-  opacity: 0;
-  transform: scale(0.8);
-}
-
-.ripple-effect:active::after {
-  animation: rippleOut 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes rippleOut {
-  0% { transform: scale(0.8); opacity: 0.6; }
-  100% { transform: scale(1.4); opacity: 0; }
-}
-
-/* ============================================
    PARTICLE TRAIL - 粒子尾迹
    ============================================ */
 
@@ -946,42 +810,6 @@ html.dark .astro-code span {
 
 .glow-ring:hover {
   box-shadow: 0 0 0 4px var(--color-accent-20), 0 0 20px var(--color-accent-10);
-}
-
-/* ============================================
-   PULL QUOTE - 大引号装饰
-   ============================================ */
-
-.pull-quote {
-  position: relative;
-  padding-left: 1.5rem;
-}
-
-.pull-quote::before {
-  content: '"';
-  position: absolute;
-  top: -0.3em;
-  left: -0.1em;
-  font-family: var(--font-display);
-  font-size: 5rem;
-  line-height: 1;
-  color: var(--color-primary);
-  opacity: 0.06;
-  pointer-events: none;
-}
-
-.pull-quote-line {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3px;
-  height: 0%;
-  background: var(--color-accent);
-  transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.pull-quote.revealed .pull-quote-line {
-  height: 100%;
 }
 
 /* ============================================

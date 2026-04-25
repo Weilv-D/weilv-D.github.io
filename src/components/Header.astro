@@ -16,7 +16,7 @@ const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
         <div class="relative w-9 h-9">
           <div class="absolute inset-0 rounded-full border border-[var(--color-accent)] opacity-0 scale-75 group-hover:opacity-40 group-hover:scale-125 transition-all duration-500 ease-out" />
           <div class="absolute inset-0 flex items-center justify-center text-[var(--color-primary)] transition-transform duration-700 group-hover:rotate-12 group-hover:scale-105">
-            <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Logo" class="w-full h-full dark:invert" />
+            <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="未来回忆录" class="w-full h-full dark:invert" />
           </div>
         </div>
         <span class="text-xl font-display font-bold tracking-tight text-[var(--color-primary)] group-hover:opacity-70 transition-opacity hidden md:block whitespace-nowrap">
@@ -25,7 +25,7 @@ const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
       </a>
       
       <!-- Navigation -->
-      <nav class="flex items-center gap-5 md:gap-8">
+      <nav class="flex items-center gap-5 md:gap-8" aria-label="主导航">
         <Search client:load />
         
         <a 
@@ -46,7 +46,7 @@ const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
         </a>
         
         <a href={`${import.meta.env.BASE_URL}about`} class="w-9 h-9 rounded overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] hover:scale-105 transition-all duration-400 ml-1">
-          <img src={avatarUrl} alt="Avatar" class="w-full h-full object-cover" />
+          <img src={avatarUrl} alt="关于 weilv" class="w-full h-full object-cover" />
         </a>
         
         <ThemeToggle client:load />

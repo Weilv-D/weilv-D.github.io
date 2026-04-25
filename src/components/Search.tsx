@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { measureTextWidth } from '../utils/textMeasure';
+import { formatDate } from '../utils/date';
 
 interface Post {
     title: string;
@@ -127,6 +128,8 @@ export default function Search() {
                 onClick={() => { setIsOpen(true); loadPosts(); }}
                 className="group flex items-center gap-2 px-3 py-1.5 border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all duration-300 text-[var(--color-secondary)] hover:text-[var(--color-primary)]"
                 aria-label="搜索"
+                aria-expanded={isOpen}
+                aria-controls="search-dialog"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 text-[var(--color-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -157,6 +160,10 @@ export default function Search() {
                     {/* Panel Content */}
                     <div 
                         ref={searchRef}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="搜索文章"
+                        id="search-dialog"
                         className="relative w-full max-w-3xl mx-auto px-5 md:px-10 pt-20 md:pt-28 pb-10"
                         style={{
                             animation: 'fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both',
@@ -189,10 +196,11 @@ export default function Search() {
                             <input
                                 ref={inputRef}
                                 type="text"
+                                aria-label="搜索关键词"
                                 placeholder="搜索文章..."
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
-                                className="w-full h-14 pl-0 pr-10 bg-transparent border-0 border-b-2 border-[var(--color-border)] text-2xl md:text-3xl text-[var(--color-text)] placeholder-[var(--color-secondary)]/30 focus:outline-none focus:border-[var(--color-accent)] transition-colors font-display tracking-tight"
+                                className="w-full h-14 pl-0 pr-10 bg-transparent border-0 border-b-2 border-[var(--color-border)] text-2xl md:text-3xl text-[var(--color-text)] placeholder-[var(--color-secondary)]/50 focus:outline-none focus:border-[var(--color-accent)] transition-colors font-display tracking-tight"
                             />
                             {/* Pretext-driven underline */}
                             <div 
@@ -204,6 +212,7 @@ export default function Search() {
                             />
                             <button 
                                 onClick={closeSearch}
+                                aria-label="关闭搜索"
                                 className="absolute right-0 top-1/2 -translate-y-1/2 p-1 text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -211,7 +220,7 @@ export default function Search() {
                         </div>
 
                         {/* Results */}
-                        <div>
+                        <div aria-live="polite">
                             {isLoading ? (
                                 <div className="text-center py-12 text-[var(--color-secondary)] animate-pulse font-sans text-sm tracking-wide uppercase">
                                     加载索引中...
@@ -224,11 +233,13 @@ export default function Search() {
                                     </p>
                                 </div>
                             ) : (
-                                <div className="space-y-0 divide-y divide-[var(--color-border)]">
+                                <div className="space-y-0 divide-y divide-[var(--color-border)]" role="listbox">
                                     {results.map((post, i) => (
                                         <a
                                             key={post.slug}
                                             href={`${baseUrl}blog/${post.slug}`}
+                                            role="option"
+                                            aria-selected={selectedIndex === i}
                                             className={`group flex items-start gap-5 py-4 transition-all duration-200 relative ${
                                                 selectedIndex === i 
                                                     ? 'pl-4' 
@@ -259,7 +270,7 @@ export default function Search() {
                                             <div className="flex flex-col items-end gap-1 shrink-0">
                                                 <span className="tag-elegant text-[10px]">{post.category}</span>
                                                 <time className="text-xs text-[var(--color-secondary)] opacity-50 font-sans">
-                                                    {new Date(post.pubDate).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
+                                                    {formatDate(new Date(post.pubDate), { month: 'short' })}
                                                 </time>
                                             </div>
                                         </a>
@@ -269,7 +280,7 @@ export default function Search() {
                         </div>
 
                         {/* Footer hints */}
-                        <div className="mt-8 pt-6 border-t border-[var(--color-border)] flex justify-between items-center text-xs text-[var(--color-secondary)] opacity-40 font-sans">
+                        <div className="mt-8 pt-6 border-t border-[var(--color-border)] flex justify-between items-center text-xs text-[var(--color-secondary)] opacity-60 font-sans">
                             <span className="uppercase tracking-widest">{posts.length} 篇文章编入索引</span>
                             <div className="flex gap-4">
                                 <span className="flex items-center gap-1">
