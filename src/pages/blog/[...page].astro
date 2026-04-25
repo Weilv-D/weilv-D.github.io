@@ -3,11 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostList from '../../components/PostList';
 import PretextMagazineTitle from '../../components/PretextMagazineTitle';
 import { getCollection } from 'astro:content';
+import { sortByDateDesc } from '../../utils/content';
 
 export async function getStaticPaths({ paginate }: { paginate: (data: unknown[], options: { pageSize: number }) => unknown }) {
-  const posts = (await getCollection('blog')).sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  );
+  const posts = sortByDateDesc(await getCollection('blog'));
   return paginate(posts, { pageSize: 5 });
 }
 
@@ -41,7 +40,7 @@ const baseUrl = import.meta.env.BASE_URL;
 				<span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">Index</span>
 			</div>
 			<PretextMagazineTitle
-				client:load
+				client:visible
 				text="所有文章"
 				as="h1"
 				className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-[var(--color-primary)]"

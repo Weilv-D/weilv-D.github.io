@@ -3,7 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCover from '../../components/PostCover.astro';
 import PretextMagazineTitle from '../../components/PretextMagazineTitle';
 import PretextCascadeBody from '../../components/PretextCascadeBody';
+import ScrollReveal from '../../components/ScrollReveal.astro';
 import { getCollection } from 'astro:content';
+import { sortByDateDesc } from '../../utils/content';
+import { formatDate } from '../../utils/date';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
@@ -20,7 +23,7 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
-const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const sortedPosts = sortByDateDesc(posts);
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
@@ -33,7 +36,7 @@ const baseUrl = import.meta.env.BASE_URL;
             </div>
             <div class="flex items-baseline gap-4 flex-wrap">
                 <PretextMagazineTitle
-                    client:load
+                    client:visible
                     text={`#${tag}`}
                     as="h1"
                     className="text-4xl md:text-5xl font-display font-bold text-[var(--color-primary)] tracking-tight"
@@ -45,7 +48,7 @@ const baseUrl = import.meta.env.BASE_URL;
             </div>
             <div class="mt-6 max-w-lg">
                 <PretextCascadeBody
-                    client:load
+                    client:visible
                     text={`探索与 ${tag} 相关的所有文章。这里是关于这一主题的完整档案。`}
                     className="text-base text-[var(--color-secondary)] leading-[1.9] opacity-70 font-serif"
                     wordStagger={40}
@@ -70,11 +73,7 @@ const baseUrl = import.meta.env.BASE_URL;
                         <div class="flex-1 flex flex-col justify-center py-1">
                             <div class="flex items-center gap-3 text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-5 uppercase tracking-[0.15em]">
                                 <time datetime={post.data.pubDate.toISOString()}>
-                                    {post.data.pubDate.toLocaleDateString('en-us', {
-                                        year: 'numeric',
-                                        month: 'short',
-                                        day: 'numeric',
-                                    })}
+                                    {formatDate(post.data.pubDate)}
                                 </time>
                                 <span class="w-1 h-1 bg-[var(--color-accent)] opacity-50"></span>
                                 <span class="text-[var(--color-primary)]">{post.data.category}</span>
@@ -99,25 +98,5 @@ const baseUrl = import.meta.env.BASE_URL;
             })}
         </div>
     </section>
+	<ScrollReveal threshold={0.1} />
 </BaseLayout>
-
-<script>
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('[data-reveal]').forEach((el) => {
-    revealObserver.observe(el);
-  });
-
-  document.addEventListener('astro:after-swap', () => {
-    document.querySelectorAll('[data-reveal]').forEach((el) => {
-      revealObserver.observe(el);
-    });
-  });
-</script>

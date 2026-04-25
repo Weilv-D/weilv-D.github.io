@@ -15,7 +15,7 @@ const baseUrl = import.meta.env.BASE_URL;
             <div class="w-full lg:w-[38%] flex flex-col items-center lg:items-start lg:sticky lg:top-36">
                 <div class="relative mb-10">
                     <div class="w-52 h-64 md:w-60 md:h-72 overflow-hidden border border-[var(--color-accent)] img-magazine-frame">
-                        <img src={`${baseUrl}space-station.svg`} alt="Space Station" class="w-full h-full object-cover opacity-90" />
+                        <img src={`${baseUrl}space-station.svg`} alt="Space Station" loading="lazy" class="w-full h-full object-cover opacity-90" />
                     </div>
                     <div class="absolute -bottom-2 -right-2 px-3 py-1 bg-[var(--color-surface)] border border-[var(--color-accent)] text-[10px] font-sans uppercase tracking-widest text-[var(--color-primary)]">
                         Editor
@@ -38,7 +38,7 @@ const baseUrl = import.meta.env.BASE_URL;
 					<span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">Profile</span>
 				</div>
 		        <PretextMagazineTitle
-                    client:load
+                    client:visible
                     text="关于我"
                     as="h1"
                     className="text-4xl md:text-5xl lg:text-6xl font-display font-bold !leading-tight text-[var(--color-primary)] tracking-tight mb-12"
@@ -49,21 +49,21 @@ const baseUrl = import.meta.env.BASE_URL;
                 
                 <div class="space-y-10 max-w-xl">
                     <PretextCascadeBody
-                        client:load
+                        client:visible
                         text="你好！我是 weilv。"
                         className="text-xl md:text-2xl text-[var(--color-secondary)] leading-[1.8] font-display"
                         wordStagger={50}
                     />
                     
                     <PretextCascadeBody
-                        client:load
+                        client:visible
                         text="这里是我的「未来回忆录」，一个记录技术思考与生活点滴的时空褶皱。在代码与文字之间，试图寻找属于自己的节奏与意义。"
                         className="text-base md:text-lg text-[var(--color-secondary)] leading-[1.9] opacity-80 font-serif"
                         wordStagger={40}
                     />
                     
                     <PretextCascadeBody
-                        client:load
+                        client:visible
                         text="我相信好的技术应该是优雅而人文的，就像好的文字一样。在这个博客里，你会看到我对编程、系统设计与工程实践的探索，也会发现那些让日常生活变得丰盈的琐碎之美。"
                         className="text-base md:text-lg text-[var(--color-secondary)] leading-[1.9] opacity-80 font-serif"
                         wordStagger={40}
@@ -75,7 +75,7 @@ const baseUrl = import.meta.env.BASE_URL;
         <!-- Pull Quote section -->
         <div class="max-w-2xl mx-auto py-20 border-t border-b border-[var(--color-border)] mb-20">
             <PretextPullQuote
-                client:load
+                client:visible
                 text="The unexamined life is not worth living."
                 className="text-2xl md:text-3xl font-display font-bold text-[var(--color-primary)] leading-snug italic"
                 wordStagger={80}

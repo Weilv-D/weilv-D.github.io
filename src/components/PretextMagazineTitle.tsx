@@ -148,7 +148,7 @@ export default function PretextMagazineTitle({
                 <span
                   className="inline-block align-baseline"
                   style={{
-                    width: '2px',
+                    width: '6px',
                     height: '0.85em',
                     backgroundColor: 'var(--color-accent)',
                     marginLeft: '3px',

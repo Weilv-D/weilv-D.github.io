@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import PostCover from './PostCover';
 import { useSmartTruncate } from '../utils/textMeasure';
+import { formatDate } from '../utils/date';
 
 interface Post {
   title: string;
@@ -88,11 +89,7 @@ function PostCard({ post, index, baseUrl }: { post: Post; index: number; baseUrl
           <span className="text-[var(--color-accent)] font-display text-base opacity-40">{String(index + 1).padStart(2, '0')}</span>
           <span className="w-3 h-px bg-[var(--color-border)]"></span>
           <time dateTime={post.pubDate}>
-            {new Date(post.pubDate).toLocaleDateString('en-us', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })}
+            {formatDate(new Date(post.pubDate))}
           </time>
           <span className="w-1 h-1 bg-[var(--color-accent)] opacity-50"></span>
           <span className="text-[var(--color-primary)]">{post.category}</span>
@@ -120,7 +117,7 @@ function PostCard({ post, index, baseUrl }: { post: Post; index: number; baseUrl
 }
 
 export default function PostList({ initialPosts }: Props) {
-  const [posts] = useState<Post[]>(initialPosts);
+  const posts = initialPosts;
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [sortOption, setSortOption] = useState<SortOption>('date-desc');
   const [isClientMode, setIsClientMode] = useState(false);

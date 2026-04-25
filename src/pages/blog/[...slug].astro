@@ -1,11 +1,10 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import { sortByDateDesc } from '../../utils/content';
 
 export async function getStaticPaths() {
-	const posts = (await getCollection('blog')).sort(
-		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-	);
+	const posts = sortByDateDesc(await getCollection('blog'));
 	return posts.map((post, index) => ({
 		params: { slug: post.slug },
 		props: { 
@@ -18,7 +17,8 @@ export async function getStaticPaths() {
 
 const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await post.render();
-const readingTime = Math.ceil(post.body.length / 300); // Estimate: 300 chars/min
+const readingTime = Math.ceil(post.body.length / 400); // Estimate: 400 chars/min for Chinese
+const hasMath = post.body.includes('$');
 
 // Calculate related posts
 const allPosts = await getCollection('blog');
@@ -32,6 +32,6 @@ const relatedPosts = allPosts
     .slice(0, 3);
 ---
 
-<BlogPost {...post.data} readingTime={readingTime} prevPost={prevPost} nextPost={nextPost} headings={headings} relatedPosts={relatedPosts}>
+<BlogPost {...post.data} readingTime={readingTime} prevPost={prevPost} nextPost={nextPost} headings={headings} relatedPosts={relatedPosts} hasMath={hasMath}>
 	<Content />
 </BlogPost>
