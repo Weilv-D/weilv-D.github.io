@@ -1,6 +1,6 @@
 ---
 title: '构建未来回忆录：技术栈解构'
-description: '极简，高性能，液态玻璃质感。解构本站背后的技术实现。'
+description: '杂志排版与宣纸设色的技术实现。'
 pubDate: '2025-12-25'
 category: 'Tech'
 tags: ['Astro', 'React', 'TailwindCSS', 'Design']
@@ -8,27 +8,26 @@ tags: ['Astro', 'React', 'TailwindCSS', 'Design']
 
 ## 核心架构
 
-**Astro 4** 驱动。
+**Astro 5** + **React 19**。静态生成优先，交互组件以 Island 模式按需水合。Astro 5 的 `ClientRouter` 处理页面过渡，无需手动介入 View Transitions API。
 
-选择 Astro 是为了追求极致的性能。采用 **Island Architecture**（孤岛架构），绝大部分页面为静态 HTML，仅在需要交互的组件（如搜索、主题切换）中按需加载 **React**。
+## 设计系统：Xuanzhi
 
-## 设计语言：Liquid Glass
+基于 **TailwindCSS v4** CSS-first 配置构建。无 `tailwind.config.mjs`，全部主题定义集中于 `global.css`。
 
-摒弃了现成的 UI 库，基于 **TailwindCSS** 构建了一套名为 "Liquid Glass" 的设计系统。
+- **配色**：宣纸白 `#F7F3EB` / 墨夜 `#1C1C1E` 为底，群青 `#2E5090` 为强调，冷金 `#B89B6C` 用于边饰与交互反馈。全部通过 CSS 变量管理，深/浅模式切换由 `localStorage` 持久化。
+- **字体**：`font-serif` 为全局默认。西文 Bodoni Moda，中文 Noto Serif SC，辅以 DM Sans 处理无衬线场景。Prose 插件定制阅读行长与行高。
+- **布局**：杂志式层级排版，大量留白，卡片以 `paper-panel` 实现实体质感阴影，无 backdrop-blur 或 squircle。
+- **动效**：CSS 关键帧入场动画，阶梯延迟，克制使用。
 
-- **视觉**：磨砂玻璃、流体渐变、Squircle（超椭圆）圆角。
-- **动效**：View Transitions API 实现无缝页面切换；CSS 关键帧实现细腻的入场动画。
-- **主题**：基于 CSS 变量的深色模式，平滑切换，持久化存储。
+## 工程化
 
-## 工程化细节
-
-- **类型安全**：Content Collections 确保 Markdown Frontmatter 的严格类型检查。
-- **自动化封面**：对于未指定封面的文章，基于标题哈希值确定性生成 SVG 抽象艺术画。
-- **交互体验**：
-    - 客户端模糊搜索（基于构建时生成的索引）。
-    - 智能目录（TOC）：根据文章结构自动切换宽/窄布局。
-    - 响应式排版：Prose 插件定制，确保最佳阅读行长。
+- **类型安全**：Content Collections + Zod 校验 Frontmatter，`category` 严格枚举为 `Tech | Life`。
+- **代码高亮**：Shiki，亮主题 `github-light`，暗主题 `dracula`。
+- **数学排版**：`remark-math` + `rehype-katex`。
+- **文本测量**：`@chenglou/pretext` 负责封面标题折行与列表摘要截断。所有调用经 `isBrowser()` 守卫，避免 SSR 崩溃。
+- **搜索**：构建时生成 `/search.json`，客户端模糊匹配。
+- **目录**：阅读进度跟踪，代码块一键复制。
 
 ## 部署
 
-源码托管于 GitHub，通过 GitHub Actions 自动构建并部署至 **GitHub Pages**。
+GitHub Actions 构建，输出至 **GitHub Pages**。Node 20，纯静态。
