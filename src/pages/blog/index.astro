@@ -95,7 +95,7 @@ const sortOptions = [
             class="block w-full md:w-[45%] shrink-0 overflow-hidden border border-[var(--color-border)] group-hover:border-[var(--color-accent)] transition-colors duration-500"
           >
             <PostCover
-              title={post.data.title}
+              title={post.data.coverTitle ?? post.data.title}
               image={post.data.heroImage}
               category={post.data.category}
               className="aspect-[4/3] w-full"

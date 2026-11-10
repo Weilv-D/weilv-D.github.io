@@ -23,6 +23,9 @@ const {
 
 type Token = { text: string; };
 
+// 收尾标点跟随前一个字，避免行首出现「：」「，」这类标点。
+const NO_LINE_START = new Set(Array.from('，。、；：！？）》」』】…—·%'));
+
 const tokens: Token[] = [];
 for (const word of text.split(/(\s+)/)) {
   if (!word) continue;
@@ -31,7 +34,14 @@ for (const word of text.split(/(\s+)/)) {
     continue;
   }
   if (/[\u3400-\u9fff]/.test(word)) {
-    for (const char of Array.from(word)) tokens.push({ text: char });
+    const chars = Array.from(word);
+    for (let i = 0; i < chars.length; i++) {
+      let token = chars[i];
+      while (i + 1 < chars.length && NO_LINE_START.has(chars[i + 1])) {
+        token += chars[++i];
+      }
+      tokens.push({ text: token });
+    }
   } else {
     tokens.push({ text: word });
   }

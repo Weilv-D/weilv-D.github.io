@@ -61,8 +61,8 @@ const baseUrl = import.meta.env.BASE_URL;
                     <article class={`group relative flex flex-col ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 md:gap-12 items-start reveal`} data-reveal>
                         <a href={`${baseUrl}blog/${post.slug}`} class={`block ${isEven ? 'md:w-[45%]' : 'md:w-[48%]'} shrink-0 w-full overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors`}>
                             <PostCover 
-                                title={post.data.title} 
-                                image={post.data.heroImage} 
+                                title={post.data.coverTitle ?? post.data.title}
+                                image={post.data.heroImage}
                                 category={post.data.category}
                                 className="aspect-[4/3] w-full h-full object-cover img-magazine"
                             />

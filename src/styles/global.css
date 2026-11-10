@@ -394,6 +394,10 @@ html.dark .astro-code span {
   }
 }
 
+.mag-title {
+  text-wrap: pretty;
+}
+
 .mag-title .mt-char {
   display: inline-block;
   white-space: pre;
@@ -717,6 +721,12 @@ html.js .reveal-blur:not(.revealed) {
   border-radius: 0.25rem;
   filter: sepia(8%) drop-shadow(0 6px 16px rgba(107, 91, 79, 0.07));
   transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.prose img.diagram,
+.prose img.diagram:hover {
+  filter: none;
+  transform: none;
 }
 
 .prose img:hover {

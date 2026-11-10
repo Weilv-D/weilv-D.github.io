@@ -97,7 +97,7 @@ const currentYear = new Date().getFullYear();
 						<div class="flex flex-col md:flex-row">
 							<div class="md:w-[58%] shrink-0 overflow-hidden">
 								<PostCover
-									title={featured.data.title}
+									title={featured.data.coverTitle ?? featured.data.title}
 									image={featured.data.heroImage}
 									category={featured.data.category}
 									className="aspect-[16/10] w-full"
@@ -144,7 +144,7 @@ const currentYear = new Date().getFullYear();
 									<a href={`${baseUrl}blog/${post.slug}`} class:list={['block', isWide && 'md:flex md:items-center md:gap-10']}>
 										<div class:list={['overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors duration-500 mb-5', isWide && 'md:w-[45%] md:shrink-0 md:mb-0']}>
 											<PostCover
-												title={post.data.title}
+												title={post.data.coverTitle ?? post.data.title}
 												image={post.data.heroImage}
 												category={post.data.category}
 												className="aspect-[4/3] w-full"

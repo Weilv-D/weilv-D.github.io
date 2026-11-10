@@ -19,6 +19,7 @@ type Props = CollectionEntry<'blog'>['data'] & {
 
 const {
     title,
+    coverTitle,
     description,
     pubDate,
     updatedDate,
@@ -88,7 +89,7 @@ const shareImageURL = (() => {
                 <MagazineTitle
                     text={title}
                     as="h1"
-                    className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-[1.05] tracking-tight text-[var(--color-primary)]"
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-[1.08] tracking-tight text-[var(--color-primary)]"
                     delay={150}
                     stagger={40}
                 />
@@ -131,7 +132,7 @@ const shareImageURL = (() => {
                 ) : (
                     <div class="relative mb-12 md:mb-16 img-magazine-frame">
                         <PostCover
-                            title={title}
+                            title={coverTitle ?? title}
                             className="w-full aspect-video"
                             priority
                         />
@@ -161,7 +162,7 @@ const shareImageURL = (() => {
                             >
                                 <div class="w-20 h-16 shrink-0 overflow-hidden border border-[var(--color-border)]">
                                     <PostCover
-                                        title={post.data.title}
+                                        title={post.data.coverTitle ?? post.data.title}
                                         image={post.data.heroImage}
                                         className="w-full h-full"
                                         compact
@@ -188,7 +189,7 @@ const shareImageURL = (() => {
                         <span class="text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-3 block uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">&larr; Older</span>
                         <div class="flex gap-4 items-center">
                             <div class="w-16 h-16 overflow-hidden shrink-0 border border-[var(--color-border)]">
-                                <PostCover title={prevPost.data.title} image={prevPost.data.heroImage} className="w-full h-full" compact />
+                                <PostCover title={prevPost.data.coverTitle ?? prevPost.data.title} image={prevPost.data.heroImage} className="w-full h-full" compact />
                             </div>
                             <span class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 leading-snug">{prevPost.data.title}</span>
                         </div>
@@ -200,7 +201,7 @@ const shareImageURL = (() => {
                         <span class="text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-3 block uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">Newer &rarr;</span>
                         <div class="flex gap-4 items-center flex-row-reverse">
                             <div class="w-16 h-16 overflow-hidden shrink-0 border border-[var(--color-border)]">
-                                <PostCover title={nextPost.data.title} image={nextPost.data.heroImage} className="w-full h-full" compact />
+                                <PostCover title={nextPost.data.coverTitle ?? nextPost.data.title} image={nextPost.data.heroImage} className="w-full h-full" compact />
                             </div>
                             <span class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 leading-snug">{nextPost.data.title}</span>
                         </div>

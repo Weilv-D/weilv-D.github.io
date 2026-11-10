@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560" role="img" aria-labelledby="pf-title pf-desc">
+  <title id="pf-title">FORM_1 画布：四个过程单元与一个定格单元</title>
+  <desc id="pf-desc">左侧是 2×2 排列的四个 336 像素过程帧，右侧是一张 672 像素的定格帧；右侧标注 4P+1F、1344×672、530 tokens 与计费公式；底部是一条 12.0 到 13.6 秒的时间轴。</desc>
+
+  <rect width="1000" height="560" fill="#F7F3EB"/>
+  <rect x="12" y="12" width="976" height="536" fill="none" stroke="#6B5B4F" stroke-opacity="0.22"/>
+
+  <g font-family="'Times New Roman', Georgia, serif">
+    <text x="40" y="52" font-size="10" letter-spacing="2.4" fill="#8A7A6C">DSH-PF-STREAM / PACKET ANATOMY</text>
+    <text x="40" y="86" font-family="'Times New Roman', Georgia, serif" font-size="25" fill="#2E5090">One canvas, five moments</text>
+  </g>
+
+  <!-- P grid: 2 x 2 -->
+  <g>
+    <rect x="40" y="110" width="148" height="145" fill="#F0EBE1" fill-opacity="0.35" stroke="#6B5B4F" stroke-opacity="0.18"/>
+    <rect x="188" y="110" width="148" height="145" fill="#F0EBE1" fill-opacity="0.35" stroke="#6B5B4F" stroke-opacity="0.18"/>
+    <rect x="40" y="255" width="148" height="145" fill="#F0EBE1" fill-opacity="0.35" stroke="#6B5B4F" stroke-opacity="0.18"/>
+    <rect x="188" y="255" width="148" height="145" fill="#F0EBE1" fill-opacity="0.35" stroke="#6B5B4F" stroke-opacity="0.18"/>
+
+    <!-- faint 42px-grid rhythm -->
+    <g stroke="#6B5B4F" stroke-opacity="0.10">
+      <path d="M77 110V400 M114 110V400 M151 110V400 M225 110V400 M262 110V400 M299 110V400"/>
+      <path d="M40 147H336 M40 184H336 M40 221H336 M40 258H336 M40 295H336 M40 332H336 M40 369H336"/>
+    </g>
+
+    <g font-family="'Times New Roman', Georgia, serif">
+      <text x="52" y="132" font-size="11" fill="#6B5B4F">P1</text>
+      <text x="200" y="132" font-size="11" fill="#6B5B4F">P2</text>
+      <text x="52" y="277" font-size="11" fill="#6B5B4F">P3</text>
+      <text x="200" y="277" font-size="11" fill="#6B5B4F">P4</text>
+      <text x="52" y="240" font-size="10" fill="#8A7A6C">12.1 s</text>
+      <text x="200" y="240" font-size="10" fill="#8A7A6C">12.4 s</text>
+      <text x="52" y="385" font-size="10" fill="#8A7A6C">12.7 s</text>
+      <text x="200" y="385" font-size="10" fill="#8A7A6C">13.0 s</text>
+    </g>
+  </g>
+
+  <!-- F panel -->
+  <g>
+    <rect x="344" y="110" width="300" height="290" fill="#DCE6F5" fill-opacity="0.55" stroke="#6B5B4F" stroke-opacity="0.18"/>
+    <g stroke="#6B5B4F" stroke-opacity="0.12">
+      <path d="M419 110V400 M494 110V400 M569 110V400"/>
+      <path d="M344 182H644 M344 255H644 M344 328H644"/>
+    </g>
+    <text x="494" y="268" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-size="64" fill="#2E5090">F</text>
+    <text x="494" y="300" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-size="10" letter-spacing="1.8" fill="#6B5B4F">SHARPEST FRAME</text>
+    <text x="494" y="326" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-size="12" fill="#2E5090">13.4 s</text>
+  </g>
+
+  <!-- composition sidebar -->
+  <g font-family="'Times New Roman', Georgia, serif">
+    <text x="672" y="128" font-size="9" letter-spacing="2.2" fill="#8A7A6C">COMPOSITION</text>
+    <text x="672" y="162" font-family="'Times New Roman', Georgia, serif" font-size="26" fill="#2E5090">4 P + 1 F</text>
+
+    <rect x="672" y="184" width="9" height="9" fill="#F7F3EB" stroke="#6B5B4F" stroke-opacity="0.5"/>
+    <text x="690" y="193" font-size="10" fill="#6B5B4F">P · 336² · 74 tok</text>
+
+    <rect x="672" y="204" width="9" height="9" fill="#B9CDEB" stroke="#6B5B4F" stroke-opacity="0.35"/>
+    <text x="690" y="213" font-size="10" fill="#6B5B4F">F · 672² · 274 tok</text>
+
+    <path d="M672 236H960" stroke="#6B5B4F" stroke-opacity="0.18"/>
+
+    <text x="672" y="262" font-size="9" letter-spacing="1.4" fill="#8A7A6C">FORM_1 · 1344 × 672</text>
+    <text x="672" y="300" font-size="30" fill="#2E5090">530 tokens</text>
+
+    <rect x="672" y="318" width="288" height="34" fill="#F0EBE1" stroke="#6B5B4F" stroke-opacity="0.2"/>
+    <text x="688" y="340" font-family="'Cascadia Mono', Consolas, monospace" font-size="13" fill="#4A403A">r × (c + 1) + 2</text>
+
+    <text x="672" y="374" font-size="9" letter-spacing="0.8" fill="#8A7A6C">42 px grid · superpixel aligned</text>
+  </g>
+
+  <!-- timeline -->
+  <g>
+    <path d="M40 452H644" stroke="#6B5B4F" stroke-opacity="0.25"/>
+    <g fill="#2E5090">
+      <rect x="116" y="447" width="7" height="7"/>
+      <rect x="236" y="447" width="7" height="7"/>
+      <rect x="356" y="447" width="7" height="7"/>
+      <rect x="476" y="447" width="7" height="7"/>
+    </g>
+    <rect x="597" y="443" width="10" height="10" transform="rotate(45 602 448)" fill="#B89B6C"/>
+
+    <g font-family="'Times New Roman', Georgia, serif" font-size="8" fill="#8A7A6C" text-anchor="middle">
+      <text x="40" y="478">12.0</text>
+      <text x="190" y="478">12.4</text>
+      <text x="340" y="478">12.8</text>
+      <text x="490" y="478">13.2</text>
+      <text x="640" y="478">13.6</text>
+    </g>
+
+    <text x="40" y="510" font-family="'Times New Roman', Georgia, serif" font-size="9" letter-spacing="1.6" fill="#8A7A6C">PACKET #42 · ANCHOR #105</text>
+    <text x="644" y="510" text-anchor="end" font-family="'Times New Roman', Georgia, serif" font-size="9" letter-spacing="1.6" fill="#8A7A6C">ONE IMAGE BLOCK</text>
+  </g>
+</svg>
