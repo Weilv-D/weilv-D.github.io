@@ -43,6 +43,23 @@ function wrapTitle(text: string): string[] {
   let current = '';
   let width = 0;
 
+  const measure = (s: string) => Array.from(s).reduce((sum, ch) => sum + charWidth(ch) * FONT_SIZE, 0);
+  const trimmed = text.trim();
+  const totalWidth = measure(trimmed);
+
+  // 中文标题里的冒号是天然的断行点：优先把「ROS 2 Jazzy：」与「核心指令」分成两行，
+  // 比按宽度硬切在「核心」/「指令」之间更自然。
+  if (totalWidth > MAX_WIDTH) {
+    const colonIdx = Math.max(trimmed.lastIndexOf('：'), trimmed.lastIndexOf(':'));
+    if (colonIdx > 0 && colonIdx < trimmed.length - 1) {
+      const head = trimmed.slice(0, colonIdx + 1);
+      const tail = trimmed.slice(colonIdx + 1);
+      if (measure(head) <= MAX_WIDTH && measure(tail) <= MAX_WIDTH) {
+        return [head, tail];
+      }
+    }
+  }
+
   for (const ch of chars) {
     const w = charWidth(ch) * FONT_SIZE;
     if (current && width + w > MAX_WIDTH && !NO_LINE_START.has(ch)) {
@@ -75,7 +92,12 @@ function wrapTitle(text: string): string[] {
 }
 
 const titleLines = wrapTitle(title);
-const lastBaseline = 268;
+// 封面会以 object-fit: cover 的方式填进 4:3 / 16:10 / 16:9 等不同比例的容器，
+// 其中 16:9 会上下各裁掉约 37.5 个 viewBox 单位。把标题与刊名收进安全区，
+// 避免「指令」这类末行被容器边缘切掉。
+const SAFE_TOP = 54;
+const SAFE_BOTTOM = 246;
+const lastBaseline = SAFE_BOTTOM;
 const firstBaseline = lastBaseline - (titleLines.length - 1) * LINE_HEIGHT;
 const ruleY = firstBaseline - FONT_SIZE - 18;
 ---
@@ -143,9 +165,9 @@ const ruleY = firstBaseline - FONT_SIZE - 18;
         </>
       ) : (
         <>
-          <!-- 顶部刊名 -->
-          <text x="32" y="42" fill="#F7F3EB" fill-opacity="0.62" font-family="DM Sans, sans-serif" font-size="8" letter-spacing="2.6">未来回忆录</text>
-          <line x1="32" y1="52" x2="72" y2="52" stroke="#F7F3EB" stroke-opacity="0.35" />
+          <!-- 顶部刊名（安全区内） -->
+          <text x="32" y={SAFE_TOP} fill="#F7F3EB" fill-opacity="0.62" font-family="DM Sans, sans-serif" font-size="8" letter-spacing="2.6">未来回忆录</text>
+          <line x1="32" y1={SAFE_TOP + 10} x2="72" y2={SAFE_TOP + 10} stroke="#F7F3EB" stroke-opacity="0.35" />
 
           <!-- 右缘竖排英文 -->
           <text transform="rotate(90 374 150)" x="374" y="150" text-anchor="middle" fill="#F7F3EB" fill-opacity="0.4" font-family="DM Sans, sans-serif" font-size="6.5" letter-spacing="2.2">MEMOIRS OF THE FUTURE</text>
