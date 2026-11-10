@@ -4,11 +4,10 @@ import type { MarkdownHeading } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import ReadingProgress from '../components/ReadingProgress';
 import PostCover from '../components/PostCover.astro';
-import PretextMagazineTitle from '../components/PretextMagazineTitle';
+import MagazineTitle from '../components/MagazineTitle.astro';
 import TableOfContents from '../components/TableOfContents.astro';
-import { GRAVATAR_EMAIL } from '../consts';
 import { formatDate } from '../utils/date';
-import { createHash } from 'node:crypto';
+import 'katex/dist/katex.min.css';
 
 type Props = CollectionEntry<'blog'>['data'] & {
     readingTime: number;
@@ -16,31 +15,58 @@ type Props = CollectionEntry<'blog'>['data'] & {
     nextPost?: CollectionEntry<'blog'> | null;
     headings?: MarkdownHeading[];
     relatedPosts?: CollectionEntry<'blog'>[];
-    hasMath?: boolean;
 };
 
-const { title, description, pubDate, updatedDate, heroImage, category, tags, readingTime, prevPost, nextPost, headings, relatedPosts, hasMath = false } = Astro.props;
+const {
+    title,
+    description,
+    pubDate,
+    updatedDate,
+    heroImage,
+    category,
+    tags,
+    readingTime,
+    prevPost,
+    nextPost,
+    headings,
+    relatedPosts,
+} = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
-const emailHash = createHash('md5').update(GRAVATAR_EMAIL.trim().toLowerCase()).digest('hex');
-const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?s=200`;
-
-const hasHeadings = headings && headings.length > 0;
 const baseUrl = import.meta.env.BASE_URL;
+const avatarUrl = `${baseUrl}avatar.png`;
+const hasHeadings = !!headings && headings.length > 0;
+
+const heroSrc = heroImage
+    ? heroImage.startsWith('/')
+        ? `${baseUrl}${heroImage.slice(1)}`
+        : heroImage
+    : undefined;
+
+// 社交平台与结构化数据不接受 SVG 封面，统一回落到 1200×630 PNG
+const shareImageURL = (() => {
+    const fallback = new URL(`${baseUrl}og-default.png`, Astro.site);
+    if (!heroImage) return fallback;
+    if (/\.svg(\?|$)/i.test(heroImage)) return fallback;
+    const path = heroImage.startsWith('/') ? `${baseUrl}${heroImage.slice(1)}` : heroImage;
+    return new URL(path, Astro.site);
+})();
 ---
 
-<BaseLayout title={title} description={description} image={heroImage} wide={hasHeadings} article={{ pubDate, updatedDate, category, tags }}>
-    {hasMath && (
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
-    )}
+<BaseLayout
+    title={title}
+    description={description}
+    image={heroImage}
+    wide={hasHeadings}
+    article={{ pubDate, updatedDate, category, tags }}
+>
     <ReadingProgress client:idle />
-    
+
     <div class={`relative ${hasHeadings ? 'xl:flex xl:gap-16 items-start' : ''}`}>
         <article class={`prose dark:prose-invert prose-lg max-w-none ${hasHeadings ? 'flex-1 min-w-0' : ''}`}>
             <header class="mb-16 md:mb-24 not-prose">
                 <!-- Top meta bar -->
-                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-10 text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-[var(--color-secondary)] opacity-60">
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-10 text-[10px] font-sans font-semibold tracking-[0.2em] uppercase text-[var(--color-secondary)] opacity-70">
                     <span class="tag-elegant text-[var(--color-primary)]">
                         {category}
                     </span>
@@ -57,69 +83,69 @@ const baseUrl = import.meta.env.BASE_URL;
                     <span class="w-2 h-px bg-[var(--color-border)]"></span>
                     <span>{readingTime} min read</span>
                 </div>
-                
+
                 <!-- Animated title -->
-                <PretextMagazineTitle
-                    client:visible
+                <MagazineTitle
                     text={title}
                     as="h1"
                     className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-[1.05] tracking-tight text-[var(--color-primary)]"
-                    reveal={true}
-                    revealDelay={150}
-                    charStagger={50}
+                    delay={150}
+                    stagger={40}
                 />
-                
+
                 <!-- Animated golden line under title -->
-                <div class="h-px bg-[var(--color-accent)] mb-10 origin-left" style="animation: goldenLineExpand 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; transform: scaleX(0);"></div>
-                
+                <div class="h-px bg-[var(--color-accent)] mb-10 origin-left" style="animation: goldenLineExpand 1.2s var(--ease-magazine) 0.8s forwards; transform: scaleX(0);"></div>
+
                 <!-- Author bar -->
                 <div class="flex items-center gap-4 mb-10 pb-10 border-b border-[var(--color-border)]">
                     <div class="w-11 h-11 rounded overflow-hidden border border-[var(--color-accent)]">
-                        <img src={avatarUrl} alt="weilv" class="w-full h-full object-cover" />
+                        <img src={avatarUrl} alt="weilv" width="44" height="44" loading="lazy" decoding="async" class="w-full h-full object-cover" />
                     </div>
-                    <div class="h-8 w-px bg-[var(--color-border)]"></div>
+                    <div class="h-8 w-px bg-[var(--color-border)]" aria-hidden="true"></div>
                     <div class="text-left">
                         <p class="font-display font-bold text-[var(--color-primary)] text-sm">weilv</p>
-                        <p class="text-[var(--color-secondary)] text-[10px] uppercase tracking-wider font-sans opacity-60">Author</p>
+                        <p class="text-[var(--color-secondary)] text-[10px] uppercase tracking-wider font-sans opacity-70">Author</p>
                     </div>
                 </div>
 
                 {tags && tags.length > 0 && (
                     <div class="flex flex-wrap gap-2 mb-12">
-                        {tags.map(tag => (
-                            <a href={`${baseUrl}tags/${tag}`} class="tag-elegant hover:text-[var(--color-primary)]">
+                        {tags.map((tag) => (
+                            <a href={`${baseUrl}tags/${encodeURIComponent(tag)}`} class="tag-elegant hover:text-[var(--color-primary)]">
                                 {tag}
                             </a>
                         ))}
                     </div>
                 )}
 
-                {heroImage ? (
-                    <div class="relative mb-12 md:mb-16 overflow-hidden img-magazine-frame">
-                        <img 
-                            src={heroImage.startsWith('/') ? baseUrl + heroImage.slice(1) : heroImage} 
-                            alt={title} 
+                {heroSrc ? (
+                    <figure class="relative mb-12 md:mb-16 overflow-hidden img-magazine-frame not-prose">
+                        <img
+                            src={heroSrc}
+                            alt={title}
+                            loading="eager"
+                            decoding="async"
                             class="w-full h-auto"
                         />
-                    </div>
+                    </figure>
                 ) : (
                     <div class="relative mb-12 md:mb-16 img-magazine-frame">
-                        <PostCover 
-                            title={title} 
-                            image={heroImage} 
-                            className="w-full h-auto aspect-video"
+                        <PostCover
+                            title={title}
+                            className="w-full aspect-video"
+                            priority
                         />
                     </div>
                 )}
             </header>
-            
+
             <!-- Drop cap first paragraph -->
             <div class="prose-content drop-cap">
                 <slot />
             </div>
 
             <hr class="border-[var(--color-border)] my-20" />
-            
+
             {/* Related Posts */}
             {relatedPosts && relatedPosts.length > 0 && (
                 <div class="not-prose mb-20">
@@ -127,22 +153,28 @@ const baseUrl = import.meta.env.BASE_URL;
                         <div class="golden-line"></div>
                         <h3 class="text-xl font-display font-bold text-[var(--color-primary)]">Related</h3>
                     </div>
-                    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory" style="scrollbar-width: none; -ms-overflow-style: none;">
-                        {relatedPosts.map(post => (
-                            <a href={`${baseUrl}blog/${post.slug}`} class="group block flex-shrink-0 w-[260px] md:w-[300px] snap-start">
-                                <div class="aspect-video overflow-hidden border border-[var(--color-border)] mb-4 group-hover:border-[var(--color-accent)] transition-colors">
-                                    <PostCover 
-                                        title={post.data.title} 
-                                        image={post.data.heroImage} 
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        {relatedPosts.map((post) => (
+                            <a
+                                href={`${baseUrl}blog/${post.slug}`}
+                                class="group flex items-center gap-4 p-4 border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors duration-300"
+                            >
+                                <div class="w-20 h-16 shrink-0 overflow-hidden border border-[var(--color-border)]">
+                                    <PostCover
+                                        title={post.data.title}
+                                        image={post.data.heroImage}
                                         className="w-full h-full"
+                                        compact
                                     />
                                 </div>
-                                <h4 class="font-display font-bold text-sm group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 text-[var(--color-primary)] leading-snug">
-                                    {post.data.title}
-                                </h4>
-                                <time class="text-[10px] text-[var(--color-secondary)] mt-2 block font-sans uppercase tracking-wide">
-                                    {formatDate(post.data.pubDate)}
-                                </time>
+                                <div class="min-w-0">
+                                    <h4 class="font-display font-bold text-sm group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 text-[var(--color-primary)] leading-snug">
+                                        {post.data.title}
+                                    </h4>
+                                    <time class="text-[10px] text-[var(--color-secondary)] mt-2 block font-sans uppercase tracking-wide">
+                                        {formatDate(post.data.pubDate)}
+                                    </time>
+                                </div>
                             </a>
                         ))}
                     </div>
@@ -152,53 +184,36 @@ const baseUrl = import.meta.env.BASE_URL;
             <!-- Prev / Next Navigation -->
             <div class="flex flex-col md:flex-row justify-between gap-6 not-prose">
                 {prevPost ? (
-                    <a href={`${baseUrl}blog/${prevPost.slug}`} class="flex-1 group p-6 border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all duration-300">
-                        <span class="text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-3 block uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">&larr; Prev</span>
-                        <div class="flex gap-4 items-start">
-                            <div class="w-14 h-14 overflow-hidden flex-shrink-0 border border-[var(--color-border)]">
-                                <PostCover title={prevPost.data.title} image={prevPost.data.heroImage} className="w-full h-full" />
+                    <a href={`${baseUrl}blog/${prevPost.slug}`} class="flex-1 group p-6 border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors duration-300">
+                        <span class="text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-3 block uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">&larr; Older</span>
+                        <div class="flex gap-4 items-center">
+                            <div class="w-16 h-16 overflow-hidden shrink-0 border border-[var(--color-border)]">
+                                <PostCover title={prevPost.data.title} image={prevPost.data.heroImage} className="w-full h-full" compact />
                             </div>
                             <span class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 leading-snug">{prevPost.data.title}</span>
                         </div>
                     </a>
-                ) : <div class="flex-1"></div>}
-                
+                ) : null}
+
                 {nextPost ? (
-                    <a href={`${baseUrl}blog/${nextPost.slug}`} class="flex-1 group p-6 border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all duration-300 text-right">
-                        <span class="text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-3 block uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">Next &rarr;</span>
-                        <div class="flex gap-4 items-start flex-row-reverse">
-                            <div class="w-14 h-14 overflow-hidden flex-shrink-0 border border-[var(--color-border)]">
-                                <PostCover title={nextPost.data.title} image={nextPost.data.heroImage} className="w-full h-full" />
+                    <a href={`${baseUrl}blog/${nextPost.slug}`} class="flex-1 group p-6 border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors duration-300 text-right">
+                        <span class="text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-3 block uppercase tracking-[0.2em] group-hover:text-[var(--color-primary)] transition-colors">Newer &rarr;</span>
+                        <div class="flex gap-4 items-center flex-row-reverse">
+                            <div class="w-16 h-16 overflow-hidden shrink-0 border border-[var(--color-border)]">
+                                <PostCover title={nextPost.data.title} image={nextPost.data.heroImage} className="w-full h-full" compact />
                             </div>
                             <span class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors line-clamp-2 leading-snug">{nextPost.data.title}</span>
                         </div>
                     </a>
-                ) : <div class="flex-1"></div>}
+                ) : null}
             </div>
         </article>
 
         <!-- Table of Contents Sidebar -->
-        {headings && headings.length > 0 && (
-            <TableOfContents headings={headings} />
-        )}
+        {hasHeadings && <TableOfContents headings={headings} />}
     </div>
-    {hasMath && (
-        <script>
-            import renderMathInElement from 'katex/dist/contrib/auto-render.mjs';
-            document.addEventListener("astro:page-load", function() {
-                renderMathInElement(document.body, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false},
-                        {left: '\\(', right: '\\)', display: false},
-                        {left: '\\[', right: '\\]', display: true}
-                    ],
-                    throwOnError: false
-                });
-            });
-        </script>
-    )}
-    <script type="application/ld+json" set:html={JSON.stringify({
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
         headline: title,
@@ -208,7 +223,7 @@ const baseUrl = import.meta.env.BASE_URL;
         dateModified: updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
         mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL.toString() },
         publisher: { '@type': 'Person', name: 'weilv' },
-        image: heroImage ? new URL(heroImage.startsWith('/') ? baseUrl + heroImage.slice(1) : heroImage, Astro.site).toString() : undefined,
+        image: shareImageURL.toString(),
         articleSection: category,
         keywords: tags.join(', '),
     })} />
@@ -216,32 +231,36 @@ const baseUrl = import.meta.env.BASE_URL;
 
 <script>
   // Copy Code Functionality
-  const copyButtonLabel = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
-  const copiedButtonLabel = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const copyButtonLabel = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+  const copiedButtonLabel = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`;
 
   function initCopyButtons() {
     document.querySelectorAll('pre:not([data-copy-init])').forEach((pre) => {
       pre.setAttribute('data-copy-init', 'true');
       const button = document.createElement('button');
+      button.type = 'button';
       button.innerHTML = copyButtonLabel;
       button.className = 'copy-code-btn';
-      button.setAttribute('aria-label', 'Copy code');
+      button.setAttribute('aria-label', '复制代码');
 
       pre.appendChild(button);
 
       button.addEventListener('click', async () => {
         const code = pre.querySelector('code');
-        const text = code?.innerText || '';
-
-        await navigator.clipboard.writeText(text);
-
-        button.innerHTML = copiedButtonLabel;
-        button.classList.add('text-green-500');
-        
-        setTimeout(() => {
-          button.innerHTML = copyButtonLabel;
-          button.classList.remove('text-green-500');
-        }, 2000);
+        const text = code?.innerText ?? '';
+        try {
+          await navigator.clipboard.writeText(text);
+          button.innerHTML = copiedButtonLabel;
+          button.setAttribute('aria-label', '已复制');
+          button.classList.add('text-green-500');
+          setTimeout(() => {
+            button.innerHTML = copyButtonLabel;
+            button.setAttribute('aria-label', '复制代码');
+            button.classList.remove('text-green-500');
+          }, 2000);
+        } catch {
+          // 剪贴板不可用时保持静默，避免打断阅读
+        }
       });
     });
   }

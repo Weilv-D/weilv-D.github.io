@@ -1,0 +1,24 @@
+---
+/**
+ * FadeInText — 正文段落的整体淡入
+ *
+ * 不拆字、不测量：完整文本直接 SSR，排版交给浏览器，
+ * 避免装饰性动画破坏断行、标点与可访问性。
+ */
+export interface Props {
+  text: string;
+  className?: string;
+  delay?: number;
+}
+
+const {
+  text,
+  className = '',
+  delay = 0,
+} = Astro.props as Props;
+---
+
+<p
+  class={`animate-fade-in-up ${className}`}
+  style={`animation-delay:${delay}ms`}
+>{text}</p>

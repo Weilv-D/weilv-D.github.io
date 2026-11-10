@@ -1,36 +1,29 @@
 @import "tailwindcss";
 @import "@fontsource/dm-sans/400.css";
-@import "@fontsource/dm-sans/500.css";
 @import "@fontsource/dm-sans/600.css";
 @import "@fontsource/dm-sans/700.css";
-@import "@fontsource/newsreader/400.css";
-@import "@fontsource/newsreader/700.css";
 @import "@fontsource/source-serif-4/400.css";
 @import "@fontsource/source-serif-4/600.css";
 @import "@fontsource/source-serif-4/700.css";
-@import "@fontsource/bodoni-moda/400.css";
-@import "@fontsource/bodoni-moda/700.css";
 @import "@fontsource/playfair-display/400.css";
 @import "@fontsource/playfair-display/700.css";
-@import "@fontsource/playfair-display/900.css";
 @import "@fontsource/noto-serif-sc/400.css";
 @import "@fontsource/noto-serif-sc/700.css";
-@import "lxgw-wenkai-screen-webfont/lxgwwenkaiscreen.css";
 
 @plugin "@tailwindcss/typography";
 
 @theme {
   /* Display: 衬线体，用于大标题、封面字 */
-  --font-display: "Playfair Display", "Bodoni Moda", "Noto Serif SC", "Source Han Serif SC", serif;
+  --font-display: "Playfair Display", "Noto Serif SC", "Source Han Serif SC", serif;
   
   /* Serif: 衬线体，用于长文正文 */
-  --font-serif: "Source Serif 4", "LXGW WenKai", "Noto Serif SC", "Source Han Serif SC", serif;
+  --font-serif: "Source Serif 4", "Noto Serif SC", "Source Han Serif SC", serif;
   
   /* Sans: 非衬线体，用于 UI、导航、标签、按钮、小字 */
-  --font-sans: "Newsreader", "DM Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", serif;
+  --font-sans: "DM Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   
-  /* Mono: 等宽，用于代码 */
-  --font-mono: "JetBrains Mono", "LXGW WenKai", "Noto Sans Mono", monospace;
+  /* Mono: 等宽，用于代码（系统字体，避免多下载一套字重） */
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, Consolas, monospace;
 
 
 }
@@ -42,8 +35,10 @@
    ============================================ */
 
 :root {
-  --ease-magazine: var(--ease-magazine);
+  /* 杂志式缓动：快出、慢收、轻微过冲 */
+  --ease-magazine: cubic-bezier(0.16, 1, 0.3, 1);
 
+  color-scheme: light;
   --color-background: #F7F3EB;
   --color-surface: #F0EBE1;
   --color-text: #4A403A;
@@ -61,6 +56,8 @@
 }
 
 .dark {
+  color-scheme: dark;
+
   --color-background: #1C1C1E;
   --color-surface: #2A2A2C;
   --color-text: #D4CFC9;
@@ -82,6 +79,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* 固定页头高度 + 呼吸位，保证锚点跳转不被遮挡 */
+  scroll-padding-top: 6.5rem;
 }
 
 body {
@@ -172,13 +171,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-secondary);
+  background: color-mix(in oklab, var(--color-secondary) 32%, transparent);
   border-radius: 9999px;
-  opacity: 0.15;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  opacity: 0.35;
+  background: color-mix(in oklab, var(--color-secondary) 55%, transparent);
 }
 
 /* ============================================
@@ -335,13 +333,22 @@ html.dark .astro-code span {
   transition: opacity 0.2s, color 0.2s, background-color 0.2s;
 }
 
-.copy-code-btn:hover {
+.copy-code-btn:hover,
+.copy-code-btn:focus-visible {
   color: var(--color-background);
   background-color: rgba(184, 155, 108, 0.2);
 }
 
-.prose pre:hover .copy-code-btn {
+.prose pre:hover .copy-code-btn,
+.prose pre:focus-within .copy-code-btn {
   opacity: 1;
+}
+
+/* 触屏设备没有 hover，常驻显示复制按钮 */
+@media (hover: none) {
+  .copy-code-btn {
+    opacity: 0.75;
+  }
 }
 
 /* ============================================
@@ -354,27 +361,6 @@ html.dark .astro-code span {
   transform: translateY(24px);
 }
 
-.animate-scale-in {
-  animation: scaleIn 0.8s var(--ease-magazine) forwards;
-  opacity: 0;
-  transform: scale(0.96);
-}
-
-.animate-slide-from-left {
-  animation: slideFromLeft 0.9s var(--ease-magazine) forwards;
-  opacity: 0;
-  transform: translateX(-30px);
-}
-
-.stagger-1 { animation-delay: 80ms; }
-.stagger-2 { animation-delay: 160ms; }
-.stagger-3 { animation-delay: 240ms; }
-.stagger-4 { animation-delay: 320ms; }
-.stagger-5 { animation-delay: 400ms; }
-.stagger-6 { animation-delay: 480ms; }
-.stagger-7 { animation-delay: 560ms; }
-.stagger-8 { animation-delay: 640ms; }
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -383,28 +369,6 @@ html.dark .astro-code span {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 
@@ -417,84 +381,45 @@ html.dark .astro-code span {
   }
 }
 
-@keyframes charRotateIn {
+/* ---- Decorative text reveals (CSS-only, no layout measurement) ---- */
+
+@keyframes titleCharIn {
   from {
     opacity: 0;
-    transform: translateY(35px) rotate(var(--start-rotate, 8deg)) scaleX(0.92);
-    letter-spacing: 0.06em;
+    transform: translateY(0.42em) rotate(var(--rot, 0deg));
   }
   to {
     opacity: 1;
-    transform: translateY(0) rotate(0deg) scaleX(1);
-    letter-spacing: inherit;
+    transform: translateY(0) rotate(0deg);
   }
 }
 
-@keyframes charCascade {
-  from {
-    opacity: 0;
-    transform: translateY(18px) scale(0.88);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.mag-title .mt-char {
+  display: inline-block;
+  white-space: pre;
+  animation: titleCharIn 0.85s var(--ease-magazine) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger, 45ms) + var(--delay, 0ms));
 }
 
-@keyframes lineGrow {
-  from {
-    transform: scaleY(0);
-  }
-  to {
-    transform: scaleY(1);
-  }
-}
 
-@keyframes blurIn {
-  from {
-    opacity: 0;
-    filter: blur(8px);
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-@keyframes revealRotate {
-  from {
-    opacity: 0;
-    transform: translateY(30px) rotate(-2deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(0);
-  }
-}
-
-/* Scroll-triggered animations (IntersectionObserver-based classes) */
+/* Scroll-triggered animations (IntersectionObserver-based classes)
+   Default state is visible; only JS-enabled pages opt in to the hidden start. */
 .reveal {
-  opacity: 0;
-  transform: translateY(30px);
   transition: opacity 0.8s var(--ease-magazine), transform 0.8s var(--ease-magazine);
 }
 
-.reveal.revealed {
-  opacity: 1;
-  transform: translateY(0);
+html.js .reveal:not(.revealed) {
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 .reveal-scale {
-  opacity: 0;
-  transform: scale(0.97);
   transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine);
 }
 
-.reveal-scale.revealed {
-  opacity: 1;
-  transform: scale(1);
+html.js .reveal-scale:not(.revealed) {
+  opacity: 0;
+  transform: scale(0.97);
 }
 
 /* ============================================
@@ -512,6 +437,24 @@ html.dark .astro-code span {
 .golden-line-animated {
   animation: goldenLineExpand 1s var(--ease-magazine) forwards;
   transform: scaleX(0);
+}
+
+/* TOC active state: utility classes can't reliably override each other by order */
+.toc a {
+  transition: color 0.2s ease;
+}
+
+.toc a.is-active,
+.toc a.is-active > span:last-child {
+  color: var(--color-accent);
+}
+
+.toc a.is-active > span:last-child {
+  border-bottom-color: var(--color-accent-30);
+}
+
+.toc a.is-active > span:first-child {
+  opacity: 0.7;
 }
 
 /* ============================================
@@ -624,63 +567,33 @@ html.dark .astro-code span {
   background: none;
 }
 
-/* Section Number — 大号空心数字装饰 */
-.section-number {
-  font-family: var(--font-display);
-  font-size: 6rem;
-  font-weight: 900;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--color-accent);
-  opacity: 0.35;
-  letter-spacing: -0.04em;
+/* Reveal variants */
+.reveal-slide-left,
+.reveal-slide-right,
+.reveal-rotate,
+.reveal-blur {
+  transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine), filter 0.9s var(--ease-magazine);
 }
 
-/* Reveal variants */
-.reveal-slide-left {
+html.js .reveal-slide-left:not(.revealed) {
   opacity: 0;
   transform: translateX(-40px);
-  transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine);
 }
 
-.reveal-slide-left.revealed {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-slide-right {
+html.js .reveal-slide-right:not(.revealed) {
   opacity: 0;
   transform: translateX(40px);
-  transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine);
 }
 
-.reveal-slide-right.revealed {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-rotate {
+html.js .reveal-rotate:not(.revealed) {
   opacity: 0;
   transform: translateY(20px) rotate(-1.5deg);
-  transition: opacity 0.9s var(--ease-magazine), transform 0.9s var(--ease-magazine);
 }
 
-.reveal-rotate.revealed {
-  opacity: 1;
-  transform: translateY(0) rotate(0);
-}
-
-.reveal-blur {
+html.js .reveal-blur:not(.revealed) {
   opacity: 0;
   filter: blur(6px);
   transform: translateY(20px);
-  transition: opacity 1s var(--ease-magazine), transform 1s var(--ease-magazine), filter 1s var(--ease-magazine);
-}
-
-.reveal-blur.revealed {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
 }
 
 /* ============================================
@@ -766,12 +679,38 @@ html.dark .astro-code span {
 .prose a {
   text-decoration: none;
   border-bottom: 1px solid var(--color-accent-30);
-  transition: border-color 0.3s ease, color 0.3s ease;
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
 }
 
 .prose a:hover {
   border-bottom-color: var(--color-accent);
-  color: var(--color-accent);
+  color: var(--color-primary);
+  background-color: var(--color-accent-10);
+}
+
+/* KaTeX: 让长公式在窄屏内可横向滚动，而不是撑破版心 */
+.prose .katex {
+  font-size: 1.04em;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose .katex-display {
+  margin: 1.4em 0;
+  padding: 0.35em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 行内公式在窄屏也可能超宽：单独变成可滚动盒子，避免被 body 裁掉 */
+@media (max-width: 640px) {
+  .prose .katex {
+    display: inline-block;
+    vertical-align: baseline;
+  }
 }
 
 .prose img {
@@ -817,8 +756,13 @@ html.dark .astro-code span {
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
@@ -827,6 +771,13 @@ html.dark .astro-code span {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
+  }
+
+  .mag-title .mt-char,
+  .cascade-body .cb-token {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

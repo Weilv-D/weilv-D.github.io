@@ -6,7 +6,7 @@ interface Props {
 const { threshold = 0.1 } = Astro.props;
 ---
 
-<script define:vars={{ threshold }}>
+<script is:inline define:vars={{ threshold }}>
 	const revealObserver = new IntersectionObserver((entries) => {
 		entries.forEach((entry) => {
 			if (entry.isIntersecting) {
@@ -16,13 +16,13 @@ const { threshold = 0.1 } = Astro.props;
 		});
 	}, { threshold });
 
-	document.querySelectorAll('[data-reveal]').forEach((el) => {
-		revealObserver.observe(el);
-	});
-
-	document.addEventListener('astro:after-swap', () => {
-		document.querySelectorAll('[data-reveal]').forEach((el) => {
+	const observePending = () => {
+		document.querySelectorAll('[data-reveal]:not(.revealed)').forEach((el) => {
 			revealObserver.observe(el);
 		});
-	});
+	};
+
+	observePending();
+	document.addEventListener('astro:after-swap', observePending);
+	document.addEventListener('astro:page-load', observePending);
 </script>

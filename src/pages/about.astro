@@ -1,15 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PretextMagazineTitle from '../components/PretextMagazineTitle';
-import PretextCascadeBody from '../components/PretextCascadeBody';
-import PretextPullQuote from '../components/PretextPullQuote';
+import MagazineTitle from '../components/MagazineTitle.astro';
+import FadeInText from '../components/FadeInText.astro';
 import KochSnowflake from '../components/KochSnowflake.astro';
-import { GRAVATAR_EMAIL } from '../consts';
-
-const baseUrl = import.meta.env.BASE_URL;
+import { CONTACT_EMAIL } from '../consts';
 ---
 
-<BaseLayout title="关于 | 未来回忆录" description="关于 weilv">
+<BaseLayout title="关于" description="关于 weilv">
 	<article class="max-w-none">
         <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start mb-24">
             <!-- Left column: Portrait + vertical text -->
@@ -22,7 +19,7 @@ const baseUrl = import.meta.env.BASE_URL;
                         Editor
                     </div>
                 </div>
-                
+
                 <!-- Vertical decorative text -->
                 <div class="hidden lg:flex items-start gap-4">
                     <span class="text-vertical text-[10px] font-sans tracking-[0.3em] text-[var(--color-accent)] opacity-40 uppercase mt-2">
@@ -31,75 +28,70 @@ const baseUrl = import.meta.env.BASE_URL;
                     <div class="h-24 w-px bg-[var(--color-accent)] opacity-20"></div>
                 </div>
             </div>
-            
+
             <!-- Right column: Content -->
             <div class="w-full lg:w-[62%]">
 				<div class="flex items-center gap-4 mb-10">
 					<div class="golden-line golden-line-animated"></div>
-					<span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">Profile</span>
+					<span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-70">Profile</span>
 				</div>
-		        <PretextMagazineTitle
-                    client:visible
+		        <MagazineTitle
                     text="关于我"
                     as="h1"
-                    className="text-4xl md:text-5xl lg:text-6xl font-display font-bold !leading-tight text-[var(--color-primary)] tracking-tight mb-12"
-                    reveal={true}
-                    revealDelay={100}
-                    charStagger={60}
+                    className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight text-[var(--color-primary)] tracking-tight mb-12"
+                    delay={100}
+                    stagger={60}
                 />
-                
+
                 <div class="space-y-10 max-w-xl">
-                    <PretextCascadeBody
-                        client:visible
+                    <FadeInText
                         text="你好！我是 weilv。"
                         className="text-xl md:text-2xl text-[var(--color-secondary)] leading-[1.8] font-display"
-                        wordStagger={50}
                     />
-                    
-                    <PretextCascadeBody
-                        client:visible
+
+                    <FadeInText
                         text="这里是我的「未来回忆录」，一个记录技术思考与生活点滴的时空褶皱。在代码与文字之间，试图寻找属于自己的节奏与意义。"
                         className="text-base md:text-lg text-[var(--color-secondary)] leading-[1.9] opacity-80 font-serif"
-                        wordStagger={40}
+                        delay={80}
                     />
-                    
-                    <PretextCascadeBody
-                        client:visible
+
+                    <FadeInText
                         text="我相信好的技术应该是优雅而人文的，就像好的文字一样。在这个博客里，你会看到我对编程、系统设计与工程实践的探索，也会发现那些让日常生活变得丰盈的琐碎之美。"
                         className="text-base md:text-lg text-[var(--color-secondary)] leading-[1.9] opacity-80 font-serif"
-                        wordStagger={40}
+                        delay={160}
                     />
                 </div>
             </div>
         </div>
-        
+
         <!-- Pull Quote section -->
         <div class="max-w-2xl mx-auto py-20 border-t border-b border-[var(--color-border)] mb-20">
-            <PretextPullQuote
-                client:visible
-                text="The unexamined life is not worth living."
-                className="text-2xl md:text-3xl font-display font-bold text-[var(--color-primary)] leading-snug italic"
-                wordStagger={80}
-            />
-            <cite class="block mt-6 text-sm font-sans uppercase tracking-[0.2em] text-[var(--color-secondary)] opacity-50 not-italic text-center">
+            <div class="relative pl-8">
+                <span class="absolute left-0 top-1 bottom-1 w-px bg-[var(--color-accent)]" aria-hidden="true"></span>
+                <span class="absolute -left-1 -top-6 font-display text-6xl leading-none text-[var(--color-accent)] opacity-[0.06] select-none" aria-hidden="true">&ldquo;</span>
+                <blockquote class="animate-fade-in-up text-2xl md:text-3xl font-display font-bold text-[var(--color-primary)] leading-snug italic">
+                    The unexamined life is not worth living.
+                </blockquote>
+            </div>
+            <cite class="block mt-6 text-sm font-sans uppercase tracking-[0.2em] text-[var(--color-secondary)] opacity-70 not-italic text-center">
                 — Socrates
             </cite>
         </div>
-        
+
         <!-- Contact / Social -->
         <div class="flex flex-col items-center gap-8">
             <div class="flex items-center gap-4 w-full max-w-xs">
                 <div class="flex-1 h-px bg-[var(--color-border)]"></div>
-                <h3 class="text-[10px] font-sans font-semibold uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-60">Connect</h3>
+                <h3 class="text-[10px] font-sans font-semibold uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-70">Connect</h3>
                 <div class="flex-1 h-px bg-[var(--color-border)]"></div>
             </div>
             <div class="flex gap-4">
-                <a href={`mailto:${GRAVATAR_EMAIL}`} class="group flex items-center gap-3 px-6 py-3 border border-[var(--color-border)] text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:border-[var(--color-accent)] transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <a href={`mailto:${CONTACT_EMAIL}`} class="group flex items-center gap-3 px-6 py-3 border border-[var(--color-border)] text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:border-[var(--color-accent)] transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                     <span class="font-sans text-sm font-semibold tracking-wide">Email</span>
                 </a>
-                <a href="https://github.com/Weilv-D" target="_blank" class="group flex items-center gap-3 px-6 py-3 border border-[var(--color-border)] text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:border-[var(--color-accent)] transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                <a href="https://github.com/Weilv-D" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-3 px-6 py-3 border border-[var(--color-border)] text-[var(--color-secondary)] hover:text-[var(--color-primary)] hover:border-[var(--color-accent)] transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
                     <span class="font-sans text-sm font-semibold tracking-wide">GitHub</span>
                 </a>
             </div>

@@ -1,0 +1,60 @@
+---
+/**
+ * MagazineTitle — 杂志式标题逐字入场
+ *
+ * 纯 CSS 动画：不测量 DOM、不需要 hydration，SSR 输出完整标题。
+ * 中文按字拆分，含空格的西文按词拆分，避免把单词拆断。
+ */
+export interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
+  className?: string;
+  delay?: number;
+  stagger?: number;
+}
+
+const {
+  text,
+  as: Tag = 'h1',
+  className = '',
+  delay = 0,
+  stagger = 45,
+} = Astro.props as Props;
+
+type Token = { text: string; };
+
+const tokens: Token[] = [];
+for (const word of text.split(/(\s+)/)) {
+  if (!word) continue;
+  if (/^\s+$/.test(word)) {
+    tokens.push({ text: ' ' });
+    continue;
+  }
+  if (/[\u3400-\u9fff]/.test(word)) {
+    for (const char of Array.from(word)) tokens.push({ text: char });
+  } else {
+    tokens.push({ text: word });
+  }
+}
+
+let index = 0;
+const chars = tokens.map((token) => {
+  const i = index++;
+  // 确定性微旋转：避免 SSR / 客户端随机数不一致
+  const rotate = (((i * 37) % 11) - 5) * 0.8;
+  return { ...token, i, rotate };
+});
+---
+
+<Tag
+  class={`mag-title ${className}`}
+  style={`--stagger:${stagger}ms;--delay:${delay}ms`}
+>
+  {chars.map(({ text: token, i, rotate }) =>
+    token === ' ' ? (
+      <span class="mt-char" style={`--i:${i};--rot:0deg`}>&nbsp;</span>
+    ) : (
+      <span class="mt-char" style={`--i:${i};--rot:${rotate}deg`}>{token}</span>
+    )
+  )}
+</Tag>

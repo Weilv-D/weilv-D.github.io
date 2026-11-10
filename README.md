@@ -16,12 +16,13 @@
 
 ### 技术栈
 
-- **框架**：Astro 5 + React 19
+- **框架**：Astro 5 + React 19（仅搜索、回到顶部、阅读进度三处岛屿）
 - **样式**：TailwindCSS v4（CSS-first 配置）
-- **字体**：Bodoni Moda / Source Serif 4 / LXGW WenKai / Noto Serif SC
+- **字体**：Playfair Display / Source Serif 4 / Noto Serif SC / DM Sans
 - **代码高亮**：Shiki（日间 `github-light` / 夜间 `dracula` 双主题）
-- **数学排版**：remark-math + rehype-katex
-- **文本测量**：Pretext（DOM-free 智能截断与标题排版）
+- **数学排版**：remark-math + rehype-katex（构建期预渲染）
+- **动效**：纯 CSS 字符与段落入场，无客户端文本测量
+- **搜索**：构建期生成 `search.json`，客户端关键词匹配
 - **部署**：GitHub Pages（GitHub Actions 自动构建）
 
 ## 开发

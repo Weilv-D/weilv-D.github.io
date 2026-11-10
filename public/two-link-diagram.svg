@@ -10,17 +10,6 @@
       --grid: rgba(107, 91, 79, 0.15);
       --font-display: "Bodoni Moda", "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #1C1C1E;
-        --surface: #2A2A2C;
-        --text: #D4CFC9;
-        --primary: #4A7EC7;
-        --secondary: #A89888;
-        --accent: #9A8660;
-        --grid: rgba(168, 152, 136, 0.15);
-      }
-    }
     .bg { fill: var(--bg); transition: fill 0.5s; }
     .grid-line { fill: none; stroke: var(--grid); stroke-width: 1px; }
     .border-line { fill: none; stroke: var(--grid); stroke-width: 1px; }

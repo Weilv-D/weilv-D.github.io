@@ -1,65 +1,75 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PretextMagazineTitle from '../../components/PretextMagazineTitle';
+import MagazineTitle from '../../components/MagazineTitle.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog');
-const tags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))].sort();
 
-// Group by first letter
+const tagCount = new Map<string, number>();
+for (const post of allPosts) {
+  for (const tag of post.data.tags ?? []) {
+    tagCount.set(tag, (tagCount.get(tag) ?? 0) + 1);
+  }
+}
+
+const tags = [...tagCount.keys()].sort((a, b) => a.localeCompare(b, 'zh-Hans-CN'));
+
+// 拉丁标签按首字母分组；中文标签统一归入「中」
 const grouped = new Map<string, string[]>();
-tags.forEach(tag => {
-    const letter = tag[0].toUpperCase();
-    if (!grouped.has(letter)) grouped.set(letter, []);
-    grouped.get(letter)!.push(tag);
+for (const tag of tags) {
+  const letter = /^[a-z]/i.test(tag) ? tag[0].toUpperCase() : '中';
+  if (!grouped.has(letter)) grouped.set(letter, []);
+  grouped.get(letter)!.push(tag);
+}
+
+const groups = [...grouped.entries()].sort(([a], [b]) => {
+  if (a === '中') return 1;
+  if (b === '中') return -1;
+  return a.localeCompare(b);
 });
 
-const pageTitle = "标签索引";
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title={`${pageTitle} | 未来回忆录`} description="按标签浏览文章">
-    <section class="max-w-4xl mx-auto py-16 md:py-24">
-        <div class="text-center mb-16 md:mb-20">
-            <div class="golden-line mx-auto mb-10 golden-line-animated"></div>
-            <PretextMagazineTitle
-                client:visible
-                text="Index"
-                as="h1"
-                className="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tight text-[var(--color-primary)]"
-                reveal={true}
-                revealDelay={100}
-                charStagger={70}
-            />
-            <p class="text-sm font-sans text-[var(--color-secondary)] opacity-50 uppercase tracking-[0.2em]">
-                {tags.length} tags across {allPosts.length} articles
-            </p>
-        </div>
+<BaseLayout title="标签索引" description="按标签浏览 weilv 的全部文章">
+  <section class="max-w-4xl mx-auto py-16 md:py-24">
+    <div class="text-center mb-16 md:mb-20">
+      <div class="golden-line mx-auto mb-10 golden-line-animated"></div>
+      <span class="block text-[10px] font-sans uppercase tracking-[0.35em] text-[var(--color-secondary)] opacity-70 mb-5">Index</span>
+      <MagazineTitle
+        text="标签索引"
+        as="h1"
+        className="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tight text-[var(--color-primary)]"
+        delay={100}
+        stagger={70}
+      />
+      <p class="text-sm font-sans text-[var(--color-secondary)] opacity-70 tracking-[0.12em]">
+        {tags.length} 个标签 · {allPosts.length} 篇文章
+      </p>
+    </div>
 
-        <!-- Alphabetical Index -->
-        <div class="space-y-12">
-            {Array.from(grouped.entries()).map(([letter, letterTags]) => (
-                <div class="flex flex-col sm:flex-row gap-6 sm:gap-10">
-                    <div class="shrink-0 w-12">
-                        <span class="section-number text-5xl">{letter}</span>
-                    </div>
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        {letterTags.map((tag) => (
-                            <a 
-                                href={`${baseUrl}tags/${tag}`} 
-                                class="group px-4 py-2 border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] hover:bg-[var(--color-background)] transition-all duration-300"
-                            >
-                                <span class="text-sm font-sans font-semibold tracking-wide text-[var(--color-secondary)] group-hover:text-[var(--color-primary)] transition-colors">
-                                    {tag}
-                                </span>
-                                <span class="text-xs text-[var(--color-accent)] ml-2 opacity-50 group-hover:opacity-100 transition-opacity font-sans">
-                                    {allPosts.filter(p => p.data.tags?.includes(tag)).length}
-                                </span>
-                            </a>
-                        ))}
-                    </div>
-                </div>
+    <!-- Alphabetical Index -->
+    <div class="space-y-8">
+      {groups.map(([letter, letterTags]) => (
+        <div class="grid grid-cols-[2rem_1fr] sm:grid-cols-[3rem_1fr] gap-4 sm:gap-8 border-t border-[var(--color-border)] pt-6">
+          <span class="font-display font-bold text-2xl leading-8 text-[var(--color-accent)]/80 select-none">{letter}</span>
+          <div class="flex flex-wrap gap-3">
+            {letterTags.map((tag) => (
+              <a
+                href={`${baseUrl}tags/${encodeURIComponent(tag)}`}
+                class="group inline-flex items-baseline gap-2 px-3.5 py-1.5 border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] hover:bg-[var(--color-background)] transition-colors duration-300"
+              >
+                <span class="text-sm font-sans font-semibold tracking-wide text-[var(--color-secondary)] group-hover:text-[var(--color-primary)] transition-colors">
+                  {tag}
+                </span>
+                <span class="text-[10px] text-[var(--color-accent)] opacity-70 group-hover:opacity-100 transition-opacity font-sans tabular-nums">
+                  {String(tagCount.get(tag) ?? 0).padStart(2, '0')}
+                </span>
+              </a>
             ))}
+          </div>
         </div>
-    </section>
+      ))}
+    </div>
+  </section>
 </BaseLayout>

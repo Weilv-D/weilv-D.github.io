@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCover from '../../components/PostCover.astro';
-import PretextMagazineTitle from '../../components/PretextMagazineTitle';
-import PretextCascadeBody from '../../components/PretextCascadeBody';
+import MagazineTitle from '../../components/MagazineTitle.astro';
+import FadeInText from '../../components/FadeInText.astro';
 import ScrollReveal from '../../components/ScrollReveal.astro';
 import { getCollection } from 'astro:content';
 import { sortByDateDesc } from '../../utils/content';
@@ -27,7 +27,7 @@ const sortedPosts = sortByDateDesc(posts);
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title={`标签: ${tag} | 未来回忆录`} description={`关于 ${tag} 的文章`}>
+<BaseLayout title={`标签：${tag}`} description={`关于 ${tag} 的文章`}>
     <section>
         <div class="mb-16 md:mb-20">
             <div class="flex items-center gap-4 mb-8">
@@ -35,23 +35,20 @@ const baseUrl = import.meta.env.BASE_URL;
                 <span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">Column</span>
             </div>
             <div class="flex items-baseline gap-4 flex-wrap">
-                <PretextMagazineTitle
-                    client:visible
+                <MagazineTitle
                     text={`#${tag}`}
                     as="h1"
                     className="text-4xl md:text-5xl font-display font-bold text-[var(--color-primary)] tracking-tight"
-                    reveal={true}
-                    revealDelay={100}
-                    charStagger={50}
+                    delay={100}
+                    stagger={50}
                 />
-                <span class="text-[var(--color-secondary)] text-sm font-sans uppercase tracking-wide opacity-60">{posts.length} 篇文章</span>
+                <span class="text-[var(--color-secondary)] text-sm font-sans uppercase tracking-wide opacity-70">{posts.length} 篇文章</span>
             </div>
             <div class="mt-6 max-w-lg">
-                <PretextCascadeBody
-                    client:visible
+                <FadeInText
                     text={`探索与 ${tag} 相关的所有文章。这里是关于这一主题的完整档案。`}
-                    className="text-base text-[var(--color-secondary)] leading-[1.9] opacity-70 font-serif"
-                    wordStagger={40}
+                    className="text-base text-[var(--color-secondary)] leading-[1.9] opacity-80 font-serif"
+                    delay={200}
                 />
             </div>
             <a href={`${baseUrl}tags`} class="inline-block mt-6 text-sm font-sans font-semibold tracking-wide link-underline text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors uppercase">查看所有标签</a>
@@ -79,7 +76,7 @@ const baseUrl = import.meta.env.BASE_URL;
                                 <span class="text-[var(--color-primary)]">{post.data.category}</span>
                             </div>
                             <a href={`${baseUrl}blog/${post.slug}`} class="group/title block mb-4">
-                                <h2 class="text-2xl md:text-[1.75rem] leading-snug font-display font-bold text-[var(--color-primary)] group-hover/title:text-[var(--color-accent)] transition-colors duration-300">
+                                <h2 class="text-2xl md:text-[1.75rem] leading-snug font-display font-bold text-[var(--color-primary)] group-hover/title:text-[var(--color-accent)] transition-colors duration-300 text-pretty">
                                     {post.data.title}
                                 </h2>
                             </a>

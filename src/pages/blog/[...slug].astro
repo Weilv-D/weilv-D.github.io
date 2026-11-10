@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { sortByDateDesc } from '../../utils/content';
 
@@ -7,31 +7,40 @@ export async function getStaticPaths() {
 	const posts = sortByDateDesc(await getCollection('blog'));
 	return posts.map((post, index) => ({
 		params: { slug: post.slug },
-		props: { 
-            post,
-            prevPost: index + 1 < posts.length ? posts[index + 1] : null,
-            nextPost: index > 0 ? posts[index - 1] : null,
-        },
+		props: {
+			post,
+			prevPost: index + 1 < posts.length ? posts[index + 1] : null,
+			nextPost: index > 0 ? posts[index - 1] : null,
+		},
 	}));
 }
 
 const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await post.render();
-const readingTime = Math.ceil(post.body.length / 400); // Estimate: 400 chars/min for Chinese
-const hasMath = post.body.includes('$');
 
-// Calculate related posts
-const allPosts = await getCollection('blog');
+// 粗略估算：去掉代码块、公式块与 HTML 标签后，按中文 400 字/分钟计
+const plainText = post.body
+	.replace(/```[\s\S]*?```/g, '')
+	.replace(/\$\$[\s\S]*?\$\$/g, '')
+	.replace(/<[^>]+>/g, '');
+const readingTime = Math.max(1, Math.ceil(plainText.length / 400));
+
+const allPosts = sortByDateDesc(await getCollection('blog'));
 const relatedPosts = allPosts
-    .filter(p => p.slug !== post.slug && p.data.tags && post.data.tags && p.data.tags.some(t => post.data.tags.includes(t)))
-    .sort((a, b) => {
-        const aMatches = a.data.tags.filter(t => post.data.tags.includes(t)).length;
-        const bMatches = b.data.tags.filter(t => post.data.tags.includes(t)).length;
-        return bMatches - aMatches;
-    })
-    .slice(0, 3);
+	.filter((candidate) => {
+		if (candidate.slug === post.slug) return false;
+		const tags = candidate.data.tags ?? [];
+		return tags.some((tag) => post.data.tags.includes(tag));
+	})
+	.sort((a, b) => {
+		const aMatches = a.data.tags.filter((tag) => post.data.tags.includes(tag)).length;
+		const bMatches = b.data.tags.filter((tag) => post.data.tags.includes(tag)).length;
+		if (aMatches !== bMatches) return bMatches - aMatches;
+		return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+	})
+	.slice(0, 2);
 ---
 
-<BlogPost {...post.data} readingTime={readingTime} prevPost={prevPost} nextPost={nextPost} headings={headings} relatedPosts={relatedPosts} hasMath={hasMath}>
+<BlogPost {...post.data} readingTime={readingTime} prevPost={prevPost} nextPost={nextPost} headings={headings} relatedPosts={relatedPosts}>
 	<Content />
 </BlogPost>

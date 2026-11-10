@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCover from '../../components/PostCover.astro';
+import MagazineTitle from '../../components/MagazineTitle.astro';
+import ScrollReveal from '../../components/ScrollReveal.astro';
+import { getCollection } from 'astro:content';
+import { sortByDateDesc } from '../../utils/content';
+import { formatDate } from '../../utils/date';
+
+const posts = sortByDateDesc(await getCollection('blog'));
+const baseUrl = import.meta.env.BASE_URL;
+
+const sortOptions = [
+  { value: 'date-desc', label: '最新发布' },
+  { value: 'date-asc', label: '最早发布' },
+  { value: 'title-asc', label: '标题 A-Z' },
+  { value: 'title-desc', label: '标题 Z-A' },
+];
+---
+
+<BaseLayout title="文章" description="weilv 的全部文章归档">
+  <section>
+    <div class="mb-14 md:mb-16">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="golden-line golden-line-animated"></div>
+        <span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-70">Index</span>
+      </div>
+      <MagazineTitle
+        text="所有文章"
+        as="h1"
+        className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-[var(--color-primary)]"
+        delay={100}
+        stagger={60}
+      />
+      <div class="flex items-center gap-4 mt-6 text-sm font-sans text-[var(--color-secondary)] opacity-70">
+        <span class="uppercase tracking-widest text-[10px]">Archive</span>
+        <span class="w-1 h-1 bg-[var(--color-accent)] opacity-40 rotate-45"></span>
+        <span>共 {posts.length} 篇</span>
+      </div>
+    </div>
+
+    <div class="flex justify-end mb-8">
+      <div class="relative">
+        <button
+          id="sort-button"
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded="false"
+          aria-controls="sort-menu"
+          class="flex items-center gap-2 px-4 py-2 border border-[var(--color-border)] bg-[var(--color-surface)] text-sm font-sans font-semibold tracking-wide text-[var(--color-primary)] hover:border-[var(--color-accent)] transition-colors duration-300"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[var(--color-secondary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+          </svg>
+          <span id="sort-label">最新发布</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[var(--color-secondary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div
+          id="sort-menu"
+          role="menu"
+          aria-labelledby="sort-button"
+          class="hidden absolute right-0 mt-2 w-44 py-2 border border-[var(--color-border)] bg-[var(--color-background)] shadow-xl z-20 animate-scale-in origin-top-right"
+        >
+          {sortOptions.map((option) => (
+            <button
+              type="button"
+              role="menuitemradio"
+              aria-checked={option.value === 'date-desc' ? 'true' : 'false'}
+              data-sort={option.value}
+              class="sort-option w-full text-left px-4 py-2.5 text-sm font-sans text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors aria-checked:text-[var(--color-accent)] aria-checked:font-bold"
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+        <div id="sort-backdrop" class="hidden fixed inset-0 z-10" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div id="post-archive">
+      {posts.map((post, index) => (
+        <article
+          class:list={[
+            'post-row group relative flex flex-col gap-6 md:gap-10 items-start py-12 md:py-14 border-b border-[var(--color-border)] last:border-0',
+            index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row',
+          ]}
+          data-date={post.data.pubDate.toISOString()}
+          data-title={post.data.title}
+        >
+          <a
+            href={`${baseUrl}blog/${post.slug}`}
+            class="block w-full md:w-[45%] shrink-0 overflow-hidden border border-[var(--color-border)] group-hover:border-[var(--color-accent)] transition-colors duration-500"
+          >
+            <PostCover
+              title={post.data.title}
+              image={post.data.heroImage}
+              category={post.data.category}
+              className="aspect-[4/3] w-full"
+              priority={index === 0}
+            />
+          </a>
+
+          <div class="flex-1 flex flex-col justify-center py-1 w-full">
+            <div class="flex items-center gap-3 text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-5 uppercase tracking-[0.15em]">
+              <span data-index class="text-[var(--color-accent)] font-display text-base opacity-60">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span class="w-3 h-px bg-[var(--color-border)]"></span>
+              <time datetime={post.data.pubDate.toISOString()}>
+                {formatDate(post.data.pubDate)}
+              </time>
+              <span class="w-1 h-1 bg-[var(--color-accent)] opacity-50"></span>
+              <span class="text-[var(--color-primary)]">{post.data.category}</span>
+            </div>
+
+            <a href={`${baseUrl}blog/${post.slug}`} class="group/title block mb-4">
+              <h2 class="text-2xl md:text-[1.75rem] leading-snug font-display font-bold text-[var(--color-primary)] group-hover/title:text-[var(--color-accent)] transition-colors duration-300 text-pretty">
+                {post.data.title}
+              </h2>
+            </a>
+
+            <p class="text-[var(--color-secondary)] text-base leading-relaxed mb-6 line-clamp-2">
+              {post.data.description}
+            </p>
+
+            <a
+              href={`${baseUrl}blog/${post.slug}`}
+              class="inline-flex items-center text-sm font-sans font-semibold tracking-wide text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors group/link uppercase"
+            >
+              <span class="link-underline">Read Article</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <ScrollReveal threshold={0.08} />
+
+  <script>
+    function initArchiveSort() {
+      const root = document.getElementById('post-archive') as HTMLElement | null;
+      const button = document.getElementById('sort-button') as HTMLButtonElement | null;
+      const menu = document.getElementById('sort-menu') as HTMLElement | null;
+      const label = document.getElementById('sort-label') as HTMLElement | null;
+      if (!root || !button || !menu || !label || root.dataset.sortReady) return;
+      root.dataset.sortReady = '1';
+
+      const options = Array.from(menu.querySelectorAll<HTMLButtonElement>('.sort-option'));
+
+      const closeMenu = () => {
+        menu.classList.add('hidden');
+        button.setAttribute('aria-expanded', 'false');
+      };
+
+      const openMenu = () => {
+        menu.classList.remove('hidden');
+        button.setAttribute('aria-expanded', 'true');
+      };
+
+      const sortBy = (mode: string) => {
+        const rows = Array.from(root.querySelectorAll<HTMLElement>('.post-row'));
+        rows.sort((a, b) => {
+          const dateA = a.dataset.date ?? '';
+          const dateB = b.dataset.date ?? '';
+          const titleA = a.dataset.title ?? '';
+          const titleB = b.dataset.title ?? '';
+          switch (mode) {
+            case 'date-asc':
+              return dateA.localeCompare(dateB);
+            case 'title-asc':
+              return titleA.localeCompare(titleB, 'zh-Hans-CN');
+            case 'title-desc':
+              return titleB.localeCompare(titleA, 'zh-Hans-CN');
+            default:
+              return dateB.localeCompare(dateA);
+          }
+        });
+
+        rows.forEach((row, index) => {
+          root.appendChild(row);
+          row.classList.toggle('md:flex-row-reverse', index % 2 === 1);
+          row.classList.toggle('md:flex-row', index % 2 === 0);
+          const number = row.querySelector<HTMLElement>('[data-index]');
+          if (number) number.textContent = String(index + 1).padStart(2, '0');
+        });
+      };
+
+      button.addEventListener('click', () => {
+        if (menu.classList.contains('hidden')) openMenu();
+        else closeMenu();
+      });
+
+      options.forEach((option) => {
+        option.addEventListener('click', () => {
+          const mode = option.dataset.sort ?? 'date-desc';
+          sortBy(mode);
+          label.textContent = option.textContent?.trim() ?? '';
+          options.forEach((item) => item.setAttribute('aria-checked', String(item === option)));
+          closeMenu();
+          button.focus();
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        const target = event.target as Node;
+        if (!menu.contains(target) && !button.contains(target)) closeMenu();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !menu.classList.contains('hidden')) {
+          closeMenu();
+          button.focus();
+        }
+      });
+    }
+
+    initArchiveSort();
+    document.addEventListener('astro:page-load', initArchiveSort);
+  </script>
+</BaseLayout>

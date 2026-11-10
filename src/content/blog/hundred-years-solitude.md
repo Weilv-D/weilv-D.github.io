@@ -1,5 +1,5 @@
 ---
-title: '读《百年孤独》--宿命的飓风与爱的匮乏'
+title: '读《百年孤独》——宿命的飓风与爱的匮乏'
 description: '孤独为宿命，爱为救赎，然爱终不可得，故孤独永恒。'
 pubDate: '2025-12-24T12:00:00'
 heroImage: '/hundred-years-solitude.png'

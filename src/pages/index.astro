@@ -1,31 +1,37 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCover from '../components/PostCover.astro';
-import PretextMagazineTitle from '../components/PretextMagazineTitle';
-import PretextCascadeBody from '../components/PretextCascadeBody';
+import MagazineTitle from '../components/MagazineTitle.astro';
+import FadeInText from '../components/FadeInText.astro';
 import ScrollReveal from '../components/ScrollReveal.astro';
 import { getCollection } from 'astro:content';
 import { sortByDateDesc } from '../utils/content';
 import { formatDate } from '../utils/date';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-const posts = sortByDateDesc(await getCollection('blog')).slice(0, 6);
+const allPosts = sortByDateDesc(await getCollection('blog'));
+const featured = allPosts[0];
+const gridPosts = allPosts.slice(1, 7);
+const hasOrphan = gridPosts.length % 2 === 1;
 
-const techPosts = posts.filter(p => p.data.category === 'Tech').slice(0, 3);
-const lifePosts = posts.filter(p => p.data.category === 'Life').slice(0, 3);
+const columns = [
+  { label: 'Tech', posts: allPosts.filter((p) => p.data.category === 'Tech'), limit: 3 },
+  { label: 'Life', posts: allPosts.filter((p) => p.data.category === 'Life'), limit: 3 },
+];
 
 const baseUrl = import.meta.env.BASE_URL;
 const currentYear = new Date().getFullYear();
 ---
 
-<BaseLayout title="未来回忆录" description="weilv的时空褶皱 - 技术与生活的数字花园">
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<!-- Hero Section — Magazine Cover Style -->
 	<section class="relative py-32 md:py-44 lg:py-56 overflow-hidden">
 		<!-- Decorative geometric frame on right -->
-		<div class="absolute right-0 top-1/4 hidden lg:block w-[280px] h-[400px] pointer-events-none">
+		<div class="absolute right-0 top-1/4 hidden lg:block w-[280px] h-[400px] pointer-events-none" aria-hidden="true">
 			<div class="absolute top-0 right-10 w-px h-full bg-[var(--color-accent)] opacity-20"></div>
 			<div class="absolute top-0 right-10 w-20 h-px bg-[var(--color-accent)] opacity-20"></div>
 			<div class="absolute bottom-20 right-10 w-12 h-px bg-[var(--color-accent)] opacity-30"></div>
-			<div class="absolute top-32 right-24 text-vertical text-[10px] font-sans tracking-[0.4em] text-[var(--color-accent)] opacity-30 uppercase">
+			<div class="absolute top-32 right-24 text-vertical text-[10px] font-sans tracking-[0.4em] text-[var(--color-accent)] opacity-40 uppercase">
 				Memoirs of the Future
 			</div>
 		</div>
@@ -33,42 +39,38 @@ const currentYear = new Date().getFullYear();
 		<div class="max-w-5xl relative z-10">
 			<div class="flex items-center gap-4 mb-10 md:mb-14">
 				<div class="golden-line golden-line-animated"></div>
-				<span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-50">Editorial</span>
+				<span class="text-[10px] font-sans uppercase tracking-[0.3em] text-[var(--color-secondary)] opacity-70">Editorial</span>
 			</div>
-			
-			<PretextMagazineTitle
-				client:visible
-				text="未来回忆录"
+
+			<MagazineTitle
+				text={SITE_TITLE}
 				as="h1"
 				className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold leading-[1.0] tracking-tight text-[var(--color-primary)] mb-10"
-				reveal={true}
-				revealDelay={200}
-				charStagger={90}
+				delay={200}
+				stagger={70}
 			/>
-			
-			<div class="overflow-hidden mb-8 max-w-xl">
-				<PretextCascadeBody
-					client:visible
+
+			<div class="mb-8 max-w-xl">
+				<FadeInText
 					text="在这里记录技术探索的足迹，也收藏生活中的吉光片羽。试图在时间的长河中，折叠出属于自己的意义。"
-					className="text-base md:text-lg text-[var(--color-secondary)] leading-[1.9] opacity-75 font-serif"
-					wordStagger={50}
-					threshold={0.1}
+					className="text-base md:text-lg text-[var(--color-secondary)] leading-[1.9] opacity-80 font-serif"
+					delay={450}
 				/>
 			</div>
 
 			<!-- Magazine issue info -->
-			<div class="flex items-center gap-6 mt-16 pt-8 border-t border-[var(--color-border)]">
+			<div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-16 pt-8 border-t border-[var(--color-border)]">
 				<div class="flex items-center gap-3">
-					<span class="text-[10px] font-sans uppercase tracking-[0.25em] text-[var(--color-secondary)] opacity-50">Vol.</span>
+					<span class="text-[10px] font-sans uppercase tracking-[0.25em] text-[var(--color-secondary)] opacity-70">Vol.</span>
 					<span class="text-sm font-display font-bold text-[var(--color-primary)]">{currentYear}</span>
 				</div>
 				<div class="w-1 h-1 bg-[var(--color-accent)] opacity-40 rotate-45"></div>
 				<div class="flex items-center gap-3">
-					<span class="text-[10px] font-sans uppercase tracking-[0.25em] text-[var(--color-secondary)] opacity-50">Issue</span>
-					<span class="text-sm font-display font-bold text-[var(--color-primary)]">{(posts.length).toString().padStart(3, '0')}</span>
+					<span class="text-[10px] font-sans uppercase tracking-[0.25em] text-[var(--color-secondary)] opacity-70">No.</span>
+					<span class="text-sm font-display font-bold text-[var(--color-primary)]">{allPosts.length.toString().padStart(3, '0')}</span>
 				</div>
 				<div class="w-1 h-1 bg-[var(--color-accent)] opacity-40 rotate-45"></div>
-				<span class="text-[10px] font-sans uppercase tracking-[0.25em] text-[var(--color-secondary)] opacity-50">
+				<span class="text-[10px] font-sans uppercase tracking-[0.25em] text-[var(--color-secondary)] opacity-70">
 					{formatDate(new Date(), { month: 'long' })}
 				</span>
 			</div>
@@ -87,43 +89,43 @@ const currentYear = new Date().getFullYear();
 			</a>
 		</div>
 
-		<!-- Featured + Grid -->
-		<div class="space-y-16 md:space-y-20">
-			{posts.length > 0 && (
+		{featured ? (
+			<div class="space-y-16 md:space-y-20">
 				<!-- Featured Article -->
 				<article class="group relative reveal" data-reveal>
-					<a href={`${baseUrl}blog/${posts[0].slug}`} class="block overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors duration-500">
+					<a href={`${baseUrl}blog/${featured.slug}`} class="block overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors duration-500">
 						<div class="flex flex-col md:flex-row">
 							<div class="md:w-[58%] shrink-0 overflow-hidden">
-								<PostCover 
-									title={posts[0].data.title} 
-									image={posts[0].data.heroImage} 
-									category={posts[0].data.category}
-									className="aspect-[16/10] w-full h-full object-cover img-magazine"
+								<PostCover
+									title={featured.data.title}
+									image={featured.data.heroImage}
+									category={featured.data.category}
+									className="aspect-[16/10] w-full"
+									priority
 								/>
 							</div>
 							<div class="flex-1 flex flex-col justify-center p-6 md:p-10 lg:p-14">
 								<div class="flex items-center gap-3 text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-6 uppercase tracking-[0.2em]">
 									<span class="text-[var(--color-accent)] font-display text-lg">01</span>
 									<span class="w-4 h-px bg-[var(--color-border)]"></span>
-									<time datetime={posts[0].data.pubDate.toISOString()}>
-										{formatDate(posts[0].data.pubDate)}
+									<time datetime={featured.data.pubDate.toISOString()}>
+										{formatDate(featured.data.pubDate)}
 									</time>
 									<span class="w-1 h-1 bg-[var(--color-accent)] opacity-50"></span>
-									<span class="text-[var(--color-primary)]">{posts[0].data.category}</span>
+									<span class="text-[var(--color-primary)]">{featured.data.category}</span>
 								</div>
-								
-								<h3 class="text-2xl md:text-3xl lg:text-4xl leading-tight font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-300 mb-5">
-									{posts[0].data.title}
+
+								<h3 class="text-2xl md:text-3xl lg:text-4xl leading-tight font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-300 mb-5 text-pretty">
+									{featured.data.title}
 								</h3>
-								
+
 								<p class="text-[var(--color-secondary)] leading-[1.85] opacity-80 text-base md:text-lg mb-8">
-									{posts[0].data.description}
+									{featured.data.description}
 								</p>
-								
-								<span class="inline-flex items-center text-sm font-sans font-semibold tracking-wide text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors group/link uppercase">
+
+								<span class="inline-flex items-center text-sm font-sans font-semibold tracking-wide text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors uppercase">
 									<span class="link-underline">Read Feature</span>
-									<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2.5 transition-transform duration-300 group-hover/link:translate-x-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2.5 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
 										<path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
 									</svg>
 								</span>
@@ -131,45 +133,50 @@ const currentYear = new Date().getFullYear();
 						</div>
 					</a>
 				</article>
-			)}
 
-			<!-- Sub-grid for remaining posts -->
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-				{posts.slice(1).map((post, index) => (
-					<article class="group relative reveal" data-reveal>
-						<a href={`${baseUrl}blog/${post.slug}`} class="block">
-							<div class="overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors duration-500 mb-5">
-								<PostCover 
-									title={post.data.title} 
-									image={post.data.heroImage} 
-									category={post.data.category}
-									className="aspect-[4/3] w-full h-full object-cover img-magazine"
-								/>
-							</div>
-							<div class="flex items-center gap-3 text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-4 uppercase tracking-[0.15em]">
-								<span class="text-[var(--color-accent)] font-display text-base">{String(index + 2).padStart(2, '0')}</span>
-								<span class="w-3 h-px bg-[var(--color-border)]"></span>
-									<time datetime={post.data.pubDate.toISOString()}>
-										{formatDate(post.data.pubDate)}
-									</time>
-							</div>
-									<h3 class="text-xl md:text-[1.4rem] leading-snug font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-300 mb-3">
-								{post.data.title}
-							</h3>
-							<p class="text-[var(--color-secondary)] line-clamp-2 leading-[1.8] opacity-75 text-sm">
-								{post.data.description}
-							</p>
-						</a>
-					</article>
-				))}
+				<!-- Sub-grid for remaining posts -->
+				{gridPosts.length > 0 && (
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+						{gridPosts.map((post, index) => {
+							const isWide = hasOrphan && index === gridPosts.length - 1;
+							return (
+								<article class:list={['group relative reveal', isWide && 'md:col-span-2']} data-reveal>
+									<a href={`${baseUrl}blog/${post.slug}`} class:list={['block', isWide && 'md:flex md:items-center md:gap-10']}>
+										<div class:list={['overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors duration-500 mb-5', isWide && 'md:w-[45%] md:shrink-0 md:mb-0']}>
+											<PostCover
+												title={post.data.title}
+												image={post.data.heroImage}
+												category={post.data.category}
+												className="aspect-[4/3] w-full"
+											/>
+										</div>
+										<div class={isWide ? 'flex-1' : ''}>
+											<div class="flex items-center gap-3 text-[10px] font-sans font-semibold text-[var(--color-secondary)] mb-4 uppercase tracking-[0.15em]">
+												<span class="text-[var(--color-accent)] font-display text-base">{String(index + 2).padStart(2, '0')}</span>
+												<span class="w-3 h-px bg-[var(--color-border)]"></span>
+												<time datetime={post.data.pubDate.toISOString()}>
+													{formatDate(post.data.pubDate)}
+												</time>
+											</div>
+											<h3 class="text-xl md:text-[1.4rem] leading-snug font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors duration-300 mb-3 text-pretty">
+												{post.data.title}
+											</h3>
+											<p class="text-[var(--color-secondary)] line-clamp-2 leading-[1.8] opacity-80 text-sm">
+												{post.data.description}
+											</p>
+										</div>
+									</a>
+								</article>
+							);
+						})}
+					</div>
+				)}
 			</div>
-			
-			{posts.length === 0 && (
-				<div class="text-center py-20">
-					<p class="text-[var(--color-secondary)] text-lg font-serif">No posts yet. Stay tuned!</p>
-				</div>
-			)}
-		</div>
+		) : (
+			<div class="text-center py-20">
+				<p class="text-[var(--color-secondary)] text-lg font-serif">还没有文章，先从关于页开始吧。</p>
+			</div>
+		)}
 	</section>
 
 	<!-- Category Index Strip -->
@@ -178,59 +185,34 @@ const currentYear = new Date().getFullYear();
 			<div class="golden-line"></div>
 			<h2 class="text-sm font-sans font-semibold uppercase tracking-[0.2em] text-[var(--color-secondary)]">Columns</h2>
 		</div>
-		
+
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-			<!-- Tech Column -->
-			<div>
-				<div class="flex items-baseline gap-3 mb-6 pb-3 border-b border-[var(--color-border)]">
-					<h3 class="text-2xl font-display font-bold text-[var(--color-primary)]">Tech</h3>
-					<span class="text-xs font-sans text-[var(--color-secondary)] opacity-50">{techPosts.length} articles</span>
+			{columns.map((column) => (
+				<div>
+					<div class="flex items-baseline gap-3 mb-6 pb-3 border-b border-[var(--color-border)]">
+						<h3 class="text-2xl font-display font-bold text-[var(--color-primary)]">{column.label}</h3>
+						<span class="text-xs font-sans text-[var(--color-secondary)] opacity-70">{column.posts.length} articles</span>
+					</div>
+					<div class="space-y-4">
+						{column.posts.slice(0, column.limit).map((post, i) => (
+							<a href={`${baseUrl}blog/${post.slug}`} class="group flex items-start gap-4 py-3 border-b border-[var(--color-border)] last:border-0">
+								<span class="text-lg font-display text-[var(--color-accent)] opacity-60 w-6 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+								<div>
+									<h4 class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors leading-snug mb-1">
+										{post.data.title}
+									</h4>
+									<time class="text-[10px] text-[var(--color-secondary)] opacity-70 font-sans uppercase tracking-wide">
+										{formatDate(post.data.pubDate)}
+									</time>
+								</div>
+							</a>
+						))}
+						{column.posts.length === 0 && (
+							<p class="text-sm text-[var(--color-secondary)] opacity-70 py-4">暂无 {column.label} 文章</p>
+						)}
+					</div>
 				</div>
-				<div class="space-y-4">
-					{techPosts.map((post, i) => (
-						<a href={`${baseUrl}blog/${post.slug}`} class="group flex items-start gap-4 py-3 border-b border-[var(--color-border)] last:border-0">
-							<span class="text-lg font-display text-[var(--color-accent)] opacity-40 w-6 shrink-0">{String(i + 1).padStart(2, '0')}</span>
-							<div>
-								<h4 class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors leading-snug mb-1">
-									{post.data.title}
-								</h4>
-								<time class="text-[10px] text-[var(--color-secondary)] opacity-50 font-sans uppercase tracking-wide">
-									{formatDate(post.data.pubDate)}
-								</time>
-							</div>
-						</a>
-					))}
-					{techPosts.length === 0 && (
-						<p class="text-sm text-[var(--color-secondary)] opacity-50 py-4">暂无 Tech 文章</p>
-					)}
-				</div>
-			</div>
-			
-			<!-- Life Column -->
-			<div>
-				<div class="flex items-baseline gap-3 mb-6 pb-3 border-b border-[var(--color-border)]">
-					<h3 class="text-2xl font-display font-bold text-[var(--color-primary)]">Life</h3>
-					<span class="text-xs font-sans text-[var(--color-secondary)] opacity-50">{lifePosts.length} articles</span>
-				</div>
-				<div class="space-y-4">
-					{lifePosts.map((post, i) => (
-						<a href={`${baseUrl}blog/${post.slug}`} class="group flex items-start gap-4 py-3 border-b border-[var(--color-border)] last:border-0">
-							<span class="text-lg font-display text-[var(--color-accent)] opacity-40 w-6 shrink-0">{String(i + 1).padStart(2, '0')}</span>
-							<div>
-								<h4 class="text-sm font-display font-bold text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors leading-snug mb-1">
-									{post.data.title}
-								</h4>
-								<time class="text-[10px] text-[var(--color-secondary)] opacity-50 font-sans uppercase tracking-wide">
-									{formatDate(post.data.pubDate)}
-								</time>
-							</div>
-						</a>
-					))}
-					{lifePosts.length === 0 && (
-						<p class="text-sm text-[var(--color-secondary)] opacity-50 py-4">暂无 Life 文章</p>
-					)}
-				</div>
-			</div>
+			))}
 		</div>
 	</section>
 
@@ -246,12 +228,12 @@ const currentYear = new Date().getFullYear();
 			<p class="text-[var(--color-secondary)] leading-relaxed mb-10 opacity-80 text-base md:text-lg font-serif max-w-md mx-auto">
 				文字是时间的琥珀。在这里，每一篇文章都是对某个瞬间的定格。
 			</p>
-			<a 
+			<a
 				href={`${baseUrl}blog`}
-				class="inline-flex items-center gap-3 px-8 py-3.5 border border-[var(--color-primary)] text-[var(--color-primary)] font-sans font-semibold tracking-wide text-sm hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition-all duration-400 uppercase"
+				class="inline-flex items-center gap-3 px-8 py-3.5 border border-[var(--color-primary)] text-[var(--color-primary)] font-sans font-semibold tracking-wide text-sm hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition-colors duration-300 uppercase"
 			>
 				浏览全部文章
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
 				</svg>
 			</a>

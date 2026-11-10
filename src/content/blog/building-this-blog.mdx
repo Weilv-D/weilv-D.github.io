@@ -15,7 +15,7 @@ tags: ['Astro', 'React', 'TailwindCSS', 'Design']
 基于 **TailwindCSS v4** CSS-first 配置构建。无 `tailwind.config.mjs`，全部主题定义集中于 `global.css`。
 
 - **配色**：宣纸白 `#F7F3EB` / 墨夜 `#1C1C1E` 为底，群青 `#2E5090` 为强调，冷金 `#B89B6C` 用于边饰与交互反馈。全部通过 CSS 变量管理，深/浅模式切换由 `localStorage` 持久化。
-- **字体**：`font-serif` 为全局默认。西文 Bodoni Moda，中文 Noto Serif SC，辅以 DM Sans 处理无衬线场景。Prose 插件定制阅读行长与行高。
+- **字体**：正文以 `font-serif` 为默认，标题使用 Playfair Display / Bodoni Moda 的杂志式字面，中文回退 Noto Serif SC 与 LXGW WenKai，界面标签用 DM Sans。Prose 插件定制阅读行长与行高。
 - **布局**：杂志式层级排版，大量留白，卡片以 `paper-panel` 实现实体质感阴影，无 backdrop-blur 或 squircle。
 - **动效**：CSS 关键帧入场动画，阶梯延迟，克制使用。
 
@@ -24,8 +24,8 @@ tags: ['Astro', 'React', 'TailwindCSS', 'Design']
 - **类型安全**：Content Collections + Zod 校验 Frontmatter，`category` 严格枚举为 `Tech | Life`。
 - **代码高亮**：Shiki，亮主题 `github-light`，暗主题 `dracula`。
 - **数学排版**：`remark-math` + `rehype-katex`。
-- **文本测量**：`@chenglou/pretext` 负责封面标题折行与列表摘要截断。所有调用经 `isBrowser()` 守卫，避免 SSR 崩溃。
-- **搜索**：构建时生成 `/search.json`，客户端模糊匹配。
+- **封面排版**：不做客户端文本测量。封面标题在构建期按字宽启发式分行并以 SVG 文本输出，服务端即完整可读，避免布局抖动与截断。
+- **搜索**：构建时生成 `/search.json`，客户端关键词匹配。
 - **目录**：阅读进度跟踪，代码块一键复制。
 
 ## 部署

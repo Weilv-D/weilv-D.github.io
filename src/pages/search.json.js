@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 
-export async function GET(context) {
+export async function GET() {
 	const posts = await getCollection('blog');
 	return new Response(
 		JSON.stringify(

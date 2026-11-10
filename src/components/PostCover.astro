@@ -1,70 +1,178 @@
 ---
-import { getCoverColors, resolveImagePath } from '../utils/cover';
+import { getCoverColors, nextCoverId, resolveImagePath } from '../utils/cover';
 
 interface Props {
   title: string;
   image?: string;
   category?: string;
   className?: string;
+  /** 首屏大图使用 eager，避免 LCP 延迟 */
+  priority?: boolean;
+  /** 小尺寸缩略图：只保留渐变与首字，避免文字糊成一团 */
+  compact?: boolean;
 }
 
-const { title, image, category, className = "" } = Astro.props;
+const { title, image, category, className = '', priority = false, compact = false } = Astro.props;
 
 const { hash, colorPair } = getCoverColors(title);
 const finalImage = resolveImagePath(image, import.meta.env.BASE_URL);
+const isSvg = !!finalImage && /\.svg(\?|$)/i.test(finalImage);
+
+// 同一标题 → 同一配色；SVG defs 的 id 另加实例序号，避免同页重复
+const uid = nextCoverId(hash);
+
+const FONT_SIZE = 33;
+const MAX_WIDTH = 332;
+const LINE_HEIGHT = FONT_SIZE * 1.26;
+const MAX_LINES = 3;
+
+const charWidth = (ch: string) => {
+  if (/\s/.test(ch)) return 0.3;
+  if (/[\u2e80-\u9fff\uff00-\uffef]/.test(ch)) return 1;
+  if (/[A-Z]/.test(ch)) return 0.64;
+  if (/[a-z]/.test(ch)) return 0.52;
+  if (/[0-9]/.test(ch)) return 0.56;
+  return 0.46;
+};
+
+const NO_LINE_START = new Set(Array.from('，。、；：！？）》」』】…—·'));
+
+function wrapTitle(text: string): string[] {
+  const chars = Array.from(text.trim());
+  const lines: string[] = [];
+  let current = '';
+  let width = 0;
+
+  for (const ch of chars) {
+    const w = charWidth(ch) * FONT_SIZE;
+    if (current && width + w > MAX_WIDTH && !NO_LINE_START.has(ch)) {
+      lines.push(current);
+      current = '';
+      width = 0;
+    }
+    current += ch;
+    width += w;
+  }
+  if (current) lines.push(current);
+
+  if (lines.length > MAX_LINES) {
+    const kept = lines.slice(0, MAX_LINES);
+    kept[MAX_LINES - 1] = kept[MAX_LINES - 1].replace(/[\s，。、；：！？·]*$/, '') + '…';
+    return kept;
+  }
+
+  // 避免末行只剩一个字（如「核心指」/「令」）：从上一行借字平衡
+  for (let i = lines.length - 1; i > 0; i--) {
+    const last = Array.from(lines[i]);
+    const prev = Array.from(lines[i - 1]);
+    if (last.length >= 2 || prev.length <= 2) break;
+    const move = Math.min(2 - last.length, prev.length - 1);
+    lines[i] = prev.slice(prev.length - move).join('') + lines[i];
+    lines[i - 1] = prev.slice(0, prev.length - move).join('');
+  }
+
+  return lines;
+}
+
+const titleLines = wrapTitle(title);
+const lastBaseline = 268;
+const firstBaseline = lastBaseline - (titleLines.length - 1) * LINE_HEIGHT;
+const ruleY = firstBaseline - FONT_SIZE - 18;
 ---
 
 <div class={`overflow-hidden relative group ${className}`}>
   {finalImage ? (
-    <img 
-      src={finalImage} 
-      alt={title} 
-      loading="lazy"
-      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+    <img
+      src={finalImage}
+      alt={title}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : undefined}
+      decoding="async"
+      class={`w-full h-full transition-transform duration-700 group-hover:scale-[1.03] ${
+        isSvg ? 'object-contain bg-[var(--color-surface)]' : 'object-cover'
+      }`}
     />
   ) : (
-    <svg 
-      class="w-full h-full transition-transform duration-700 group-hover:scale-105" 
-      viewBox="0 0 400 300" 
-      preserveAspectRatio="none"
+    <svg
+      class="w-full h-full transition-transform duration-700 group-hover:scale-[1.03]"
+      viewBox="0 0 400 300"
+      preserveAspectRatio="xMidYMid slice"
       xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label={title}
     >
       <defs>
-        <linearGradient id={`grad-${hash}`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={`stop-color:${colorPair[0]};stop-opacity:1`} />
-          <stop offset="100%" style={`stop-color:${colorPair[1]};stop-opacity:1`} />
+        <linearGradient id={`${uid}-grad`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color={colorPair[0]} />
+          <stop offset="100%" stop-color={colorPair[1]} />
         </linearGradient>
-        <filter id={`noise-${hash}`}>
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
-            <feColorMatrix type="saturate" values="0"/>
-            <feBlend mode="overlay" in2="SourceGraphic" result="blend"/>
+        <linearGradient id={`${uid}-scrim`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="45%" stop-color="#0d1014" stop-opacity="0" />
+          <stop offset="100%" stop-color="#0d1014" stop-opacity="0.42" />
+        </linearGradient>
+        <filter id={`${uid}-grain`}>
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
         </filter>
       </defs>
-      <rect width="100%" height="100%" fill={`url(#grad-${hash})`} />
-      <rect width="100%" height="100%" filter={`url(#noise-${hash})`} opacity="0.3" />
-      
-      <circle cx="80%" cy="20%" r="30%" fill="#F7F3EB" fill-opacity="0.08" />
-      <circle cx="10%" cy="90%" r="40%" fill="#F7F3EB" fill-opacity="0.06" />
-      
-      <text 
-        x="50%" 
-        y="50%" 
-        dominant-baseline="middle" 
-        text-anchor="middle" 
-        fill="#F7F3EB" 
-        font-family="serif" 
-        font-size="28"
-        font-weight="bold"
-        style="text-shadow: 0 2px 8px rgba(46,80,144,0.35);"
-      >
-        {title.length > 10 ? title.slice(0, 10) + '…' : title}
-      </text>
+
+      <rect width="400" height="300" fill={`url(#${uid}-grad)`} />
+      <rect width="400" height="300" filter={`url(#${uid}-grain)`} opacity="0.09" />
+
+      <!-- 细网格：呼应杂志制版 -->
+      <g stroke="#F7F3EB" stroke-width="1" opacity="0.07">
+        <path d="M133 0v300M266 0v300M0 100h400M0 200h400" />
+      </g>
+
+      <!-- 内框 -->
+      <rect x="16" y="16" width="368" height="268" fill="none" stroke="#F7F3EB" stroke-opacity="0.22" />
+
+      {compact ? (
+        <>
+          <rect width="400" height="300" fill={`url(#${uid}-scrim)`} />
+          <text
+            x="200"
+            y="196"
+            text-anchor="middle"
+            fill="#F7F3EB"
+            fill-opacity="0.88"
+            font-family="Noto Serif SC, Playfair Display, serif"
+            font-size="132"
+            font-weight="700"
+          >{Array.from(title.trim())[0]}</text>
+        </>
+      ) : (
+        <>
+          <!-- 顶部刊名 -->
+          <text x="32" y="42" fill="#F7F3EB" fill-opacity="0.62" font-family="DM Sans, sans-serif" font-size="8" letter-spacing="2.6">未来回忆录</text>
+          <line x1="32" y1="52" x2="72" y2="52" stroke="#F7F3EB" stroke-opacity="0.35" />
+
+          <!-- 右缘竖排英文 -->
+          <text transform="rotate(90 374 150)" x="374" y="150" text-anchor="middle" fill="#F7F3EB" fill-opacity="0.4" font-family="DM Sans, sans-serif" font-size="6.5" letter-spacing="2.2">MEMOIRS OF THE FUTURE</text>
+
+          <rect width="400" height="300" fill={`url(#${uid}-scrim)`} />
+
+          <line x1="32" y1={ruleY} x2="86" y2={ruleY} stroke="#E7D3AE" stroke-opacity="0.9" stroke-width="1.5" />
+
+          {titleLines.map((line, i) => (
+            <text
+              x="32"
+              y={firstBaseline + i * LINE_HEIGHT}
+              fill="#F7F3EB"
+              font-family="Noto Serif SC, Playfair Display, serif"
+              font-size={FONT_SIZE}
+              font-weight="700"
+              letter-spacing="-0.5"
+            >{line}</text>
+          ))}
+        </>
+      )}
     </svg>
   )}
 
   {category && (
-      <div class="absolute top-3 right-3 px-3 py-1 bg-[var(--color-background)]/80 border border-[var(--color-border)] rounded-full text-xs font-semibold text-[var(--color-primary)] tracking-wide z-10">
-          {category}
-      </div>
+    <div class="absolute top-3 right-3 px-3 py-1 bg-[var(--color-background)]/85 border border-[var(--color-border)] rounded-full text-[10px] font-sans font-semibold text-[var(--color-primary)] tracking-[0.12em] uppercase z-10">
+      {category}
+    </div>
   )}
 </div>

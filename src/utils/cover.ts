@@ -26,3 +26,9 @@ export function resolveImagePath(image: string | undefined, baseUrl: string): st
 	if (!image) return undefined;
 	return image.startsWith('/') ? baseUrl + image.slice(1) : image;
 }
+
+// SVG defs 的 id 必须全页唯一：同一篇文章可能同时出现在 Related 与 Prev/Next
+let coverInstance = 0;
+export function nextCoverId(hash: number): string {
+	return `cover-${hash}-${coverInstance++}`;
+}
