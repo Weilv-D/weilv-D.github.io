@@ -191,7 +191,7 @@ const currentYear = new Date().getFullYear();
 				<div>
 					<div class="flex items-baseline gap-3 mb-6 pb-3 border-b border-[var(--color-border)]">
 						<h3 class="text-2xl font-display font-bold text-[var(--color-primary)]">{column.label}</h3>
-						<span class="text-xs font-sans text-[var(--color-secondary)] opacity-70">{column.posts.length} articles</span>
+						<span class="text-xs font-sans text-[var(--color-secondary)] opacity-70">{column.posts.length} {column.posts.length === 1 ? 'article' : 'articles'}</span>
 					</div>
 					<div class="space-y-4">
 						{column.posts.slice(0, column.limit).map((post, i) => (
